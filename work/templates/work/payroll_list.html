@@ -1,0 +1,36 @@
+
+{% extends "work/work_base.html" %}
+
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static '/css/master.css' %}">
+<img src="{% static 'unnamed.png'%}" alt="">
+
+{% block work_content %}
+
+<div class="container">
+<h1>Select a payroll period:</h1>
+<br>
+<div id='jQUIAccordion'>
+<h3>Last seven:</h3>
+<div><ul>
+  {%for end,start in week_list%}
+  <li><a class="list-shift-item-heading" href="{%url 'shifts:payroll' start end %}"><p class="list-shift-item-heading">{{start|date:"M j"}} to {{end}}</p></a></li>
+  {%endfor%}
+</ul>
+</div>
+<h3>Custom:</h3>
+<div>  <form class="" action="" method="post">
+    	{% csrf_token %}
+    {{date_form.begin}}
+    {{date_form.end}}
+
+    <input type="submit" name="Search" value="Search">
+  </form>
+</div>
+</div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "work/work_base.html" %}
+
+{% block prework %}
+
+<h1>{{shift}}</h1>
+<h2>Shift Driver: {{shift.driver}}</h2>
+<h2>Shift Helper: {{shift.helper}}</h2>
+
+<h3>Shift Time: {{shift.dr_start_time}}</h3>
+<h3>Shift Time: {{shift}}</h3>
+
+{% endblock %}
+
+{% block work_content %}
+<div class="col-md-8">
+  {% for job in shift.jobs_in_shift.all  %}
+    {# {% include "work/_job.html" %} #}
+{{job}}
+
+  {% endfor %}
+
+</div>
+
+{% endblock %}

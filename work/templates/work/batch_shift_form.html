@@ -1,0 +1,51 @@
+{% extends "work/work_base.html" %}
+
+{% load bootstrap3 %}
+
+{% load staticfiles %}
+
+{% block work_content %}
+
+
+
+<form class="" action="{% url 'shifts:batchshift' %}" method="post">
+
+  {% csrf_token %}
+  {{ shift_form_fact.management_form }}
+
+{%for shift_form in shift_form_fact %}
+<table id='addJob' class=''>
+  <tbody>
+  <tr>
+    <td>Driver: {{shift_form.driver}}</td>
+    <td>Helper: {{shift_form.helper}}</td>
+    <td>Truck: {{shift_form.truck}}</td>
+    <td>Date: {{shift_form.date}}</td>
+    <td>Driver Start: {{shift_form.dr_start_time}}</td>
+    <td>Driver End: {{shift_form.dr_end_time}}</td>
+    <td>Helper Start: {{shift_form.he_start_time}}</td>
+    <td>Helper End: {{shift_form.he_end_time}}</td>
+  </tr>
+  </tbody>
+</table>
+
+{%endfor %}
+<input type="submit" value="Add Shifts" class="btn btn-primary btn-large">
+</form>
+
+
+
+<!-- Include formset plugin - including jQuery dependency -->
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="{% static 'mobs/js/jquery.formset.js' %}"></script>
+<link rel="stylesheet" href="{% static 'mobs/css/base.css' %}">
+
+<script>
+  $('#addJob tbody tr').formset({
+  addText: 'add',
+  deleteText: 'remove'
+  });
+</script>
+
+
+{% endblock %}

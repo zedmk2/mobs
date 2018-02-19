@@ -1,0 +1,123 @@
+{% extends "work/work_base.html" %}
+{{formset.media.css}}
+
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block prework %}
+<!-- Include formset plugin - including jQuery dependency -->
+{% endblock %}
+
+{%block work_content%}
+
+<div class="container">
+
+  <div id="formset-template" style="display: none;">
+    <table class='table table-sm'>
+      <tbody>
+        <tr>
+           <td>{{ formset.empty_form }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form method="POST" action="" id="batchJobForm">
+  	{% csrf_token %}
+
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <table id='addShift' class='table'>
+        <tr>
+            <td>{{shift_form.driver|add_class:"locationSelector"}}</td>
+            <td>{{shift_form.helper|add_class:"locationSelector"}}</td>
+            <td>{{shift_form.truck}}</td>
+            <td>{{shift_form.date}}</td>
+          </tr><tr>
+            <td>{{shift_form.dr_start_time}}</td>
+            <td>{{shift_form.dr_end_time}}</td>
+            <td>{{shift_form.he_start_time}}</td>
+            <td>{{shift_form.he_end_time}}</td>
+        </tr>
+    </table>
+
+      	<input type="submit" value="Update Shift" class="btn btn-primary btn-large">
+
+      {{ formset.management_form }}
+
+            <div id="jobsIn">
+        <table id='addJob' class='table'>
+
+          {% if formset.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endif %}
+
+    <tbody>
+      <tr>
+        <td>
+
+      </td>
+      </tr>
+
+      {%for job_f in formset %}{{job_f.id}}
+
+    <tr>
+
+      <td>Location: {{job_f.job_location|add_class:"locationSelector"}}</td>
+      <td>Start time: {{job_f.start_time}}</td>
+      <td>End time: {{job_f.end_time}}</td>
+    </tr>
+
+      {%endfor %}
+    </tbody>
+
+    </table>
+    </div>
+
+
+
+  </form>
+
+
+</div>
+
+{{ form.media.js }}
+<script>
+    (function () {
+        // init dynamic formset
+        $('#jobsIn').formset({
+            formTemplate: $('#formset-template').clone(),
+            // initialize newly created heavy fields on the added callback
+            added: function (row) {
+                row.find('.django-select2').djangoSelect2();
+            }
+        });
+    }());
+</script>
+
+{%endblock%}

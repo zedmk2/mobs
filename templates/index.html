@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+
+{% block content  %}
+<h1>Welcome to MOBS:</h1>
+<h4>MOBile Sweep job tracking system</h4>
+
+<ul class="">
+  {% if user.is_authenticated %}
+    <li> <a href="{% url 'shifts:create' %}">New Shift</a> </li>
+    <li> <a href="{% url 'shifts:batchshift' %}">Batch New Shift</a> </li>
+    <li> <a href="{% url 'shifts:all' %}">Shift List</a> </li>
+    <li> <a href="{% url 'shifts:payroll_list' %}">Payroll List</a> </li>
+
+    <li> <a href="#">View Schedule</a> </li>
+
+
+    {% else %}
+
+
+
+  {% endif %}
+
+</ul>
+
+{% endblock %}

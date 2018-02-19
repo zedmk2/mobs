@@ -1,0 +1,186 @@
+from django.shortcuts import render, HttpResponseRedirect
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+from django.contrib.auth.mixins import (LoginRequiredMixin,
+                                        PermissionRequiredMixin)
+# Create your views here.
+
+from django.urls import reverse, reverse_lazy
+from django.http import Http404
+from django.views import generic
+from work.models import Shift, Job
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from django.db import IntegrityError, transaction
+
+from braces.views import SelectRelatedMixin
+
+from django import forms
+from django.forms import formsets, inlineformset_factory
+
+from . import models
+from . import forms
+
+
+class CreateShift(LoginRequiredMixin,generic.CreateView):
+
+    fields = ('__all__')
+    model = Shift
+
+
+class SingleShift(generic.DetailView):
+    model = Shift
+
+class ListShifts(generic.ListView):
+    model = Shift
+
+class AddJob(LoginRequiredMixin,generic.RedirectView):
+    def get_redirect_url(self, *args, **kwargs):
+        return reverse("shifts:single",kwargs={"driver": self.kwargs.get("driver")})
+
+    def get(self,request,*args,**kwargs):
+        driver = get_object_or_404(Shift,shift=driver.kwargs.get('driver'))
+
+        try:
+            Shift.objects.create(driver=self.request.driver)
+        except IntegrityError:
+            messags.warning(self.request,('Job already added!'))
+        else:
+            messages.success(self.request,'Job added!')
+
+        return super().get(request,*args,**kwargs)
+
+class DeleteJob(LoginRequiredMixin, generic.RedirectView):
+    def get_redirect_url(self,*args,**kwargs):
+        return reverse('shifts:single',kwargs={'driver':self.kwargs.get('driver')})
+
+    def get(self,request,*args,**kwargs):
+        pass
+
+def batch_shift(request):
+    ShiftFormSet = formsets.formset_factory(forms.CreateShiftForm,extra=3,formset=forms.BaseShiftFormSet)
+
+    if request.method == 'POST':
+        shift_form = ShiftFormSet(request.POST)
+        if shift_form.is_valid():
+            for form_here in shift_form:
+                if form_here.is_valid():
+                    form_here.save()
+            return HttpResponseRedirect('/work/allshifts/')
+    else:
+        shift_form = ShiftFormSet()
+
+    context = {'shift_form_fact':shift_form,}
+
+    return render(request,'work/batch_shift_form.html',context)
+
+def batch_job(request,pk):
+    shift_selection = Shift.objects.filter(pk=pk)
+    JobFormSet = formsets.formset_factory(forms.CreateJobForm,extra=5)
+
+    logged_jobs = Job.objects.filter(job_shift=shift_selection)
+    logged_job_data = [{'job_shift':lj.job_shift,'job_location':lj.job_location, 'start_time':lj.start_time,'end_time':lj.end_time} for lj in logged_jobs]
+    logged_shift_data = [{'driver':s.driver,'helper':s.helper,'truck':s.truck,'dr_start_time':s.dr_start_time,'dr_end_time':s.dr_end_time,'date':s.date} for s in shift_selection]
+
+    shift_dict = [{'driver':dict.driver,'helper':dict.helper, 'date':dict.date} for dict in shift_selection]
+    shift_form = forms.CreateShiftForm()
+
+    if request.method == 'POST':
+        job_form = JobFormSet(request.POST)
+
+
+        if job_form.is_valid():
+            new_jobs = []
+
+            for jobitem in job_form:
+                job_shift = jobitem.cleaned_data.get('job_shift')
+                job_location = jobitem.cleaned_data.get('job_location')
+                start_time = jobitem.cleaned_data.get('start_time')
+                end_time = jobitem.cleaned_data.get('end_time')
+                new_jobs.append(Job(job_shift=job_shift, job_location=job_location, start_time=start_time, end_time=end_time))
+            try:
+                with transaction.atomic():
+                    #Replace old with new_jobs
+                    Job.objects.filter(job_shift=shift_selection).delete()
+                    Job.objects.bulk_create(new_jobs)
+
+                    #Notify
+                    messages.success(request,"Jobs have been updated")
+            except IntegrityError: #If failure
+                messages.error(request,"There was an error updating jobs")
+                return redirect(reverse('batch_job',kwargs={'pk':pk}))
+
+    else:
+        job_form = JobFormSet(initial = logged_job_data)
+        shift_form = forms.CreateShiftForm()
+
+    context = {'shift_form':shift_form, 'pk':pk, 'job_form':job_form,'shift_data':logged_shift_data, 'shift_selection':shift_selection, 'temp':logged_job_data}
+
+    return render(request,'work/shift_job_form.html',context)
+
+
+# def shift_and_job(request):
+#     JobFormSet = formsets.formset_factory(forms.CreateJobForm,extra=2,formset=forms.BaseShiftFormSet)
+#
+#     shift_jobs = Shift.objects.filter(pk=1)
+#     shift_job_dict = [{'driver':dict.driver,'helper':dict.helper} for dict in shift_jobs]
+#
+#     shift_form = forms.CreateShiftForm
+#     job_form = JobFormSet
+#     a = "<h1>this is test lit</h1>"
+#
+#     context = {'shift_form':shift_form, 'job_form':job_form,'test':shift_job_dict}
+#
+#     return render(request,'work/shift_job_form.html',context)
+
+def inline_batch_job(request,pk):
+    shift_selection = Shift.objects.get(pk=pk)
+
+    JobShiftFormSet = inlineformset_factory(Shift,Job,fields=('job_shift','job_location','start_time','end_time',))
+
+    job_inline_formset = JobShiftFormSet(instance=shift_selection)
+
+    context = {"formset":job_inline_formset,"shift":shift_selection,}
+
+    return render(request,'work/shift_job_form0.html',context)
+
+
+######################################################
+
+class JobList(SelectRelatedMixin,generic.ListView):
+    model = models.Job
+    select_related = ('driver','date')
+
+class DriverJobs(generic.ListView):
+    models = models.Job
+    template_name = 'work/driver_job_list.html'
+
+    # def get_queryset(self):
+    # # self.job.all()
+    # return job.all()
+
+class JobDetail(SelectRelatedMixin, generic.DetailView):
+    model = models.Job
+    select_related = ('job_shift','job_location')
+    #
+    # def get_queryset(self):
+    #     queryset = super().get_queryset()
+    #     return "queryset.filter()"
+
+class CreateJob(generic.CreateView):
+    model = models.Job
+    fields = ('__all__')
+
+class DeleteJob(LoginRequiredMixin,SelectRelatedMixin,generic.DeleteView):
+    model = models.Job
+    select_related = ('shift','driver')
+    success_url = reverse_lazy('shifts:all')
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(user_id = self.request.user.id)
+
+    def delete(self,*args,**kwargs):
+        messages.success(self.request,'Shift Deleted')
+        return super().delete(*args,**kwargs)

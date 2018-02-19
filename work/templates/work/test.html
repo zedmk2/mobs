@@ -1,0 +1,19 @@
+{% extends "work/work_base.html" %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+{% load widget_tweaks %}
+
+{% block work_content %}
+
+
+<script src="{% static 'mobs/js/jquery.formset.js' %}"></script>
+<script src="{% static 'mobs/js/base.js' %}"></script>
+
+
+<select class="js-example-basic-single" name="state">
+  <option value="AL">Alabama</option>
+  <option value="WY">Wyoming</option>
+    ...
+</select>
+
+{% endblock %}

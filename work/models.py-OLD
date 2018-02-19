@@ -1,0 +1,120 @@
+from django.db import models
+from django.utils.text import slugify
+from django.urls import reverse
+from django.conf import settings
+
+# Create your models here.
+
+from django.contrib.auth import get_user_model
+User = get_user_model
+
+from django import template
+register = template.Library()
+
+class Employee(models.Model):
+    fname = models.CharField(max_length=200)
+    lname = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
+    em_uid = models.IntegerField(unique=True)
+    start_date = models.DateField(blank=True,null=True)
+    end_date = models.DateField(blank=True,null=True)
+    # shifts = models.ManyToManyField(User,through='Shift')
+
+    def __str__(self):
+        return self.name
+
+class Client(models.Model):
+
+    name = models.CharField(max_length=200, unique=True)
+    address = models.CharField(max_length=200)
+    city = models.CharField(max_length=200)
+    state  = models.CharField(max_length=200)
+    zipcode = models.IntegerField()
+
+    start_date = models.DateField(blank=True,null=True)
+    end_date = models.DateField(blank=True,null=True)
+
+
+    def __str__(self):
+        return self.name
+
+class Property(models.Model):
+
+    name = models.CharField(max_length=200, unique=True)
+    display_name = models.CharField(max_length=200)
+
+    property_contact = models.CharField(max_length=50, blank=True,null=True)
+    bulk_contact = models.CharField(max_length=50, blank=True,null=True)
+    billing_contact = models.CharField(max_length=50, blank=True,null=True)
+
+    address = models.CharField(max_length=200, blank=True,null=True)
+    city = models.CharField(max_length=200, blank=True,null=True)
+    state  = models.CharField(max_length=200, blank=True,null=True)
+    zipcode = models.IntegerField(blank=True,null=True)
+
+    client_name = models.ForeignKey(Client, models.PROTECT, related_name="client_name", blank=True,null=True)
+    bi_address = models.CharField(max_length=200, blank=True,null=True)
+    bi_city = models.CharField(max_length=200,blank=True,null=True)
+    bi_state  = models.CharField(max_length=200,blank=True,null=True)
+    bi_zipcode = models.IntegerField(blank=True,null=True)
+
+    start_date = models.DateField(blank=True,null=True)
+    end_date = models.DateField(blank=True,null=True)
+
+    sw_price = models.FloatField(blank=True,null=True)
+    sw_mo_price = models.FloatField(blank=True,null=True)
+    bu_price = models.FloatField(blank=True,null=True)
+    po_price = models.FloatField(blank=True,null=True)
+
+    times_per_week = models.IntegerField(blank=True,null=True)
+    times_per_month = models.IntegerField(blank=True,null=True)
+    times_per_year = models.IntegerField(blank=True,null=True)
+
+    class Meta:
+        verbose_name_plural = "properties"
+
+    def __str__(self):
+        return self.name
+
+class Shift(models.Model):
+    # user = models.ForeignKey(User,related_name='user_shifts')
+    created_at = models.DateTimeField(auto_now=True)
+    driver = models.ForeignKey(Employee,models.PROTECT,related_name='sh_driver')
+    helper = models.ForeignKey(Employee,models.PROTECT,related_name='sh_helper',blank=True,null=True,)
+    truck = models.IntegerField(blank=True,null=True)
+
+    date = models.DateField()
+
+    dr_start_time = models.TimeField(blank=True,null=True, verbose_name="driver start time",)
+    dr_end_time = models.TimeField(blank=True,null=True, verbose_name="driver end time",)
+    he_start_time = models.TimeField(blank=True,null=True, verbose_name="helper start time",)
+    he_end_time = models.TimeField(blank=True,null=True, verbose_name="helper end time",)
+
+    def __str__(self):
+        return "%s %s" % (self.date, self.driver)
+        # def save(self,*args,**kwargs):
+
+    #     self.message_html= misaka.html(self.user)
+
+    def get_absolute_url(self):
+        return reverse('shifts:single',kwargs={'pk':self.pk})
+
+    class Meta:
+        unique_together = (("driver","date"),
+                            )
+        ordering = ['-date']
+
+class Job(models.Model):
+    job_location = models.ForeignKey(Property, models.PROTECT,related_name='location', null=True)
+    job_shift = models.ForeignKey(Shift,models.PROTECT,related_name='jobs_in_shift', null=True)
+    start_time = models.TimeField(blank=True,null=True)
+    end_time = models.TimeField(blank=True,null=True)
+    sweep = models.NullBooleanField(blank=True,null=True)
+    blow = models.NullBooleanField(blank=True,null=True)
+    pick = models.NullBooleanField(blank=True,null=True)
+
+    def __str__(self):
+        return "%s %s" % (self.job_location, self.job_shift)
+
+    def get_absolute_url(self):
+        return reverse('shifts:singlejob',kwargs={'pk':self.pk})

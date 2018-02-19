@@ -1,0 +1,23 @@
+{% extends "work/work_base.html" %}
+
+{% block prework %}
+
+  <div class="col-md-4">
+    <div class="card card-with-shadow">
+      <div class="content">
+        <h5 class='title'>Your Groups</h5>
+        {% for prop in property_list  %}
+
+        <li> {{prop.location}} </li>
+        
+        {%endfor%}
+
+        {% with property_list.location_set.all|first as image %}
+  <img src="{{ image.sweep }}" />
+{% endwith %}
+      </div>
+
+    </div>
+  </div>
+
+{% endblock %}
