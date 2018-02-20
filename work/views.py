@@ -241,7 +241,7 @@ def payroll(request,begin,end):
         else:
             shift_list.append({'date':str(i.date),'driver':i.driver.name,'length':i.shift_length(),'helper':i.helper.name,'he_length':i.help_length()})
 
-    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300)
+    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end)
     mix= employee[0].sh_driver.filter(date__gte=begin).filter(date__lte=end)
     emp_mix =[]
     i=0

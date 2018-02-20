@@ -5,7 +5,7 @@
     <div class="content">
 
       {% if user.is_authenticated %} <em><h4>Welcome Back! @{{user.username}}</h4></em>
-            <h2>Shifts List View <a href="{%url 'shifts:create'%}" class='btn btn-sm btn-fill btn-primary'> <span class='glyphicon glyphicon-plus-sign'> New Shift</span> </a> </h2>
+            <h2>Shifts List <a href="{%url 'shifts:create'%}" class='btn btn-sm btn-fill btn-primary'> <span class='glyphicon glyphicon-plus-sign'> New Shift</span> </a> </h2>
       {% endif %}
 
     </div>

@@ -48,10 +48,10 @@
             <td>{{shift_form.truck}}</td>
             <td>{{shift_form.date}}</td>
           </tr><tr>
-            <td>{{shift_form.dr_start_time}}</td>
-            <td>{{shift_form.dr_end_time}}</td>
-            <td>{{shift_form.he_start_time}}</td>
-            <td>{{shift_form.he_end_time}}</td>
+            <td>{{shift_form.dr_start_time|add_class:"driverStart"}}</td>
+            <td>{{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
+            <td>{{shift_form.he_start_time|add_class:"helperStart"}}</td>
+            <td>{{shift_form.he_end_time|add_class:"helperEnd"}}</td>
         </tr>
     </table>
 
