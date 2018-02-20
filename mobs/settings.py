@@ -87,7 +87,7 @@ DATABASES = {
         'PASSWORD': 'hydratec1',
         'HOST': 'mobilesweep.mysql.pythonanywhere-services.com',
         'OPTIONS':{
-            'sql_mode'='STRICT_TRANS_TABLES',
+            'sql_mode':'STRICT_TRANS_TABLES',
         },
         'TEST': {
           'NAME': 'mobilesweep$test_mobilesweep',},
