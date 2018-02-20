@@ -87,7 +87,7 @@ DATABASES = {
         'PASSWORD': 'hydratec1',
         'HOST': 'mobilesweep.mysql.pythonanywhere-services.com',
         'TEST': {
-          NAME: 'mobilesweep$test_mobilesweep',},
+          'NAME': 'mobilesweep$test_mobilesweep',},
     }
 }
 
