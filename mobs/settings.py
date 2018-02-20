@@ -26,10 +26,10 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG")
 
 ALLOWED_HOSTS = ['mobilesweep.pythonanywhere.com',
-
+'127.0.0.1',
 ]
 
 
@@ -89,9 +89,7 @@ DATABASES = {
         'USER': os.environ.get("USER"),
         'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
         'HOST': os.environ.get("HOST"),
-        'OPTIONS':{
-            'sql_mode':'STRICT_TRANS_TABLES',
-        },
+
         'TEST': {
           'NAME': os.environ.get("TESTNAME"),},
     }
