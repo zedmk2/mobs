@@ -74,6 +74,14 @@ class CreateShift(LoginRequiredMixin, generic.CreateView):
 class SingleShift(LoginRequiredMixin,generic.DetailView):
     model = Shift
 
+class DateSummary(generic.ListView):
+    model = Shift
+    template_name = 'work/date_summary.html'
+
+    def get_queryset(self, **kwargs):
+        sel_date = self.kwargs['date_summary']
+        return Shift.objects.filter(date=sel_date)
+
 class UpdateShift(LoginRequiredMixin,generic.UpdateView):
     model = Shift
     form_class = forms.CreateShiftForm
@@ -184,6 +192,7 @@ class ListProperties(LoginRequiredMixin,generic.ListView):
     template_name = 'work/property_list.html'
     context_object_name = 'property_list'
     model = Property
+
 
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required

@@ -18,19 +18,6 @@
 
 {% block work_content %}
 
-<div id={{class}}>
-
-<h3>Date selector:</h3>
-<div class="">
-<form class="" action="" method="post">
-  	{% csrf_token %}
-  {{date_form.begin}}
-  {{date_form.end}}
-
-  <input type="submit" name="Search" value="Search">
-</form>
-</div>
-
 {% regroup object_list by date as date_list %}
 
     <h3>View shifts:</h3>
@@ -41,9 +28,13 @@
 <ul>
         {% for shift in shift_list %}
       <li>
+
         <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
-          <p class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} ({{shift.jobs_in_shift.count}} jobs)</p>
-        </a>
+          <p class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} ({{shift.shift_length|floatformat}} hrs, {{shift.jobs_in_shift.count}} jobs):</p></a>
+          <ul>{% for job in shift.jobs_in_shift.all  %}
+          <li><p>{{job.job_location}} - {{job.start_time|time:"P"}} to {{job.end_time}} ({{job.job_length|floatformat}} hr)</p></li>
+          {% endfor %}</ul>
+
       </li>
         {% endfor %}
   </ul>

@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^new/$',views.CreateShift.as_view(),name='create'),
 
     path('detail/<pk>/',views.SingleShift.as_view(),name='detail'),
+    path('date/<date_summary>/',views.DateSummary.as_view(),name='date_summary'),
     path('update/<pk>/',views.UpdateShift.as_view(),name='update'),
 
     url(r'^batch_shift/',views.batch_shift,name='batchshift'),
