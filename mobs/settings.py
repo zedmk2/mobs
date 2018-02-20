@@ -25,7 +25,9 @@ SECRET_KEY = '9x9qn$2c)dg_$y0d3g7m*gzv!3cp@hz!a1!=f@3*g3zc^)3wsr'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['mobilesweep.pythonanywhere.com',
+
+]
 
 
 # Application definition
@@ -37,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'widget_tweaks',
     'accounts',
     'work',
