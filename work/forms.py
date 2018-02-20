@@ -4,6 +4,7 @@ from django import forms
 from django.core import validators
 from django.forms import formsets
 from django.forms.models import inlineformset_factory
+from datetime import time
 
 class DateForm(forms.Form):
     begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','placeholder':'mm/dd/yyyy'}))
@@ -21,7 +22,6 @@ class CreateShiftForm(forms.ModelForm):
     #Update to ModelChoice/Queryset when equipment model added
     trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504')]
     truck = forms.ChoiceField(choices = trucks)
-
 
     class Meta:
         model = models.Shift
@@ -49,6 +49,7 @@ class CreateJobForm(forms.ModelForm):
 
     start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+
 
     class Meta:
         model = models.Job

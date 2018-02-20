@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+from django.db.models import Prefetch
 from django.urls import reverse, reverse_lazy
 from django.http import Http404
 from django.views import generic
@@ -80,7 +81,7 @@ class DateSummary(generic.ListView):
 
     def get_queryset(self, **kwargs):
         sel_date = self.kwargs['date_summary']
-        return Shift.objects.filter(date=sel_date)
+        return Shift.objects.filter(date=sel_date).prefetch_related('jobs_in_shift').prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift__job_location')
 
 class UpdateShift(LoginRequiredMixin,generic.UpdateView):
     model = Shift
@@ -122,7 +123,7 @@ class UpdateShift(LoginRequiredMixin,generic.UpdateView):
 
 @login_required
 def batch_shift(request):
-    ShiftFormSet = formsets.formset_factory(forms.CreateShiftForm,extra=3, max_num=18)
+    ShiftFormSet = formsets.formset_factory(forms.CreateShiftForm,extra=4, max_num=18)
 
     if request.method == 'POST':
         shift_form = ShiftFormSet(request.POST)
@@ -142,7 +143,7 @@ def batch_shift(request):
 ### VIEW VIEWS #########
 
 class ListShifts(LoginRequiredMixin,generic.ListView):
-    model = Shift
+    queryset = Shift.objects.prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
 
     date_form = forms.DateForm()
 
@@ -163,7 +164,7 @@ class Last30ListShifts(ListShifts):
     def get_queryset(self):
         begin = datetime.date.today() - datetime.timedelta(days=30)
         end = datetime.date.today()
-        return Shift.objects.filter(date__gte=begin).filter(date__lte=end)
+        return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
 
 class DateListShifts(LoginRequiredMixin,generic.ListView):
     template_name = 'work/shift_list.html'
@@ -172,7 +173,7 @@ class DateListShifts(LoginRequiredMixin,generic.ListView):
     date_form = forms.DateForm()
 
     def get_queryset(self):
-        return Shift.objects.filter(date__gte=self.kwargs['begin']).filter(date__lte=self.kwargs['end'])
+        return Shift.objects.filter(date__gte=self.kwargs['begin']).filter(date__lte=self.kwargs['end']).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
 
     def post(self,request,*args,**kwargs):
         if request.method == 'POST':
@@ -187,12 +188,10 @@ class DateListShifts(LoginRequiredMixin,generic.ListView):
         context['class'] = 'jQUIAccordion2'
         return context
 
-
 class ListProperties(LoginRequiredMixin,generic.ListView):
     template_name = 'work/property_list.html'
     context_object_name = 'property_list'
     model = Property
-
 
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required
@@ -231,7 +230,7 @@ def payroll(request,begin,end):
     end = end
     begin_str = str(begin)
     end_str = str(end)
-    shift = Shift.objects.filter(date__gte=begin).filter(date__lte=end).annotate()
+    shift = Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('jobs_in_shift').select_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift__job_shift').prefetch_related('jobs_in_shift__job_location')
     shift_list = []
     hr_total_pairs = []
     hr_totals = defaultdict(int)
@@ -241,8 +240,8 @@ def payroll(request,begin,end):
         else:
             shift_list.append({'date':str(i.date),'driver':i.driver.name,'length':i.shift_length(),'helper':i.helper.name,'he_length':i.help_length()})
 
-    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end)
-    mix= employee[0].sh_driver.filter(date__gte=begin).filter(date__lte=end)
+    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper')
+
     emp_mix =[]
     i=0
     for emp in employee:
@@ -270,12 +269,12 @@ def payroll(request,begin,end):
 
 @login_required
 def job_costing(request, begin, end):
-    prop = Property.objects.prefetch_related('location__job_shift').filter(location__job_shift__date__gte=begin).filter(location__job_shift__date__lte=end).annotate(Count('location'))
-    prop_total=prop
+    prop = Property.objects.filter(location__job_shift__date__gte=begin).filter(location__job_shift__date__lte=end).annotate(Count('location')).prefetch_related('client_name').prefetch_related(Prefetch('location',queryset=Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end),to_attr='job_filt')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('location__job_shift__helper')
+    # prop_total=prop
     for i in prop:
         # prop_total.append(i)
         k = []
-        job_filter = i.location.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end)
+        job_filter = i.job_filt
         for j in job_filter:
             k.append(j.job_length)
         l = (round(sum(k),2))

@@ -27,6 +27,7 @@
   	{% csrf_token %}
 
     {% if form.errors %}
+    Please correct the error{{ form.errors|pluralize }} below.
         {% for field in form %}
             {% for error in field.errors %}
                 <div class="alert alert-danger">
@@ -43,9 +44,9 @@
 
     <table id='addShift' class='table'>
         <tr>
-            <td>{{shift_form.driver|add_class:"locationSelector"}}</td>
-            <td>{{shift_form.helper|add_class:"locationSelector"}}</td>
-            <td>{{shift_form.truck}}</td>
+            <td>{{shift_form.driver|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.helper|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.truck|add_class:"shiftSelect2"}}</td>
             <td>{{shift_form.date}}</td>
           </tr><tr>
             <td>{{shift_form.dr_start_time|add_class:"driverStart"}}</td>

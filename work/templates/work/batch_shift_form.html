@@ -3,6 +3,8 @@
 
 {% load staticfiles %}
 
+{% load widget_tweaks %}
+
 {% block work_content %}
 
 
@@ -16,9 +18,9 @@
 <table id='addJob' class=''>
   <tbody>
   <tr>
-    <td>Driver: {{shift_form.driver}}</td>
-    <td>Helper: {{shift_form.helper}}</td>
-    <td>Truck: {{shift_form.truck}}</td>
+    <td>Driver: {{shift_form.driver|add_class:"shiftSelect2"}}</td>
+    <td>Helper: {{shift_form.helper|add_class:"shiftSelect2"}}</td>
+    <td>Truck: {{shift_form.truck|add_class:"shiftSelect2"}}</td>
     <td>Date: {{shift_form.date}}</td>
     <td>Driver Start: {{shift_form.dr_start_time}}</td>
     <td>Driver End: {{shift_form.dr_end_time}}</td>
@@ -29,6 +31,7 @@
 </table>
 
 {%endfor %}
+<br>
 <input type="submit" value="Add Shifts" class="btn btn-primary btn-large">
 </form>
 
