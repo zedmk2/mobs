@@ -36,7 +36,7 @@
     <h3>View shifts:</h3>
     <div class="list-shift-item-text">
     {% for date, shift_list in date_list  %}
-        <a href={% url 'shifts:date_summary' date_summary=date %}><p class="shiftDate"> {{date|date:"l, F j"}}<p></a>
+        <a href={% url 'shifts:date_summary' date_summary=date %}><p class="shiftListDate"> {{date|date:"l, F j"}}<p></a>
 
 <ul>
         {% for shift in shift_list %}
