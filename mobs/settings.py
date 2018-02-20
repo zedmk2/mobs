@@ -84,16 +84,16 @@ WSGI_APPLICATION = 'mobs.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'mobilesweep$mobilesweep',
-        'USER': 'mobilesweep',
+        'ENGINE': os.environ.get("ENGINE"),
+        'NAME': os.environ.get("NAME"),
+        'USER': os.environ.get("USER"),
         'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
-        'HOST': 'mobilesweep.mysql.pythonanywhere-services.com',
+        'HOST': os.environ.get("HOST"),
         'OPTIONS':{
             'sql_mode':'STRICT_TRANS_TABLES',
         },
         'TEST': {
-          'NAME': 'mobilesweep$test_mobilesweep',},
+          'NAME': os.environ.get("TESTNAME"),},
     }
 }
 
