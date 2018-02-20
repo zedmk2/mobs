@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,7 +23,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9x9qn$2c)dg_$y0d3g7m*gzv!3cp@hz!a1!=f@3*g3zc^)3wsr'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -84,7 +87,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mobilesweep$mobilesweep',
         'USER': 'mobilesweep',
-        'PASSWORD': 'hydratec1',
+        'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
         'HOST': 'mobilesweep.mysql.pythonanywhere-services.com',
         'OPTIONS':{
             'sql_mode':'STRICT_TRANS_TABLES',

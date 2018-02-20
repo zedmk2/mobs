@@ -2,6 +2,10 @@
 import os
 import sys
 
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+
 if __name__ == "__main__":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mobs.settings")
     try:

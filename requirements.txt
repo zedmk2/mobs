@@ -17,3 +17,4 @@ pytz==2017.3
 six==1.11.0
 text-unidecode==1.1
 wincertstore==0.2
+python-dotenv 
