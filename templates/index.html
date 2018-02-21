@@ -2,25 +2,28 @@
 
 
 {% block content  %}
-<h1>Welcome to MOBS:</h1>
-<h4>MOBile Sweep job tracking system</h4>
+<h1>Welcome to MobS</h1>
+<h4><em>Mobile Sweep job tracking system</em></h4>
 
-<ul class="">
+
   {% if user.is_authenticated %}
-    <li> <a href="{% url 'shifts:create' %}">New Shift</a> </li>
-    <li> <a href="{% url 'shifts:batchshift' %}">Batch New Shift</a> </li>
-    <li> <a href="{% url 'shifts:all' %}">Shift List</a> </li>
-    <li> <a href="{% url 'shifts:payroll_list' %}">Payroll List</a> </li>
+<div class="jumbotron">
 
-    <li> <a href="#">View Schedule</a> </li>
+    <h4> <a href="{% url 'shifts:create' %}">Log new shift and jobs</a> </h4>
+    <h4> <a href="{% url 'shifts:batchshift' %}">Batch log new shifts (no jobs)</a> </h4>
+    <br>
+    <h4> <a href="{% url 'shifts:all' %}">Shifts from the past 30 days</a> </h4>
+    <h4> <a href="{% url 'shifts:payroll_list' %}">Weekly payroll reports</a> </h4>
+    <h4> <a href="{% url 'shifts:job_costing' begin='2018-01-01' end='2018-01-31' %}">January 2018 job costing report</a> </h4>
+    <br>
+    <h4> <a href="#">View Schedule (disabled)</a> </h4>
+</div>
+
 
 
     {% else %}
 
-
-
   {% endif %}
 
-</ul>
 
 {% endblock %}

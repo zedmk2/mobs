@@ -5,7 +5,7 @@
     <div class="content">
 
       {% if user.is_authenticated %} <em><h4>Welcome Back! @{{user.username}}</h4></em>
-            <h2>Shifts List View <a href="{%url 'shifts:create'%}" class='btn btn-sm btn-fill btn-primary'> <span class='glyphicon glyphicon-plus-sign'> New Shift</span> </a> </h2>
+
       {% endif %}
 
     </div>
@@ -20,20 +20,20 @@
 
 {% regroup object_list by date as date_list %}
 
-    <h3>View shifts:</h3>
+
     <div class="list-shift-item-text">
     {% for date, shift_list in date_list  %}
-        <p class="shiftDate">{{date|date:"l, F j"}}<p>
+        <p class="date-summary-shiftDate">Jobs from {{date|date:"l, F j"}}<p>
 
-<ul>
+<ul class='date-summary-shift-li'>
         {% for shift in shift_list %}
-      <li>
+      <li >
 
         <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
-          <p class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} ({{shift.shift_length|floatformat}} hrs, {{shift.jobs_in_shift.count}} jobs):</p></a>
-          <ul>{% for job in shift.jobs_in_shift.all  %}
+          <p class='title date-summary-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} ({{shift.shift_length|floatformat}} hrs, {{shift.jobs_in_shift.count}} jobs)</p></a>
+          <ol>{% for job in shift.jobs_in_shift.all  %}
           <li><p>{{job.job_location}} - {{job.start_time|time:"P"}} to {{job.end_time}} ({{job.job_length|floatformat}} hr)</p></li>
-          {% endfor %}</ul>
+          {% endfor %}</ol>
 
       </li>
         {% endfor %}
