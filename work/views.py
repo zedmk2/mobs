@@ -258,7 +258,10 @@ def payroll(request,begin,end):
         else:
             l=0
             for k in range(len(iter2)):
-                l += iter2[k].shift_length()
+                if emp.name == iter2[k].driver.name:
+                    l += iter2[k].shift_length()
+                elif emp.name == iter2[k].helper.name:
+                    l += iter2[k].help_length()
             emp_mix[i]['total'] = round(l,2)
         i=i+1
 

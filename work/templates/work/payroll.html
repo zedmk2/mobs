@@ -22,8 +22,9 @@
 
           {%for emp in emp_mix%}<tr>
             <td>{{emp.employee}}</td>
+
             <td>{%for empjob in emp.jobs%}
-            {{ empjob.date|date:"M j"}} ({{empjob.shift_length  }} hrs){% if not forloop.last %}, {% endif %}{%endfor%}</td>
+              {{ empjob.date|date:"M j"}} {% if  empjob.driver.name == emp.employee  %} ({{empjob.shift_length}} hrs) {% elif empjob.helper.name == emp.employee %} ({{empjob.help_length}} hrs) {% endif %} {% if not forloop.last %}, {% endif %} {%endfor%}</td>
           <td>  {{emp.total}}</td>
           </tr>
           {%endfor%}

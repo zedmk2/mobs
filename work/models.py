@@ -24,6 +24,8 @@ class Employee(models.Model):
     porter = models.BooleanField(default=False)
     hauler = models.BooleanField(default=False)
 
+    class Meta:
+        ordering = ["name",'-start_date']
 
     def __str__(self):
         return self.name
@@ -136,7 +138,7 @@ class Shift(models.Model):
     class Meta:
         unique_together = (("driver","date"),
                             )
-        ordering = ['-date']
+        ordering = ['-date','driver']
 
 class Job(models.Model):
     job_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='location', null=True)
