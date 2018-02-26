@@ -25,4 +25,6 @@ urlpatterns = [
     path('payroll/<begin>/<end>/',views.payroll,name='payroll'),
 
     path('job_costing/<begin>/<end>/',views.job_costing,name='job_costing'),
+
+    path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
 ]

@@ -89,7 +89,7 @@
 
     <tr>
 
-      <td>Location: {{job_f.job_location|add_class:"locationSelector"}}</td>
+      <td>Location: {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
       <td>Start time: {{job_f.start_time}}</td>
       <td>End time: {{job_f.end_time}}</td>
     </tr>
@@ -108,17 +108,5 @@
 </div>
 
 {{ form.media.js }}
-<script>
-    (function () {
-        // init dynamic formset
-        $('#jobsIn').formset({
-            formTemplate: $('#formset-template').clone(),
-            // initialize newly created heavy fields on the added callback
-            added: function (row) {
-                row.find('.django-select2').djangoSelect2();
-            }
-        });
-    }());
-</script>
 
 {%endblock%}

@@ -8,9 +8,11 @@ class JobAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    list_fitler = ['sw_price']
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
+    list_display = ['zipcode']
 
 class JobInlineAdmin(admin.TabularInline):
     model = models.Job

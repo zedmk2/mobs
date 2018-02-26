@@ -6,14 +6,16 @@
 {% block work_content %}
 
 
-<script src="{% static 'mobs/js/jquery.formset.js' %}"></script>
-<script src="{% static 'mobs/js/base.js' %}"></script>
+<div id='root'>TEST</div>
 
+<script>
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-<select class="js-example-basic-single" name="state">
-  <option value="AL">Alabama</option>
-  <option value="WY">Wyoming</option>
-    ...
-</select>
+ReactDOM.render(
+  <h1>Hello, world!</h1>,
+  document.getElementById('root')
+);
+</script>
 
 {% endblock %}

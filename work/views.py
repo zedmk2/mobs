@@ -290,3 +290,54 @@ def job_costing(request, begin, end):
     context = {'prop':prop,'job':job}
 
     return render(request,'work/job_costing.html',context)
+
+################ SCHEDULE VIEWS ##############
+
+class WeekSchedule(generic.ListView):
+    def get_queryset(self):
+        # self.driver = get_object_or_404(Employee, name=self.kwargs['driver'])
+        qs = Shift.objects.order_by("date").filter(date__gte=self.kwargs['begin']).filter(date__lte=self.kwargs['end']).prefetch_related('driver').prefetch_related('helper')
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        allow_empty = self.get_allow_empty()
+        if not allow_empty:
+            # When pagination is enabled and object_list is a queryset,
+            # it's better to do a cheap query than to load the unpaginated
+            # queryset in memory.
+            if self.get_paginate_by(self.object_list) is not None and hasattr(self.object_list, 'exists'):
+                is_empty = not self.object_list.exists()
+            else:
+                is_empty = len(self.object_list) == 0
+            if is_empty:
+                raise Http404(_("Empty list and '%(class_name)s.allow_empty' is False.") % {
+                    'class_name': self.__class__.__name__,
+                })
+        context = self.get_context_data()
+
+        employees = Employee.objects.filter(driver=True) | Employee.objects.filter(helper=True)
+        employee_list = [employee.name for employee in employees]
+
+        queryset = [q for q in self.object_list]
+
+        temp = [q.date for q in self.object_list]
+        temp2 = [self.kwargs['begin'],self.kwargs['end']]
+        d1 = datetime.datetime.strptime(self.kwargs['begin'],'%Y-%m-%d')
+        d2 = datetime.datetime.strptime(self.kwargs['end'],'%Y-%m-%d')
+        # this will give you a list containing all of the dates
+        dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
+
+        temp2 = {key: None for key in dd}
+
+        for d in temp2:
+            for q in self.object_list:
+                if d:
+                    1+1
+
+        temp3 = {}
+        extra_context = {'temp':temp,'temp2':temp2,'temp3':temp3,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,}
+        full_context = {**context, **extra_context}
+        return self.render_to_response(full_context)
+
+    template_name = "work/schedule.html"

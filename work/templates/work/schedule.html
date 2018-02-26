@@ -1,0 +1,47 @@
+
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block work_content %}
+
+Schedule {{temp}} <br><br>
+{{temp2}}<br><br>
+{{temp3}} <br> <br>
+<br>Week of: {{kwargs.begin}} to {{kwargs.end}} <br>
+<br>
+These are the drivers and helpers: <br>
+{{employees}}
+<br>
+
+<br>
+<br>
+{%regroup queryset by date as date_queryset%}
+<div class="container">
+
+<table class='table scheduleTable'>
+<thead>{%for q in date_queryset%}
+<th>{{q.grouper}}<br>{{q.grouper|date:"l"}}</th>
+{%endfor%}</thead>
+<tbody><tr>
+{%for q2 in date_queryset%}
+<td>
+
+    <table class='scheduleRows'>{%for q in q2.list%}
+      <tr><td>{{q.driver}} </td><td> {{q.helper}}</td></tr>
+    {% endfor %}</table>
+
+</td>
+{%endfor%}</tr>
+<tr>
+{%for q2 in date_queryset%}
+<td>
+OFF:
+</td>
+{%endfor%}</tr>
+</tbody>
+</table>
+
+</div>
+{% endblock %}
