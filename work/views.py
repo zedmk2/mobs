@@ -326,17 +326,17 @@ class WeekSchedule(generic.ListView):
         d1 = datetime.datetime.strptime(self.kwargs['begin'],'%Y-%m-%d')
         d2 = datetime.datetime.strptime(self.kwargs['end'],'%Y-%m-%d')
         # this will give you a list containing all of the dates
-        dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
+        dd = [(d1 + datetime.timedelta(days=x)).date() for x in range((d2-d1).days + 1)]
 
-        temp2 = {key: None for key in dd}
+        date_range = {key: [] for key in sorted(dd)}
 
-        for d in temp2:
-            for q in self.object_list:
-                if d:
-                    1+1
+        for key,value in date_range.items():
+            for i in queryset:
+                if key == i.date:
+                    date_range[key].append(i)
 
-        temp3 = {}
-        extra_context = {'temp':temp,'temp2':temp2,'temp3':temp3,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,}
+        temp3 = [temp[0]]
+        extra_context = {'temp':dd,'date_range':date_range,'temp3':temp3,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 

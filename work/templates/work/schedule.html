@@ -6,8 +6,8 @@
 
 {% block work_content %}
 
-Schedule {{temp}} <br><br>
-{{temp2}}<br><br>
+Temp: {{temp}} <br><br>
+DATERANGE:<br>{{date_range}}<br><br>
 {{temp3}} <br> <br>
 <br>Week of: {{kwargs.begin}} to {{kwargs.end}} <br>
 <br>
@@ -21,8 +21,8 @@ These are the drivers and helpers: <br>
 <div class="container">
 
 <table class='table scheduleTable'>
-<thead>{%for q in date_queryset%}
-<th>{{q.grouper}}<br>{{q.grouper|date:"l"}}</th>
+<thead>{%for k,v in date_range.items%}
+<th>{{k}}<br>{{k|date:"l"}}</th>
 {%endfor%}</thead>
 <tbody><tr>
 {%for q2 in date_queryset%}
