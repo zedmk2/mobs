@@ -288,6 +288,7 @@ def job_costing(request, begin, end):
         i.job_total = l
         i.jobset = job_filter
         i.job_num = c
+        i.job_avg = l/c
 
 
     job = job_filter
