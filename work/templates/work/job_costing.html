@@ -16,12 +16,12 @@
    {% for p in prop %}
               <tr class='info' ><td id='jobListFirstRow' ><h4>{{p}} - {{p.client_name}}</h4></td></tr>
 
-                  <tr><td><ol>{% for s in p.jobset %}
+                  <tr class='jobListMiddleRow'><td><ol>{% for s in p.jobset %}
                     <li><a href="{% url 'shifts:update' pk=s.job_shift.pk %}">{{s.job_shift.date|date:"D M d Y"}} - {{s.job_shift.driver}} / {{s.job_shift.helper}} - {{s.job_length}} hours</a></li>
 
                   {% endfor %}</ol></td></tr>
 
-                  <tr ><td id='jobListLastRow'><h5>Total shifts: {{p.job_num}} || Total length: {{p.job_total}} hrs || Average length: {{p.job_avg|floatformat:"-2"}}</h5></td></tr>
+                  <tr ><td id='jobListLastRow'><h5>Total shifts: {{p.job_num}} || Total length: {{p.job_total}} hrs || Average length: {{p.job_avg|floatformat:"-2"}} hrs</h5></td></tr>
         {% endfor %}
 </table>
 
