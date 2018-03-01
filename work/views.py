@@ -274,16 +274,21 @@ def payroll(request,begin,end):
 def job_costing(request, begin, end):
     prop = Property.objects.filter(location__job_shift__date__gte=begin).filter(location__job_shift__date__lte=end).annotate(Count('location')).prefetch_related('client_name').prefetch_related(Prefetch('location',queryset=Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).order_by('-job_shift'),to_attr='job_filt')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('location__job_shift__helper')
     # prop_total=prop
+
     for i in prop:
         # prop_total.append(i)
         k = []
         job_filter = i.job_filt
+        c = 0
         for j in job_filter:
             k.append(j.job_length)
+            c = c + 1
         l = (round(sum(k),2))
                 # prop_total.append(l)
         i.job_total = l
         i.jobset = job_filter
+        i.job_num = c
+
 
     job = job_filter
 
