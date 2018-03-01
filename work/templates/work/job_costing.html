@@ -7,14 +7,14 @@
 
 {% block prework %}
 
-  <div class="col-md-4">
+  <div>
     <div class="card card-with-shadow">
       <div class="content">
         <h1 class='title'>Job Report List </h1>
         {{prop_total}}
-<table class='table table-sm'>
+<table class='table table-condensed'>
    {% for p in prop %}
-              <tr><td id='jobListFirstRow' ><h4>{{p}} - {{p.client_name}}</h4></td></tr>
+              <tr class='info' ><td id='jobListFirstRow' ><h4>{{p}} - {{p.client_name}}</h4></td></tr>
 
                   <tr><td><ol>{% for s in p.jobset %}
                     <li><a href="{% url 'shifts:update' pk=s.job_shift.pk %}">{{s.job_shift.date|date:"D M d Y"}} - {{s.job_shift.driver}} / {{s.job_shift.helper}} - {{s.job_length}} hours</a></li>
