@@ -170,3 +170,6 @@ class Job(models.Model):
 
     def get_absolute_url(self):
         return reverse('shifts:singlejob',kwargs={'pk':self.pk})
+
+    class Meta:
+        ordering = ["-job_shift"]
