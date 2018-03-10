@@ -12,7 +12,7 @@ from django.db.models import Prefetch
 from django.urls import reverse, reverse_lazy
 from django.http import Http404
 from django.views import generic
-from work.models import Shift, Job, Property, Employee
+from work.models import Shift, Job, Property, Employee, Inspection
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -288,12 +288,15 @@ def job_costing(request, begin, end):
         i.job_total = l
         i.jobset = job_filter
         i.job_num = c
-        i.job_avg = l/c
-
+        try:
+            i.job_avg = l/c
+        except:
+            i.job_avg = 0
 
     job = job_filter
+    month = datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
 
-    context = {'prop':prop,'job':job}
+    context = {'prop':prop,'job':job,'month':month,'begin':begin,'end':end}
 
     return render(request,'work/job_costing.html',context)
 
@@ -341,9 +344,26 @@ class WeekSchedule(generic.ListView):
                 if key == i.date:
                     date_range[key].append(i)
 
-        temp3 = [temp[0]]
-        extra_context = {'temp':dd,'date_range':date_range,'temp3':temp3,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,}
+        form_date = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
+        ScheduleFormSet = formsets.formset_factory(forms.ScheduleForm,extra=4,max_num=5)
+        formset = ScheduleFormSet(initial=form_date)
+
+
+        extra_context = {'form_date':form_date,'temp':dd,'date_range':date_range,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,'formset':formset}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 
     template_name = "work/schedule.html"
+
+################################################
+###PROPERTY CHECKS
+#############################################
+
+class InspectionList(LoginRequiredMixin,generic.ListView):
+    def get_queryset(self):
+        return Property.objects.prefetch_related('inspection').all()
+    template_name = "work/inspection_list.html"
+
+class UpdateInspection(LoginRequiredMixin,generic.UpdateView):
+    model = Inspection
+    fields = ['prop','date','rating','description',]

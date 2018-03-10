@@ -6,6 +6,12 @@ from django.forms import formsets
 from django.forms.models import inlineformset_factory
 from datetime import time
 
+class ScheduleForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Shift
+        fields = ['driver','helper','date','truck']
+
 class DateForm(forms.Form):
     begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','placeholder':'mm/dd/yyyy'}))
     end = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','placeholder':'mm/dd/yyyy'}))

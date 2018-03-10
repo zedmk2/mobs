@@ -27,4 +27,7 @@ urlpatterns = [
     path('job_costing/<begin>/<end>/',views.job_costing,name='job_costing'),
 
     path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
+
+    path('property_checks/',views.InspectionList.as_view(),name='inspections'),
+    path('inspection/<pk>/',views.UpdateInspection.as_view(),name='inspection_update'),
 ]

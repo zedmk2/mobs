@@ -1,0 +1,23 @@
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block work_content %}
+
+<h2>Property Inspection List</h2>
+<ul>
+
+{% regroup object_list by zipcode as object_list%}
+
+{%for zipcode, property in object_list %}
+<li>{{zipcode}}</li>
+<li>{{property}}
+  <ul>
+  {%for inspection in property.inspection.all%}
+  <li><a href='{%url 'shifts:inspection_update' pk=inspection.pk  %}'>{{inspection.date|date:"M d"}} - {{inspection.rating}} / 10 - {{inspection.description}}</a></li>
+  {%endfor%}</ul>
+  </li>
+{%endfor%}
+</ul>
+{% endblock %}

@@ -86,6 +86,22 @@ class Property(models.Model):
     def __str__(self):
         return self.display_name
 
+class Inspection(models.Model):
+
+    prop = models.ForeignKey(Property, on_delete=models.PROTECT,null=True, related_name='inspection')
+    date = models.DateField()
+    rating = models.IntegerField(blank=True,null=True)
+    description = models.TextField(blank=True,null=True)
+
+    class Meta:
+        ordering = ["date"]
+
+    def __str__(self):
+        return self.description
+
+    def get_absolute_url(self):
+        return reverse('shifts:inspection_update',kwargs={'pk':self.id} )
+
 class Shift(models.Model):
     # user = models.ForeignKey(User,related_name='user_shifts')
     created_at = models.DateTimeField(auto_now=True)

@@ -12,7 +12,7 @@ class PropertyAdmin(admin.ModelAdmin):
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['zipcode']
+    list_display = ['name','zipcode']
 
 class JobInlineAdmin(admin.TabularInline):
     model = models.Job
@@ -33,5 +33,6 @@ class Shift_Inline_Admin(admin.ModelAdmin):
 admin.site.register(models.Job, JobAdmin)
 admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Property, PropertyAdmin)
+admin.site.register(models.Inspection)
 admin.site.register(models.Employee)
 admin.site.register(models.Shift,Shift_Inline_Admin)

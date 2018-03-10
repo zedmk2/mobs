@@ -1,0 +1,26 @@
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block work_content %}
+
+<form class="" action="" method="post">
+{% csrf_token %}
+<h2>Inspection Report</h2>
+  <table class='table'>
+    <tr>
+    <td class='inspection'>{{form.prop}}</td>
+    <td class='inspection'>{{form.date}}</td>
+    <td class='inspection'>Rating: {{form.rating}}</td>
+  </tr> <tr>
+  <td colspan=3 class='inspectionBottom'>  Comments:<br>{{form.description}}</td>
+  </tr>
+
+  </table>
+
+<button type="submit" name="submit" class='btn btn-primary btn-large'>Submit</button>
+
+</form>
+
+{% endblock %}
