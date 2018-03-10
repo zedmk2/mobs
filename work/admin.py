@@ -8,7 +8,11 @@ class JobAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_fitler = ['sw_price']
+    fields = ['name','address','city','state','zipcode',]
+
+    list_display = ['name','address','city','state','zipcode',]
+    list_editable = ['address','city','state','zipcode',]
+
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
