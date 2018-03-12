@@ -359,7 +359,7 @@ class WeekSchedule(generic.ListView):
 ###PROPERTY CHECKS
 #############################################
 
-class InspectionList(LoginRequiredMixin,generic.ListView):
+class InspectionListFull(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         queryset = Property.objects.prefetch_related('inspection').order_by('county')
         for prop in queryset:
@@ -371,7 +371,25 @@ class InspectionList(LoginRequiredMixin,generic.ListView):
                 elif prop.inspection.all()[0].days_since > 7:
                     prop.color = 'yellow'
                 else:
-                    prop.color = 'none'
+                    prop.color = 'green'
+            except:
+                prop.color = 'none'
+        return queryset
+    template_name = "work/inspection_list.html"
+
+class InspectionList(LoginRequiredMixin,generic.ListView):
+    def get_queryset(self):
+        queryset = Property.objects.filter(regular_check=True).prefetch_related('inspection').order_by('county')
+        for prop in queryset:
+            for inspection in prop.inspection.all():
+                inspection.days_since = (datetime.date.today() - inspection.date).days
+            try:
+                if prop.inspection.all()[0].days_since > 14:
+                    prop.color = 'red'
+                elif prop.inspection.all()[0].days_since > 7:
+                    prop.color = 'yellow'
+                else:
+                    prop.color = 'green'
             except:
                 prop.color = 'none'
         return queryset

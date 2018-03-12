@@ -29,6 +29,7 @@ urlpatterns = [
     path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
 
     path('property_checks/',views.InspectionList.as_view(),name='inspections'),
+    path('property_checks_full/',views.InspectionListFull.as_view(),name='inspections_full'),
     path('inspection/<pk>/',views.UpdateInspection.as_view(),name='inspection_update'),
     path('new_inspection/',views.CreateInspection.as_view(),name='new_inspection'),
     path('new_inspection/<pk>/',views.CreateInspection.as_view(),name='new_inspection_pk'),

@@ -79,6 +79,8 @@ class Property(models.Model):
     times_per_month = models.IntegerField(blank=True,null=True)
     times_per_year = models.IntegerField(blank=True,null=True)
 
+    regular_check = models.BooleanField()
+
     class Meta:
         verbose_name_plural = "properties"
         ordering = ["display_name"]
