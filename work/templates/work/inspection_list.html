@@ -7,10 +7,10 @@
 
 <h2>Property Inspection List</h2>
 <div class='container'>
-{% regroup object_list by zipcode as object_list_1%}
+{% regroup object_list by county as object_list_1%}
 <ul>
-{%for zipcode, property_list in object_list_1 %}
-<li>{{zipcode}}</li>
+{%for county, property_list in object_list_1 %}
+<li>{{county}}</li>
   <ul>{%for property in property_list %}
   <li class='{{property.color}}'>{{property}}</li>
 
