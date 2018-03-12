@@ -17,7 +17,7 @@
 {%for county, property_list in object_list_1 %}
 <li>{{county}}</li>
   <ul>{%for property in property_list %}
-  <li><span class='{{property.color}}'>&blk12;</span>{{property}} ({{property.address}}, {{property.city}})</li>
+  <li><span class='{{property.color}}'>&blk12;</span>{{property.name}} ({{property.address}}, {{property.city}})</li>
   <ul>{%for inspection in property.inspection.all|slice:":3"%}
   <li class='inspectionListItem'><a class='{{inspection.color}}' href='{%url 'shifts:inspection_update' pk=inspection.pk  %}'>{{inspection.date|date:"M d"}} ({{inspection.days_since}} days ago) - {{inspection.rating}} / 10 - {{inspection.description}}</a></li>
       {%endfor%}
