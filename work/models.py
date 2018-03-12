@@ -80,6 +80,7 @@ class Property(models.Model):
     times_per_year = models.IntegerField(blank=True,null=True)
 
     regular_check = models.BooleanField()
+    check_interval = models.IntegerField()
 
     class Meta:
         verbose_name_plural = "properties"

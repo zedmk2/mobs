@@ -15,13 +15,13 @@
 {% regroup object_list by county as object_list_1%}
 <ul class='list-group'>
 {%for county, property_list in object_list_1 %}
-<li class='list-group-item'>{{county}}</li>
+<li class='list-group-item list-group-item-info'>{{county}}</li>
   <li class='list-group-item'><ul class='list-group'>{%for property in property_list %}
   <li class='list-group-item'>  <span class="{{property.color}}" aria-hidden="true"></span> {{property.name}} ({{property.address}}, {{property.city}})</li>
   <ul>{%for inspection in property.inspection.all|slice:":3"%}
   <li class='inspectionListItem list-group-item'><a class='{{inspection.color}}' href='{%url 'shifts:inspection_update' pk=inspection.pk  %}'>{{inspection.date|date:"M d"}} ({{inspection.days_since}} days ago) - {{inspection.rating}} / 10 - {{inspection.description}}</a></li>
       {%endfor%}
-      <li class='inspectionListItem list-group-item'> <a href='{%url 'shifts:new_inspection_pk' pk=property.pk%}' >Add inspection</a> </li>
+      <li class='inspectionListItem list-group-item'> <a href='{%url 'shifts:new_inspection_pk' pk=property.pk%}'><i class='fas fa-plus'></i> Add inspection</a> </li>
   </ul>
   {%endfor%}</ul></li>
   </li>

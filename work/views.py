@@ -369,9 +369,9 @@ class InspectionList(LoginRequiredMixin,generic.ListView):
             for inspection in prop.inspection.all():
                 inspection.days_since = (datetime.date.today() - inspection.date).days
             try:
-                if prop.inspection.all()[0].days_since > 14:
+                if prop.inspection.all()[0].days_since > (prop.check_interval*2):
                     prop.color = 'fas fa-exclamation-triangle'
-                elif prop.inspection.all()[0].days_since > 7:
+                elif prop.inspection.all()[0].days_since > prop.check_interval:
                     prop.color = 'fas fa-clock'
                 else:
                     prop.color = 'fas fa-check'
