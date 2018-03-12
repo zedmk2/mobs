@@ -359,39 +359,24 @@ class WeekSchedule(generic.ListView):
 ###PROPERTY CHECKS
 #############################################
 
-class InspectionListFull(LoginRequiredMixin,generic.ListView):
-    def get_queryset(self):
-        queryset = Property.objects.prefetch_related('inspection').order_by('county','name')
-        for prop in queryset:
-            for inspection in prop.inspection.all():
-                inspection.days_since = (datetime.date.today() - inspection.date).days
-            try:
-                if prop.inspection.all()[0].days_since > 14:
-                    prop.color = 'red'
-                elif prop.inspection.all()[0].days_since > 7:
-                    prop.color = 'yellow'
-                else:
-                    prop.color = 'green'
-            except:
-                prop.color = 'none'
-        return queryset
-    template_name = "work/inspection_list.html"
-
 class InspectionList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        queryset = Property.objects.filter(regular_check=True).prefetch_related('inspection').order_by('county','name')
+        if self.kwargs['filt'] == 0:
+            queryset = Property.objects.filter(regular_check=True).prefetch_related('inspection').order_by('county','name')
+        else:
+            queryset = Property.objects.all().prefetch_related('inspection').order_by('county','name')
         for prop in queryset:
             for inspection in prop.inspection.all():
                 inspection.days_since = (datetime.date.today() - inspection.date).days
             try:
                 if prop.inspection.all()[0].days_since > 14:
-                    prop.color = 'red'
+                    prop.color = 'fas fa-exclamation-triangle'
                 elif prop.inspection.all()[0].days_since > 7:
-                    prop.color = 'yellow'
+                    prop.color = 'fas fa-clock'
                 else:
-                    prop.color = 'green'
+                    prop.color = 'fas fa-check'
             except:
-                prop.color = 'none'
+                prop.color = 'fas fa-question'
         return queryset
     template_name = "work/inspection_list.html"
 
@@ -415,4 +400,4 @@ class CreateInspection(LoginRequiredMixin,generic.CreateView):
         initial['updated_by'] = self.request.user
         return initial
 
-    success_url = reverse_lazy('shifts:inspections')
+    success_url = reverse_lazy('shifts:inspections',kwargs={'filt':0})

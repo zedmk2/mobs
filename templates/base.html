@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>MOBS v1.4</title>
+    <title>MOBS v1.5</title>
 
   </head>
   <body>
@@ -16,7 +16,7 @@
       <a class="p-2 text-dark" href="{% url 'shifts:batchshift' %}">Batch New Shift</a>
       <a class="p-2 text-dark" href="{% url 'shifts:all' %}">Shift List</a>
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
-      <a class="p-2 text-dark" href="{% url 'shifts:inspections' %}">Property List</a>
+      <a class="p-2 text-dark" href="{%url 'shifts:inspections' filt=0%}">Property List</a>
       {%else%}
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
       <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Log In</a>
@@ -41,6 +41,9 @@
   <!--  END BOOTSTRAP -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+
+  <script defer src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+
   <script src="{% static 'mobs/js/jquery.formset.js' %}"></script>
 
   <script src="{% static 'mobs/js/base.js' %}"></script>
