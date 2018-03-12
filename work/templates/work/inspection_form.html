@@ -4,23 +4,39 @@
 {% load staticfiles %}
 
 {% block work_content %}
+<div class='container'>
+  <div class='row'>
+    <div class='col'>
 
-<form class="" action="" method="post">
-{% csrf_token %}
-<h2>Inspection Report</h2>
-  <table class='table'>
-    <tr>
-    <td class='inspection'>{{form.prop}}</td>
-    <td class='inspection'>{{form.date}}</td>
-    <td class='inspection'>Rating: {{form.rating}}</td>
-  </tr> <tr>
-  <td colspan=3 class='inspectionBottom'>  Comments:<br>{{form.description}}</td>
-  </tr>
+    <form class="" action="" method="post">
+    {% csrf_token %}
+    <h3>Property inspection ticket</h3>
+    </div>
+  </div>
+  <div class='row'>
+      {%if object.id%}
+          <div class='col'><label for='created_by'>Created by:</label>
+          {{form.created_by|add_class:"form-control"}}</div>
+           <div class='col'>{{object.date|date:"M d, Y"}}</div>
+      {%else%}
+      <div class='col'>Created by:{{form.created_by|add_class:"form-control"}}</div>
+      <div class='col'>{{today|date:"M d, Y"}}</div>
+      {%endif%}
 
-  </table>
+      <div class='col'><label for='updated_by'>Updated:</label> {{form.updated_by|add_class:"form-control"}}</div>
+        <div class='col'>{%if object.updated%}{{object.updated|date:"M d, Y"}}
+        {%else%}{{today|date:"M d, Y"}}{%endif%}</div>
+      </div>
 
-<button type="submit" name="submit" class='btn btn-primary btn-large'>Submit</button>
-
+    <div class='row'>
+      <div class='col-6'>{{form.prop|add_class:"shiftSelect2"}}</div>
+      <div class='col'>{{form.date|add_class:"shiftDate form-control"}}</div>
+      <div class='col'>{{form.rating|add_class:"form-control"}}</div>
+    </div>
+    <div class='row inspectionBottom'><div class='col'>Comments:<br>{{form.description|add_class:"inspectionBottom form-control"}}</div></div>
+    <div class='row inspectionBottom'><div class='col'>
+      <button type="submit" name="submit" class='btn btn-primary btn-large'>{%if object.id %}Update{%else%}Submit{%endif%}</button></div>
+  </div></div>
 </form>
-
+</div>
 {% endblock %}

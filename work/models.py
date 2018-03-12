@@ -48,7 +48,6 @@ class Client(models.Model):
         return self.name
 
 class Property(models.Model):
-
     name = models.CharField(max_length=200, unique=True)
     display_name = models.CharField(max_length=200)
 
@@ -60,6 +59,7 @@ class Property(models.Model):
     city = models.CharField(max_length=200, blank=True,null=True)
     state  = models.CharField(max_length=200, blank=True,null=True)
     zipcode = models.IntegerField(blank=True,null=True)
+    county = models.CharField(max_length=30,blank=True,null=True)
 
     client_name = models.ForeignKey(Client, on_delete=models.PROTECT,null=True)
     bi_address = models.CharField(max_length=200, blank=True,null=True)
@@ -87,14 +87,23 @@ class Property(models.Model):
         return self.display_name
 
 class Inspection(models.Model):
-
+    created = models.DateField(editable=False)
+    updated = models.DateTimeField(editable=False)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='created_by')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='updated_by')
     prop = models.ForeignKey(Property, on_delete=models.PROTECT,null=True, related_name='inspection')
     date = models.DateField()
     rating = models.IntegerField(blank=True,null=True)
     description = models.TextField(blank=True,null=True)
 
+    def save(self):
+        if not self.id:
+            self.created = datetime.date.today()
+        self.updated = datetime.datetime.today()
+        super(Inspection, self).save()
+
     class Meta:
-        ordering = ["date"]
+        ordering = ["-date"]
 
     def __str__(self):
         return self.description

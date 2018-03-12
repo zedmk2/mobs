@@ -361,9 +361,40 @@ class WeekSchedule(generic.ListView):
 
 class InspectionList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        return Property.objects.prefetch_related('inspection').all()
+        queryset = Property.objects.prefetch_related('inspection').order_by('zipcode')
+        for prop in queryset:
+            for inspection in prop.inspection.all():
+                inspection.days_since = (datetime.date.today() - inspection.date).days
+            try:
+                if prop.inspection.all()[0].days_since > 14:
+                    prop.color = 'red'
+                elif prop.inspection.all()[0].days_since > 7:
+                    prop.color = 'yellow'
+                else:
+                    prop.color = 'none'
+            except:
+                prop.color = 'none'
+        return queryset
     template_name = "work/inspection_list.html"
 
 class UpdateInspection(LoginRequiredMixin,generic.UpdateView):
     model = Inspection
-    fields = ['prop','date','rating','description',]
+    form_class = forms.InspectionForm
+    def get_initial(self):
+        initial = super(UpdateInspection,self).get_initial()
+        initial['updated_by'] = self.request.user
+        return initial
+
+class CreateInspection(LoginRequiredMixin,generic.CreateView):
+    model = Inspection
+    form_class = forms.InspectionForm
+    extra_context = {'today':datetime.datetime.today()}
+    def get_initial(self):
+        initial = super(CreateInspection,self).get_initial()
+        initial['prop'] = self.kwargs['pk']
+        initial['date'] = datetime.date.today()
+        initial['created_by'] = self.request.user
+        initial['updated_by'] = self.request.user
+        return initial
+
+    success_url = reverse_lazy('shifts:inspections')

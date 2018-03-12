@@ -6,6 +6,17 @@ from django.forms import formsets
 from django.forms.models import inlineformset_factory
 from datetime import time
 
+class InspectionForm(forms.ModelForm):
+    class Meta:
+        model = models.Inspection
+        fields = ['created_by','updated_by','prop','date','rating','description',]
+
+class UpdateInspectionForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Inspection
+        fields = ['updated_by','prop','date','rating','description',]
+
 class ScheduleForm(forms.ModelForm):
 
     class Meta:

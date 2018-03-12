@@ -30,4 +30,7 @@ urlpatterns = [
 
     path('property_checks/',views.InspectionList.as_view(),name='inspections'),
     path('inspection/<pk>/',views.UpdateInspection.as_view(),name='inspection_update'),
+    path('new_inspection/',views.CreateInspection.as_view(),name='new_inspection'),
+    path('new_inspection/<pk>/',views.CreateInspection.as_view(),name='new_inspection_pk'),
+
 ]
