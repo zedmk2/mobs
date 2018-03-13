@@ -361,10 +361,8 @@ class WeekSchedule(generic.ListView):
 
 class InspectionList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        if self.kwargs['filt'] == 0:
-            queryset = Property.objects.filter(regular_check=True).prefetch_related('inspection').order_by('county','name')
-        else:
-            queryset = Property.objects.all().prefetch_related('inspection').order_by('county','name')
+        priorty = self.kwargs['priority']
+        queryset = Property.objects.filter(check_priority__lte=priorty).prefetch_related('inspection').order_by('county','name')
         for prop in queryset:
             for inspection in prop.inspection.all():
                 inspection.days_since = (datetime.date.today() - inspection.date).days
@@ -400,4 +398,4 @@ class CreateInspection(LoginRequiredMixin,generic.CreateView):
         initial['updated_by'] = self.request.user
         return initial
 
-    success_url = reverse_lazy('shifts:inspections',kwargs={'filt':0})
+    success_url = reverse_lazy('shifts:inspections',kwargs={'priority':1})

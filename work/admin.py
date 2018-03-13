@@ -8,8 +8,8 @@ class JobAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['name','property_contact','bulk_contact','billing_contact','address','regular_check',]
-    list_editable = ['regular_check',]
+    list_display = ['name','display_name','property_contact','bulk_contact','billing_contact','address','check_priority',]
+    list_editable = ['check_priority',]
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']

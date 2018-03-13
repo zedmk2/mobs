@@ -16,7 +16,7 @@
       <a class="p-2 text-dark" href="{% url 'shifts:batchshift' %}">Batch New Shift</a>
       <a class="p-2 text-dark" href="{% url 'shifts:all' %}">Shift List</a>
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
-      <a class="p-2 text-dark" href="{%url 'shifts:inspections' filt=0 %}">Property List</a>
+      <a class="p-2 text-dark" href="{%url 'shifts:inspections' priority=1 %}">Property List</a>
       {%else%}
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
       <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Log In</a>
