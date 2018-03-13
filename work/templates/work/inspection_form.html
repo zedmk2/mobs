@@ -17,21 +17,22 @@
       {%if object.id%}
           <div class='col'><label for='created_by'>Created by:</label>
           {{form.created_by|add_class:"form-control"}}</div>
-           <div class='col'>{{object.date|date:"M d, Y"}}</div>
+           <div class='col align-self-center'>{{object.date|date:"M d, Y"}}</div>
       {%else%}
-      <div class='col'>Created by:{{form.created_by|add_class:"form-control"}}</div>
-      <div class='col'>{{today|date:"M d, Y"}}</div>
+      <div class='col'><label for='created_by'>Created by:</label>
+        {{form.created_by|add_class:"form-control"}}</div>
+      <div class='col align-self-center'>{{today|date:"M d, Y"}}</div>
       {%endif%}
 
       <div class='col'><label for='updated_by'>Updated:</label> {{form.updated_by|add_class:"form-control"}}</div>
-        <div class='col'>{%if object.updated%}{{object.updated|date:"M d, Y"}}
+        <div class='col align-self-center'>{%if object.updated%}{{object.updated|date:"M d, Y"}}
         {%else%}{{today|date:"M d, Y"}}{%endif%}</div>
       </div>
 
     <div class='row'>
       <div class='col-6'>{{form.prop|add_class:"shiftSelect2"}}</div>
-      <div class='col'>{{form.date|add_class:"shiftDate form-control"}}</div>
-      <div class='col'>{{form.rating|add_class:"form-control"}}</div>
+      <div class='col-3'>{{form.date|add_class:"shiftDate form-control"}}</div>
+      <div class='col-1'><label for='id_rating'>Rating:</label></div><div class='col-2'>{{form.rating|add_class:"form-control"}}</div>
     </div>
     <div class='row inspectionBottom'><div class='col'>Comments:<br>{{form.description|add_class:"inspectionBottom form-control"}}</div></div>
     <div class='row inspectionBottom'><div class='col'>

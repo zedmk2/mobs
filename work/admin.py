@@ -8,14 +8,12 @@ class JobAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    
-
-    list_display = ['name','address','city','state','zipcode','regular_check',]
-    list_editable = ['address','city','state','zipcode','regular_check',]
+    list_display = ['name','property_contact','bulk_contact','billing_contact','address','regular_check',]
+    list_editable = ['regular_check',]
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['name','zipcode']
+    list_display = ['name','start_date','end_date']
 
 class JobInlineAdmin(admin.TabularInline):
     model = models.Job
@@ -23,11 +21,9 @@ class JobInlineAdmin(admin.TabularInline):
     extra = 8
 
 class Shift_Inline_Admin(admin.ModelAdmin):
-
     inlines = [
     JobInlineAdmin,
     ]
-
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "job":
             kwargs["queryset"] = School.objects.order_by('job_location')

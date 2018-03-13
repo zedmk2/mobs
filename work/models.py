@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
 from django.conf import settings
+from django.utils.timezone import now
 
 import datetime
 # Create your models here.
@@ -90,7 +91,7 @@ class Property(models.Model):
         return self.display_name
 
 class Inspection(models.Model):
-    created = models.DateField(editable=False)
+    created = models.DateTimeField(editable=False)
     updated = models.DateTimeField(editable=False)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='created_by')
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='updated_by')
@@ -101,8 +102,8 @@ class Inspection(models.Model):
 
     def save(self):
         if not self.id:
-            self.created = datetime.date.today()
-        self.updated = datetime.datetime.today()
+            self.created = datetime.datetime.now()
+        self.updated = datetime.datetime.now()
         super(Inspection, self).save()
 
     class Meta:
