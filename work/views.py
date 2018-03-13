@@ -361,8 +361,8 @@ class WeekSchedule(generic.ListView):
 
 class InspectionList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        priorty = self.kwargs['priority']
-        queryset = Property.objects.filter(check_priority__lte=priorty).prefetch_related('inspection').order_by('county','name')
+        priority = self.kwargs['priority']
+        queryset = Property.objects.filter(check_priority__lte=priority).prefetch_related('inspection').order_by('county','name')
         for prop in queryset:
             for inspection in prop.inspection.all():
                 inspection.days_since = (datetime.date.today() - inspection.date).days
