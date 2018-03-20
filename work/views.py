@@ -253,7 +253,7 @@ def payroll(request,begin,end):
         dr_sh = emp.sh_driver.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
         he_sh = emp.sh_helper.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
         he_2_sh = emp.sh_helper_2.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
-        iter1 = dr_sh | he_sh
+        iter1 = dr_sh | he_sh | he_2_sh
         iter2 = list(iter1)
         if iter2 == []:
             emp_mix[i]['total']=0
