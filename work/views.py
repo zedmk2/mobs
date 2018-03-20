@@ -239,7 +239,7 @@ def payroll(request,begin,end):
         elif i.helper_2 == None:
             shift_list.append({'date':str(i.date),'driver':i.driver.name,'length':i.shift_length(),'helper':i.helper.name,'he_length':i.help_length()})
         else:
-            shift_list.append({'date':str(i.date),'driver':i.driver.name,'length':i.shift_length(),'helper':i.helper.name,'helper_2':i.helper_2.name,'he_length':i.help_length(),'he_length_2':i.help_2_length()})
+            shift_list.append({'date':str(i.date),'driver':i.driver.name,'length':i.shift_length(),'helper':i.helper.name,'helper_2':i.helper_2.name,'he_length':i.help_length(),'he_2_length':i.help_2_length()})
 
     employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2')
 
@@ -249,7 +249,7 @@ def payroll(request,begin,end):
         emp_mix.append({'employee':"",'jobs':"",'total':""})
         emp2 = emp
         emp_mix[i]['employee'] = emp.name
-        emp_mix[i]['jobs'] = emp.sh_driver.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date')) | emp.sh_helper.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
+        emp_mix[i]['jobs'] = emp.sh_driver.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date')) | emp.sh_helper.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date')) | emp.sh_helper_2.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
         dr_sh = emp.sh_driver.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
         he_sh = emp.sh_helper.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
         he_2_sh = emp.sh_helper_2.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
@@ -269,7 +269,7 @@ def payroll(request,begin,end):
             emp_mix[i]['total'] = round(l,2)
         i=i+1
 
-    context = {'emp_mix':emp_mix,'shift_list':shift_list,'shift':shift,'begin':begin_str,'end':end_str}
+    context = {'temp':{},'emp_mix':emp_mix,'shift_list':shift_list,'shift':shift,'begin':begin_str,'end':end_str}
     return render(request,'work/payroll.html',context)
 
 ################VIEW FOR JOB COSTING
