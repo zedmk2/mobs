@@ -31,6 +31,16 @@ class Employee(models.Model):
     def __str__(self):
         return self.name
 
+class Truck(models.Model):
+    created_at = models.DateTimeField(auto_now=True)
+    last_edited = models.DateTimeField(auto_now=True,blank=True,null=True)
+    name = models.IntegerField()
+    start_date = models.DateTimeField(blank=True,null=True)
+    end_date = models.DateTimeField(blank=True,null=True)
+
+    def __str__(self):
+        return "%s" % (self.name)
+
 class Client(models.Model):
 
     name = models.CharField(max_length=200, unique=True)
@@ -123,6 +133,7 @@ class Shift(models.Model):
     helper = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper',blank=True,null=True,)
     helper_2 = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper_2',blank=True,null=True,)
     truck = models.IntegerField(blank=True,null=True)
+    truck_new = models.ForeignKey(Truck,on_delete=models.PROTECT,related_name='truck',blank=True,null=True)
 
     date = models.DateField()
 
