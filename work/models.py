@@ -121,6 +121,7 @@ class Shift(models.Model):
     last_edited = models.DateTimeField(blank=True,null=True)
     driver = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_driver')
     helper = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper',blank=True,null=True,)
+    helper_2 = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper_2',blank=True,null=True,)
     truck = models.IntegerField(blank=True,null=True)
 
     date = models.DateField()
@@ -129,17 +130,22 @@ class Shift(models.Model):
     dr_end_time = models.TimeField(blank=True,null=True, verbose_name="driver end time",)
     he_start_time = models.TimeField(blank=True,null=True, verbose_name="helper start time",)
     he_end_time = models.TimeField(blank=True,null=True, verbose_name="helper end time",)
+    he_2_start_time = models.TimeField(blank=True,null=True, verbose_name="second helper start time",)
+    he_2_end_time = models.TimeField(blank=True,null=True, verbose_name="second helper end time",)
 
     def shift_length(self):
         "Calculates shift duration based on driver clock times"
-        self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.dr_start_time.hour,self.dr_start_time.minute,self.dr_start_time.second)
-        if self.dr_end_time < self.dr_start_time:
-            self.end = datetime.datetime(self.date.year,self.date.month,(self.date.day),self.dr_end_time.hour,self.dr_end_time.minute,self.dr_end_time.second)
-            self.end = self.end + datetime.timedelta(days=1)
-        else:
-            self.end = datetime.datetime(self.date.year,self.date.month,self.date.day,self.dr_end_time.hour,self.dr_end_time.minute,self.dr_end_time.second)
-        self.duration = self.end - self.start
-        return (round(self.duration.seconds / 3600,2))
+        try:
+            self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.dr_start_time.hour,self.dr_start_time.minute,self.dr_start_time.second)
+            if self.dr_end_time < self.dr_start_time:
+                self.end = datetime.datetime(self.date.year,self.date.month,(self.date.day),self.dr_end_time.hour,self.dr_end_time.minute,self.dr_end_time.second)
+                self.end = self.end + datetime.timedelta(days=1)
+            else:
+                self.end = datetime.datetime(self.date.year,self.date.month,self.date.day,self.dr_end_time.hour,self.dr_end_time.minute,self.dr_end_time.second)
+            self.duration = self.end - self.start
+            return (round(self.duration.seconds / 3600,2))
+        except:
+            return 0
 
     def help_length(self):
         "Calculates shift duration based on helper clock times; returns 0 if no helper time"
@@ -150,6 +156,20 @@ class Shift(models.Model):
                 self.end = self.end + datetime.timedelta(days=1)
             else:
                 self.end = datetime.datetime(self.date.year,self.date.month,self.date.day,self.he_end_time.hour,self.he_end_time.minute,self.he_end_time.second)
+            self.duration = self.end - self.start
+            return (round(self.duration.seconds / 3600,2))
+        except:
+            return 0
+
+    def help_2_length(self):
+        "Calculates shift duration based on helper clock times; returns 0 if no helper time"
+        try:
+            self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.he_2_start_time.hour,self.he_2_start_time.minute,self.he_2_start_time.second)
+            if self.he_2_end_time < self.he_2_start_time:
+                self.end = datetime.datetime(self.date.year,self.date.month,(self.date.day),self.he_2_end_time.hour,self.he_2_end_time.minute,self.he_2_end_time.second)
+                self.end = self.end + datetime.timedelta(days=1)
+            else:
+                self.end = datetime.datetime(self.date.year,self.date.month,self.date.day,self.he_2_end_time.hour,self.he_2_end_time.minute,self.he_2_end_time.second)
             self.duration = self.end - self.start
             return (round(self.duration.seconds / 3600,2))
         except:

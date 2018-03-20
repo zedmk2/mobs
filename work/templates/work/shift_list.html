@@ -1,39 +1,42 @@
 {% extends "work/work_base.html" %}
 
+{% load widget_tweaks %}
+{% load staticfiles %}
+
 {% block prework %}
-
-    <div class="content">
-
-      {% if user.is_authenticated %} <em><h4>Welcome Back! @{{user.username}}</h4></em>
-            <h2>Shifts List <a href="{%url 'shifts:create'%}" class='btn btn-sm btn-fill btn-primary'> <span class='glyphicon glyphicon-plus-sign'> New Shift</span> </a> </h2>
-      {% endif %}
-
-    </div>
-
-    {% if user.is_authenticated %}
-
-    {% endif %}
 
 {% endblock %}
 
 {% block work_content %}
+<div class="container">
 
-<div id={{class}}>
 
-<h3>Date selector:</h3>
-<div class="">
-<form class="" action="" method="post">
-  	{% csrf_token %}
-  {{date_form.begin}}
-  {{date_form.end}}
+<div class="row">
 
-  <input type="submit" name="Search" value="Search">
-</form>
+</div>
+<h3>Viewing shifts</h3>
+
+<div class='row'>
+  <div class="col-2">
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#dateRange" aria-expanded="false" aria-controls="collapseExample">
+      Change dates?
+    </button>
+  </div>
+
+<div class="col collapse" id="dateRange">
+
+    <form class="" action="" method="post">
+      	{% csrf_token %}
+        <div class='col'>{{date_form.begin|add_class:"form-control"}}</div>
+        <div class='col'>{{date_form.end|add_class:"form-control"}}</div>
+        <div class='col'><input class='btn btn-primary' type="submit" name="" value="Go"></div>
+    </form>
+</div>
 </div>
 
 {% regroup object_list by date as date_list %}
+<div class="row">
 
-    <h3>View shifts:</h3>
     <div class="list-shift-item-text">
     {% for date, shift_list in date_list  %}
         <a href={% url 'shifts:date_summary' date_summary=date %}><p class="shiftListDate"> {{date|date:"l, F j"}}<p></a>
@@ -42,7 +45,7 @@
         {% for shift in shift_list %}
       <li>
         <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
-          <span class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} ({{shift.jobs_in_shift.count}} jobs)</span>
+          <span class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%}({{shift.jobs_in_shift.count}} jobs)</span>
         </a>
       </li>
         {% endfor %}
@@ -51,5 +54,7 @@
 
     {% endfor %}
     </div>
+    </div>
+</div>
 </div>
 {% endblock %}

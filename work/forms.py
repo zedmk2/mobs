@@ -24,8 +24,8 @@ class ScheduleForm(forms.ModelForm):
         fields = ['driver','helper','date','truck']
 
 class DateForm(forms.Form):
-    begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','placeholder':'mm/dd/yyyy'}))
-    end = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','placeholder':'mm/dd/yyyy'}))
+    begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
+    end = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
 
 class CreateShiftForm(forms.ModelForm):
 
@@ -34,8 +34,11 @@ class CreateShiftForm(forms.ModelForm):
     dr_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     he_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     he_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    he_2_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    he_2_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     driver = forms.ModelChoiceField(queryset = models.Employee.objects.filter(driver=True))
     helper = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True))
+    helper_2 = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True))
     #Update to ModelChoice/Queryset when equipment model added
     trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504')]
     truck = forms.ChoiceField(choices = trucks)

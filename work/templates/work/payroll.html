@@ -35,13 +35,13 @@
                 <th>Date</th><th>Driver</th><th>Driver hours</th><th>Helper</th><th>Helper hours</th>
               </thead>
               {% for l in shift_list%}
-              <tr><td>{{l.date}}</td> <td>{{l.driver}}</td>  <td>{{l.length}} </td> <td>{{l.helper}}</td> <td>{{l.he_length}}</td></tr>
+              <tr><td>{{l.date}}</td> <td>{{l.driver}}</td>  <td>{{l.length}} </td> <td>{{l.helper}} / {{l.helper_2}}</td> <td>{{l.he_length}} / {{l.he_2_length}}</td></tr>
               {%endfor %}
           </table>
 
           <table class='table table-sm'>
              {% for p in shift %}
-                        <tr><td id='jobListFirstRow' ><h4>{{p.date|date:"D M j Y"}} - {{p.driver}} / {{p.helper}} - D: {{p.shift_length}} H: {{p.help_length}} hours</h4></td></tr>
+                        <tr><td id='jobListFirstRow' ><h4>{{p.date|date:"D M j Y"}} - {{p.driver}} / {{p.helper}} / {{p.helper_2}} - D: {{p.shift_length}} H: {{p.help_length}} hours</h4></td></tr>
 
                             <tr><td><ol>{% for s in p.jobs_in_shift.all %}
                               <li><a href="{% url 'shifts:update' pk=s.job_shift.pk %}">{{s.job_location}} - {{s.job_shift.driver}} / {{s.job_shift.helper}} - {{s.job_length}} hours</a></li>
