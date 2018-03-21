@@ -28,7 +28,7 @@
 
           <p class='title date-summary-heading'>
             <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
-            {{shift.driver|safe}} + {{shift.helper|safe}} | {{shift.dr_start_time}} - {{shift.dr_end_time}} | ({{shift.shift_length|floatformat:'-2'}} hrs, {{shift.jobs_in_shift.count}} jobs)
+            {{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%} | {{shift.dr_start_time}} - {{shift.dr_end_time}} | ({{shift.shift_length|floatformat:'-2'}} hrs, {{shift.jobs_in_shift.count}} jobs)
           </a></p>
           <ol>{% for job in shift.jobs_in_shift.all  %}
           <li><p>{{job.job_location}} - {{job.start_time|time:"P"}} to {{job.end_time}} ({{job.job_length|floatformat}} hr)</p></li>

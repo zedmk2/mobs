@@ -45,8 +45,8 @@ class CreateShiftForm(forms.ModelForm):
 
     class Meta:
         model = models.Shift
-        fields = ['driver','helper','truck',
-                    'dr_start_time','dr_end_time','he_start_time','he_end_time','date']
+        fields = ['driver','helper','helper_2','truck',
+                    'dr_start_time','dr_end_time','he_start_time','he_end_time','he_2_start_time','he_2_end_time','date']
 
     def __init__(self, is_update=False, **kwargs):
         self.is_update = is_update

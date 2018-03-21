@@ -84,32 +84,20 @@
     <tbody>
       <tr>
         <td>
-
       </td>
       </tr>
-
       {%for job_f in formset %}{{job_f.id}}
-
     <tr>
-
       <td>Location: {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
       <td>Start time: {{job_f.start_time}}</td>
       <td>End time: {{job_f.end_time}}</td>
     </tr>
-
       {%endfor %}
     </tbody>
-
     </table>
     </div>
-
-
-
   </form>
-
-
 </div>
 
 {{ form.media.js }}
-
 {%endblock%}
