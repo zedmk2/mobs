@@ -298,7 +298,7 @@ def job_costing(request, begin, end):
             i.job_avg = 0
 
     job = job_filter
-    month = datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
+    month = datetime.datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
 
     context = {'prop':prop,'job':job,'month':month,'begin':begin,'end':end}
 
