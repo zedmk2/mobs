@@ -224,7 +224,7 @@ def payroll_list(request):
     return render(request,'work/payroll_list.html',context)
 
 @login_required
-def payroll(request,begin,end):
+def payroll_full(request,begin,end):
     begin = begin
     end = end
     begin_str = str(begin)
@@ -270,7 +270,71 @@ def payroll(request,begin,end):
         i=i+1
 
     context = {'temp':{},'emp_mix':emp_mix,'shift_list':shift_list,'shift':shift,'begin':begin_str,'end':end_str}
+    return render(request,'work/payroll_full.html',context)
+
+@login_required
+def payroll(request,begin,end):
+    begin = begin
+    end = end
+    begin_str = str(begin)
+    end_str = str(end)
+    total_hours = 0
+
+    d1 = datetime.datetime.strptime(begin_str,'%Y-%m-%d').date()
+    d2 = datetime.datetime.strptime(end_str,'%Y-%m-%d').date()
+
+    # this will give you a list containing all of the dates
+    dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
+
+    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2')
+
+    emp_mix =[]
+    i=0
+    for emp in employee:
+        emp_mix.append({'employee':"",'jobs':"",'shifts':"",'total':""})
+        emp2 = emp
+        emp_mix[i]['employee'] = emp.name
+        dr_sh = emp.sh_driver.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
+        he_sh = emp.sh_helper.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
+        he_2_sh = emp.sh_helper_2.filter(date__gte=begin).filter(date__lte=end).annotate(Count('date'))
+        iter1 = dr_sh | he_sh | he_2_sh
+
+        emp_mix[i]['jobs'] = iter1
+        iter2 = list(iter1)
+        iter4 = []
+        if iter2 == []:
+            emp_mix[i]['total']=0
+        else:
+            l=0
+            for k in range(len(iter2)):
+                if emp.name == iter2[k].driver.name:
+                    l += iter2[k].shift_length()
+                elif emp.name == iter2[k].helper.name:
+                    l += iter2[k].help_length()
+                elif emp.name == iter2[k].helper_2.name:
+                    l += iter2[k].help_2_length()
+            emp_mix[i]['total'] = round(l,2)
+
+        for k in range(len(dd)):
+            iter4.append(0)
+            for j in range(len(iter2)):
+                if dd[k] == iter2[j].date:
+                    if emp.name == iter2[j].driver.name:
+                        iter4[k]= iter2[j].shift_length()
+                    elif emp.name == iter2[j].helper.name:
+                        iter4[k]= iter2[j].help_length()
+                    elif emp.name == iter2[j].helper_2.name:
+                        iter4[k]= iter2[j].help_2_length()
+
+        emp_mix[i]['shifts'] = iter4
+        i=i+1
+    for i in range(len(emp_mix)):
+        total_hours += emp_mix[i]['total']
+    total_hours = round(total_hours,2)
+
+    context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str}
     return render(request,'work/payroll.html',context)
+
 
 ################VIEW FOR JOB COSTING
 

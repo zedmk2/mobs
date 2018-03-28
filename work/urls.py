@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('payroll_list/',views.payroll_list,name='payroll_list'),
     path('payroll/<begin>/<end>/',views.payroll,name='payroll'),
+    path('payroll_full/<begin>/<end>/',views.payroll_full,name='payroll_full'),
 
     path('job_costing/<begin>/<end>/',views.job_costing,name='job_costing'),
 
