@@ -54,7 +54,7 @@
           <td> {{j.job_shift.driver}} </td>
           <td> {{j.job_shift.helper}} </td>
           <td>  </td>
-          <td class='jobCostingTable-rightData'> {{j.job_length}} </td>
+          <td class='jobCostingTable-rightData'> {{j.job_length|floatformat:"1"}} </td>
           <td class='jobCostingTable-rightData'> {{j.job_cost|floatformat:"2"}} </td>
           <td class='jobCostingTable-rightData'> {{p.sw_price|floatformat:"2"}} </td>
           <td class='jobCostingTable-rightData'> {{j.e_dph|floatformat:"1"}} </td>
