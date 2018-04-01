@@ -1,32 +1,80 @@
-  {% extends "work/work_base.html" %}
-
-
+{% extends "work/work_base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static '/css/master.css' %}">
-<img src="{% static 'unnamed.png'%}" alt="">
+{% load humanize %}
+{% block work_content %}
+{% regroup prop by client_name as client %}
 
-{% block prework %}
-
-  <div>
-    <div class="card card-with-shadow">
-      <div class="content">
-        <h1 class='title'>{{month}} Job Report</h1>
-        <h4><em>Showing all jobs from {{begin}} to {{end}}</em></h4>
-<table class='table table-condensed'>
-   {% for p in prop %}
-              <tr class='info jLFirstRow' ><td class='jobListFirstRow' ><h4>{{p}} - {{p.client_name}}</h4></td></tr>
-
-                  <tr class='jobListMiddleRow'><td><ol>{% for s in p.jobset %}
-                    <li><a href="{% url 'shifts:update' pk=s.job_shift.pk %}">{{s.job_shift.date|date:"D M d Y"}} - {{s.job_shift.driver}} / {{s.job_shift.helper}} - {{s.job_length}} hours</a></li>
-
-                  {% endfor %}</ol></td></tr>
-
-                  <tr class='jobCostSum' ><td id='jobListLastRow'><h5>Total shifts: {{p.job_num}} || Total length: {{p.job_total}} hrs || Average length: {{p.job_avg|floatformat:"-2"}} hrs</h5></td></tr>
-        {% endfor %}
-</table>
-
-      </div>
+<div class="container jobCosting">
+<div class="row">
+  <div class="col"> <ul class='reportHeader reportHeader-l'>
+    <li>Job cost report</li>
+    <li>Generated: {%now "m/d/y"%}</li>
+  </ul>
     </div>
-  </div>
+  <div class="col"> <ul class='reportHeader reportHeader-r'>
+    <li>Mobile Sweep Services, Inc.</li>
+    <li>All customers excluding e-bill (USM, Wal-mart)</li>
+    <li>All services</li>
+    <li>All employees</li>
+    <li>Serviced between {{begin}} - {{end}}</li>
+    <li>Costs based on <strong>$53</strong> per hour</li>
+  </ul></div>
+</div>
 
+<div class='row'>
+<table class='table table-sm jobCostingTable'>
+
+{%for c in client%}
+<tbody>
+  <tr class='jobCostingTable-custRow'><td colspan=11>{{c.grouper}}</td></tr>
+  {% for p in c.list %}
+    {%if p.jobs%}
+    <tr class='jobCostingTable-propRow'>
+      <td colspan=11>{{p.display_name}} </td>
+    </tr>
+
+    <thead>
+      <tr><th></th>
+      <th>#</th>
+      <th>Date</th>
+      <th>Driver</th>
+      <th>Helper</th>
+      <th class='jobCostingTable-rightData'>Est. time (hr)</th>
+      <th class='jobCostingTable-rightData'>Act. time (hr)</th>
+      <th class='jobCostingTable-rightData'>Act. cost ($)</th>
+      <th class='jobCostingTable-rightData'>Price ($)</th>
+      <th class='jobCostingTable-rightData'>Est. $/h</th>
+      <th class='jobCostingTable-rightData'>Act. $/h</th></tr>
+    </thead>
+
+      {% for j in p.jobs %}
+        <tr> <td></td>
+          <td> {{forloop.counter}}.</td>
+          <td> {{j.job_shift.date|date:"m/d/y"}}</td>
+          <td> {{j.job_shift.driver}} </td>
+          <td> {{j.job_shift.helper}} </td>
+          <td>  </td>
+          <td class='jobCostingTable-rightData'> {{j.job_length}} </td>
+          <td class='jobCostingTable-rightData'> {{j.job_cost|floatformat:"2"}} </td>
+          <td class='jobCostingTable-rightData'> {{p.sw_price|floatformat:"2"}} </td>
+          <td class='jobCostingTable-rightData'> {{j.e_dph|floatformat:"1"}} </td>
+          <td class='jobCostingTable-rightData'> {{j.a_dph|floatformat:"1"}} </td>
+        </tr>
+      {%endfor%}
+      <tr class='jobCostingTable-totalRow'> <td></td>
+        <td class='jobCostingTable-totalLabel' colspan=4> Total for {{p.name}}</td>
+        <td class='jobCostingTable-rightData'> {{p.job_est_total|floatformat:"-2"}}  </td>
+        <td class='jobCostingTable-rightData'> {{p.job_total|floatformat:"2"}} hrs </td>
+        <td class='jobCostingTable-rightData'> ${{p.cost_total|floatformat:"2"|intcomma}} </td>
+        <td class='jobCostingTable-rightData'> {% if p.sw_mo_price%}${{p.sw_mo_price|floatformat:"2"|intcomma}} <div class='jobCostingTable-info'>Contract</div>  {%elif p.sw_total_price %}${{p.sw_total_price|floatformat:"2"|intcomma}} <div class='jobCostingTable-info'>Calculated</div> {%endif%}</td>
+        <td>  </td>
+        <td class='jobCostingTable-rightData'>${{p.a_dph_avg|floatformat:"1"}} <div class='jobCostingTable-info'>Average</div></td>
+        </tr>
+    {%endif%}
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+</table>
+</div>
+</div>
 {% endblock %}

@@ -3,6 +3,7 @@ from django.utils.text import slugify
 from django.urls import reverse
 from django.conf import settings
 from django.utils.timezone import now
+from django.utils.functional import cached_property
 
 import datetime
 # Create your models here.
@@ -89,6 +90,8 @@ class Property(models.Model):
     times_per_week = models.IntegerField(blank=True,null=True)
     times_per_month = models.IntegerField(blank=True,null=True)
     times_per_year = models.IntegerField(blank=True,null=True)
+
+    job_costing_report_include = models.BooleanField(default=True)
 
     check_priority = models.IntegerField()
     check_interval = models.IntegerField()

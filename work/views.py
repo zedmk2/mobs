@@ -340,31 +340,49 @@ def payroll(request,begin,end):
 
 @login_required
 def job_costing(request, begin, end):
-    prop = Property.objects.filter(location__job_shift__date__gte=begin).filter(location__job_shift__date__lte=end).annotate(Count('location')).prefetch_related('client_name').prefetch_related(Prefetch('location',queryset=Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).order_by('-job_shift'),to_attr='job_filt')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('location__job_shift__helper')
-    # prop_total=prop
-
-    for i in prop:
-        # prop_total.append(i)
-        k = []
-        job_filter = i.job_filt
-        c = 0
-        for j in job_filter:
-            k.append(j.job_length)
-            c = c + 1
-        l = (round(sum(k),2))
-                # prop_total.append(l)
-        i.job_total = l
-        i.jobset = job_filter
-        i.job_num = c
+    shift_set = Shift.objects.filter(date__gte=begin).filter(date__lte=end).select_related('driver').select_related('helper').select_related('helper_2')
+    job_set = Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).prefetch_related(Prefetch('job_shift',queryset=shift_set))
+    property_set = Property.objects.filter(job_costing_report_include=True).order_by('client_name', 'display_name').prefetch_related(Prefetch('location',queryset=job_set,to_attr='jobs')).prefetch_related(Prefetch('location__job_location__client_name'))
+    # will want to replace **TK** price with calculation for hourly cost
+    price = 53
+    for p in property_set:
+        p.job_num = 0
+        p.job_total = 0
+        p.job_avg = 0
+        p.cost_total = 0
+        p.sw_total_price = 0
+        p.a_dph_sum = 0
+        for j in p.jobs:
+            p.job_num += 1
+            p.job_total += j.job_length
+            j.job_cost = j.job_length * price
+            p.cost_total += j.job_cost
         try:
-            i.job_avg = l/c
+            p.job_avg = p.job_total / p.job_num
         except:
-            i.job_avg = 0
+            p.job_avg = 0
+        if not p.sw_price and p.sw_mo_price:
+            try:
+                p.sw_price = p.sw_mo_price / p.job_num
+            except ZeroDivisionError:
+                p.sw_price = 0
+        if p.sw_price:
+                p.sw_total_price = p.sw_price * p.job_num
+        for j in p.jobs:
+            j.e_dph = ""
+            try:
+                j.a_dph = p.sw_price/j.job_length
+                p.a_dph_sum += j.a_dph
+            except:
+                j.a_dph = 0
+        try:
+            p.a_dph_avg = p.a_dph_sum / p.job_num
+        except:
+            p.a_dph_avg = 0
 
-    job = job_filter
     month = datetime.datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
 
-    context = {'prop':prop,'job':job,'month':month,'begin':begin,'end':end}
+    context = {'prop':property_set,'job':job_set,'month':month,'begin':begin,'end':end}
 
     return render(request,'work/job_costing.html',context)
 

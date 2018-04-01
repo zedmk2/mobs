@@ -9,7 +9,7 @@ class JobAdmin(admin.ModelAdmin):
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['name','display_name','property_contact','bulk_contact','billing_contact','address','check_priority','sw_price','sw_mo_price','times_per_week','times_per_month','times_per_week','times_per_year']
-    list_editable = ['check_priority','sw_price','sw_mo_price','times_per_week','times_per_month','times_per_week','times_per_year',]
+    list_editable = ['check_priority','sw_price','sw_mo_price','times_per_month','times_per_week','times_per_year',]
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
