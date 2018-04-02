@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^accounts/',include('accounts.urls',namespace='accounts')),
     url(r'^work/',include('work.urls',namespace='work')),
     url(r'^thanks/$',views.ThanksPage.as_view(),name='thanks'),
+    
 ]
 
 if settings.DEBUG:
