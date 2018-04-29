@@ -1,24 +1,142 @@
 {% extends "work/work_base.html" %}
+{% load staticfiles %}
 
 {% block prework %}
-
-<h1>{{shift}}</h1>
-<h2>Shift Driver: {{shift.driver}}</h2>
-<h2>Shift Helper: {{shift.helper}}</h2>
-
-<h3>Shift Time: {{shift.dr_start_time}}</h3>
-<h3>Shift Time: {{shift}}</h3>
 
 {% endblock %}
 
 {% block work_content %}
-<div class="col-md-8">
-  {% for job in shift.jobs_in_shift.all  %}
-    {# {% include "work/_job.html" %} #}
-{{job}}
+<div class="row">
+  <div class="col-md-3">
+      <img src="{% static 'unnamed.png' %}" alt="">
+  </div>
 
-  {% endfor %}
+  <div class="col-md-9">
 
+    <div class="row">
+      <div class="col">
+        {{shift.date|date:"l"}}: {{shift.date|date:'m-d-y'}}
+      </div>
+      <div class="col">
+        {{shift.driver}}
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        Driver: ___________
+      </div>
+      <div class="col-2">
+        Time In: ___________
+      </div>
+      <div class="col-2">
+        Time Out: ___________
+      </div>
+      <div class="col-2">
+        Viento (windy): ___________
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-6">
+        Helper: ___________
+      </div>
+      <div class="col-2">
+        Time In: ___________
+      </div>
+      <div class="col-2">
+        Time Out: ___________
+      </div>
+      <div class="col-2">
+        Lloviendo (rain): ___________
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        Lunch (El Almuerzo):
+      </div>
+      <div class="col-2">
+        Time In: ___________
+      </div>
+      <div class="col-2">
+        Time Out: ___________
+      </div>
+      <div class="col-2">
+        Nieve (snow): ___________
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+        Truck#:___________
+      </div>
+      <div class="col-3">
+        Millaje al comenza: ___________
+      </div>
+      <div class="col-3">
+        Milaje al terminar: ___________
+      </div>
+    </div>
+  </div>
 </div>
+  <div class='row'>
+  <table class="table table-sm table-bordered">
+    <tr>
+      <td>Property:</td>
+      <td>IVR #</td>
+      <td>Minutes</td>
+      <td colspan=2>Time:</td>
+      <td colspan=2>Sweep:</td>
+      <td colspan=3>Blow:</td>
+      <td colspan=3>Pick:</td>
+      <td colspan=2>Trash:</td>
+      <td>Bulk:</td>
+      <td>Dumpster:</td>
+    </tr>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>In</td>
+      <td>Out</td>
+      <td>Front</td>
+      <td>Back</td>
+      <td>Front</td>
+      <td>Back</td>
+      <td>S/W</td>
+      <td>Front</td>
+      <td>Back</td>
+      <td>S/W</td>
+      <td>Empty</td>
+      <td># bags</td>
+      <td>Yes</td>
+      <td>100%</td>
+    </tr>
+    {{shift.jobs_in_shift.all}}
+    {% for job in shift.jobs_in_shift.all  %}
+      <tr>
+          <td>{{job.job_location}}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+    {% endfor %}
+  </table>
+  </div>
+  </div>
+</div>
+
+
 
 {% endblock %}

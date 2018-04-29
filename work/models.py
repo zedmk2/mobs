@@ -130,8 +130,8 @@ class Inspection(models.Model):
 
 class Shift(models.Model):
     # user = models.ForeignKey(User,related_name='user_shifts')
-    created_at = models.DateTimeField(auto_now=True)
-    last_edited = models.DateTimeField(blank=True,null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_edited = models.DateTimeField(auto_now=True)
     driver = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_driver')
     helper = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper',blank=True,null=True,)
     helper_2 = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper_2',blank=True,null=True,)
@@ -202,6 +202,10 @@ class Shift(models.Model):
         unique_together = (("driver","date"),
                             )
         ordering = ['-date','driver']
+
+class Work_Date:
+    def __init__(self,date):
+        self.date = date
 
 class Job(models.Model):
     job_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='location', null=True)

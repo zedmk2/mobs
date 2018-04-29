@@ -28,6 +28,9 @@ from django.forms import formsets, inlineformset_factory
 from . import models
 from . import forms
 
+from rest_framework import viewsets, mixins, generics
+from work.serializers import PropertySerializer, JobSerializer, ShiftSerializer
+
 def test(request):
     context = {}
     return render(request,'work/test.html', context)
@@ -82,6 +85,9 @@ class DateSummary(generic.ListView):
     def get_queryset(self, **kwargs):
         sel_date = self.kwargs['date_summary']
         return Shift.objects.filter(date=sel_date).prefetch_related('jobs_in_shift').prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift__job_location')
+
+class ViewShift(LoginRequiredMixin,generic.DetailView):
+    model = Shift
 
 class UpdateShift(LoginRequiredMixin,generic.UpdateView):
     model = Shift
@@ -386,6 +392,27 @@ def job_costing(request, begin, end):
 
     return render(request,'work/job_costing.html',context)
 
+#I dont know why the Prefetch thing works
+class QB_PropertyView(generics.ListCreateAPIView):
+    def get_queryset(self,**kwargs):
+        begin = self.kwargs['begin']
+        end = self.kwargs['end']
+        shift_set = Shift.objects.filter(date__gte=begin).filter(date__lte=end).select_related('driver').select_related('helper').select_related('helper_2')
+        job_set = Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).prefetch_related(Prefetch('job_shift',queryset=shift_set))
+        queryset = Property.objects.filter(job_costing_report_include=True).order_by('client_name', 'display_name').prefetch_related(Prefetch('location',queryset=job_set,)).prefetch_related(Prefetch('location__job_location__client_name'))
+        return queryset
+
+    serializer_class = PropertySerializer
+
+class QB_ShiftView(generics.ListCreateAPIView):
+    def get_queryset(self,**kwargs):
+        begin = self.kwargs['begin']
+        end = self.kwargs['end']
+        queryset = Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).prefetch_related('job_shift','job_location')
+        return queryset
+
+    serializer_class = JobSerializer
+
 ################ SCHEDULE VIEWS ##############
 
 class WeekSchedule(generic.ListView):
@@ -440,6 +467,35 @@ class WeekSchedule(generic.ListView):
         return self.render_to_response(full_context)
 
     template_name = "work/schedule.html"
+
+class PropertySchedule(generic.ListView):
+    def get_queryset(self):
+        # self.driver = get_object_or_404(Employee, name=self.kwargs['driver'])
+        # qs = Shift.objects.order_by("date").filter(date__gte=self.kwargs['begin'])
+        qs = Property.objects.filter(pk__lte=20)
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+
+
+        shifts = Shift.objects.order_by("date").filter(date__gte='2018-01-02').filter(date__lte='2018-01-03')
+        record = {}
+        for s in shifts:
+            s1 = 0
+            for j in s.jobs_in_shift.all():
+                if j.job_location.name in record:
+                    record[j.job_location.name] += 1
+                else:
+                    record[j.job_location.name] = 1
+
+
+        extra_context = {'shifts':shifts,'record':record,'s1':s1}
+        full_context = {**context, **extra_context}
+        return self.render_to_response(full_context)
+
+    template_name = "work/property_schedule.html"
 
 ################################################
 ###PROPERTY CHECKS
