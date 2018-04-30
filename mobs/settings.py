@@ -26,7 +26,7 @@ TEMPLATE_DIR = os.path.join(BASE_DIR,'templates')
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG")
+DEBUG = os.environ.get("DEBUG") == 'True'
 
 ALLOWED_HOSTS = ['mobilesweep.pythonanywhere.com',
 '127.0.0.1',
@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     'django.contrib.staticfiles',
     'debug_toolbar',
-    'rest_framework',        
+    'rest_framework',
 
     'widget_tweaks',
     'accounts',
