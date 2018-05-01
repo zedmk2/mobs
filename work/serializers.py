@@ -20,6 +20,6 @@ class PropertySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Property
-        fields = ('name','location','inv_type','client_name','sw_price','sw_mo_price',
-                '',
-                )
+        fields = ('id','name','location','inv_type','client_name','sw_price','sw_mo_price',
+                'addr1','addr2','addr3','addr4','addr5','terms',
+                'saddr1','saddr2','saddr3','saddr4','saddr5','memo','tosend')

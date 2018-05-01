@@ -62,6 +62,7 @@ class Client(models.Model):
 class Property(models.Model):
     name = models.CharField(max_length=200, unique=True)
     display_name = models.CharField(max_length=200)
+    invoice_name = models.CharField(max_length=200,blank=True,null=True)
 
     property_contact = models.CharField(max_length=50, blank=True,null=True)
     bulk_contact = models.CharField(max_length=50, blank=True,null=True)
@@ -93,6 +94,7 @@ class Property(models.Model):
     saddr5 = models.CharField(max_length=200,blank=True,null=True)
     tosend = models.CharField(max_length=2,default='N')
     memo = models.CharField(max_length=200,blank=True,null=True)
+    adlspl = models.CharField(max_length=500,blank=True,null=True)
 
     start_date = models.DateField(blank=True,null=True)
     end_date = models.DateField(blank=True,null=True)
