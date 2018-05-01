@@ -114,8 +114,8 @@ class Property(models.Model):
 
     job_costing_report_include = models.BooleanField(default=True)
 
-    check_priority = models.IntegerField()
-    check_interval = models.IntegerField()
+    check_priority = models.IntegerField(default=3)
+    check_interval = models.IntegerField(default=30)
 
     class Meta:
         verbose_name_plural = "properties"
@@ -125,8 +125,8 @@ class Property(models.Model):
         return self.display_name
 
 class Inspection(models.Model):
-    created = models.DateTimeField(editable=False)
-    updated = models.DateTimeField(editable=False)
+    created = models.DateTimeField(blank=True, null=True,editable=False)
+    updated = models.DateTimeField(blank=True, null=True,editable=False)
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='created_by')
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.PROTECT,null=True,blank=True,related_name='updated_by')
     prop = models.ForeignKey(Property, on_delete=models.PROTECT,null=True, related_name='inspection')
