@@ -399,7 +399,8 @@ class QB_PropertyView(generics.ListCreateAPIView):
         end = self.kwargs['end']
         shift_set = Shift.objects.filter(date__gte=begin).filter(date__lte=end).select_related('driver').select_related('helper').select_related('helper_2')
         job_set = Job.objects.filter(job_shift__date__gte=begin).filter(job_shift__date__lte=end).prefetch_related(Prefetch('job_shift',queryset=shift_set))
-        queryset = Property.objects.filter(pk=3).filter(job_costing_report_include=True).order_by('client_name', 'display_name').prefetch_related(Prefetch('location',queryset=job_set,)).prefetch_related(Prefetch('location__job_location__client_name'))
+        queryset = Property.objects.filter(job_costing_report_include=True).order_by('client_name', 'display_name').prefetch_related(Prefetch('location',queryset=job_set,)).prefetch_related(Prefetch('location__job_location__client_name'))
+
         return queryset
 
     serializer_class = PropertySerializer

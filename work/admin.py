@@ -8,13 +8,14 @@ class JobAdmin(admin.ModelAdmin):
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['id','name','display_name','address','check_priority','sw_price','sw_mo_price','times_per_week','times_per_month','times_per_year']
-    list_editable = ['name','display_name','check_priority','sw_price','sw_mo_price','times_per_month','times_per_week','times_per_year',]
+    list_display = ['id','name','inv_type','invoice_name','inv_date','update_memo','memo','display_name','address','check_priority','sw_price','sw_mo_price','times_per_week','times_per_month','times_per_year']
+    list_editable = ['name','inv_type','invoice_name','inv_date','update_memo','memo','display_name','check_priority','sw_price','sw_mo_price','times_per_month','times_per_week','times_per_year',]
     list_filter = ['job_costing_report_include',]
 
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    list_display = ['name','start_date','end_date']
+    list_display = ['id','name','billing_name']
+    list_editable = ['name','billing_name',]
 
 class JobInlineAdmin(admin.TabularInline):
     model = models.Job

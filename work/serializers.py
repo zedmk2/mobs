@@ -22,4 +22,4 @@ class PropertySerializer(serializers.HyperlinkedModelSerializer):
         model = Property
         fields = ('id','name','location','inv_type','client_name','sw_price','sw_mo_price',
                 'addr1','addr2','addr3','addr4','addr5','terms',
-                'saddr1','saddr2','saddr3','saddr4','saddr5','memo','tosend')
+                'saddr1','saddr2','saddr3','saddr4','saddr5','qty','memo','tosend','inv_date','update_memo',)

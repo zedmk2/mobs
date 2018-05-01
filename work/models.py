@@ -45,6 +45,7 @@ class Truck(models.Model):
 class Client(models.Model):
 
     name = models.CharField(max_length=200, unique=True)
+    billing_name = models.CharField(max_length=200, blank=True,null=True)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     state  = models.CharField(max_length=200)
@@ -80,7 +81,8 @@ class Property(models.Model):
     bi_state  = models.CharField(max_length=200,blank=True,null=True)
     bi_zipcode = models.IntegerField(blank=True,null=True)
     #Invoice data below (from QB)
-    inv_type = models.CharField(max_length=2,default='SL')
+    inv_type = models.CharField(max_length=2,default='SL',choices=[('SL','Single Line'),('ML',"Multi Line"),('MI','Multi Invoice')])
+    inv_date = models.CharField(max_length=50,default='End of Month',choices=[('End of Month','End of Month'),('Start of Month','Start of Month')])
     addr1 = models.CharField(max_length=200,blank=True,null=True)
     addr2 = models.CharField(max_length=200,blank=True,null=True)
     addr3 = models.CharField(max_length=200,blank=True,null=True)
@@ -93,7 +95,9 @@ class Property(models.Model):
     saddr4 = models.CharField(max_length=200,blank=True,null=True)
     saddr5 = models.CharField(max_length=200,blank=True,null=True)
     tosend = models.CharField(max_length=2,default='N')
+    update_memo = models.CharField(max_length=2,default='N',choices=[('N','No'),('Y','Update memo')])
     memo = models.CharField(max_length=200,blank=True,null=True)
+    qty = models.CharField(max_length=50,default='Count')
     adlspl = models.CharField(max_length=500,blank=True,null=True)
 
     start_date = models.DateField(blank=True,null=True)
