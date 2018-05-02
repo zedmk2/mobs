@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
+    # 'django_mysql',
     'debug_toolbar',
     'rest_framework',
 
