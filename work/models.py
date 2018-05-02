@@ -82,7 +82,7 @@ class Property(models.Model):
     bi_state  = models.CharField(max_length=200,blank=True,null=True)
     bi_zipcode = models.IntegerField(blank=True,null=True)
     #Invoice data below (from QB)
-    inv_type = models.CharField(max_length=2,default='SL',choices=[('SL','Single Line'),('ML',"Multi Line"),('MI','Multi Invoice'),('NI','No Invoice'),('RL','Repeat Line'),('Custom','Custom')])
+    inv_type = models.CharField(max_length=6,default='SL',choices=[('SL','Single Line'),('ML',"Multi Line"),('MI','Multi Invoice'),('NI','No Invoice'),('RL','Repeat Line'),('Custom','Custom')])
     inv_date = models.CharField(max_length=50,default='End of Month',choices=[('End of Month','End of Month'),('Start of Month','Start of Month')])
     addr1 = models.CharField(max_length=200,blank=True,null=True)
     addr2 = models.CharField(max_length=200,blank=True,null=True)
