@@ -1,0 +1,318 @@
+!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS	SHIPDATE	SADDR1	SADDR2	SADDR3	SADDR4	TOSEND
+!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	PAYMETH	TAXABLE	VALADJ	REIMBEXP	SERVICEDATE	OTHER2	WAGEBASE					
+!ENDTRNS																								
+TRNS		INVOICE	4/30/2018	Accounts Receivable	1821 Portal Street	97.85	1		N	Y	N	1821 PORTAL ST., LLC	408 TROTTER FARM DRIVE	ROCKVILLE, MD  20850			4/30/2018	Due on receipt	4/30/2018	1817-21 Portal Street				N
+SPL		INVOICE	4/30/2018	Sales:Sweeping		-97.85		Parking lot sweeping - 2x per month (4/3, 4/21)	N	-2	97.85	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	4/30/2018	Accounts Receivable	222-224 SCHILLING CIRCLE	78.79	2		N	Y	N	222-224 SCHILLING CIRCLE, LLC	7309 LONGFIELD DRIVE	KINGSVILLE, MARYLAND  21087			4/30/2018	Due on receipt	4/30/2018	222-224 SCHILLING CIRCLE				N
+SPL		INVOICE	4/30/2018	Sales:Sweeping		-78.79		Parking lot sweeping - 1x per month	N	-1	78.79	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	ABRAMS FAMILY DEERECO		3		N	Y	N	Abrams Family Deereco, LLC	C/O:  Abrams Development Group, Inc.	8601 Robert Fulton Drive	Suite 100	Columbia, MD  21046	05/31/2018	Net 30	5/1/2018	9472-9494 Deereco Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-5		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Allen & Rocks, Inc.	46.35	4		N	Y	N	Allen & Rocks, Inc.	1960 Gallows Road, Suite 300	Vienna, VA  22182			5/1/2018	Due on receipt	5/1/2018	Loch Raven Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-46.35		Parking lot sweeping services - 1x per week	N	-5	46.35	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	ATTMAN PROPERTIES	50.0	5		N	Y	N	ATTMAN PROPERTIES MANAGEMENT COMPANY	8028 RITCHIE HIGHWAY	SUITE 118	PASADENA, MD  21122		5/1/2018		5/1/2018	Southgate Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-50.0		Parking lot sweeping - Daily	N	-28	50.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	ATTMAN PROPERTIES	40.0	6		N	Y	N	ATTMAN PROPERTIES MANAGEMENT COMPANY	8028 RITCHIE HIGHWAY	SUITE 118	PASADENA, MD  21122		5/1/2018		5/1/2018	Sun Valley Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-40.0		Parking lot sweeping - Daily	N	-28	40.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	BALTIMORE SETON	103.0	7		N	Y	N	BALTIMORE SETON, LLC	C/O MEISEL CAPITAL MANAGEMENT	4 PARK CENTER COURT	SUITE 202	OWINGS MILLS, MD  21117	5/1/2018	Due on receipt	5/1/2018	4701 MOUNT HOPE				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-103.0		Parking lot sweeping - 1x per month	N	-1	103.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	BAYSIDE SQUARE LTD	36.05	8		N	Y	N	BAYSIDE SQUARE	1566 EFFORD ROAD	PASADENA, MD 21122			5/1/2018	Due on receipt	5/1/2018	8471 Fort Smallwood Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-36.05		Parking lot sweeping services	N	-1	36.05	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	BERKEL AND COMPANY	65.0	9		N	Y	N	BERKEL AND COMPANY	P. O. BOX 335	BONNER SPRINGS, KS  66012			5/1/2018	Due on receipt	5/1/2018	8243 Baltimore Annapolis Blvd				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-65.0		Parking lot sweeping services	N	-1	65.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	BINGO WORLD	36.05	10		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-36.05		Parking Lot Sweeping - 4x per week	N	-17	36.05	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	CBRE - OVERLEA		11		N	Y	N	CBRE INC.	C/O CBRE	Billbox 01-146514-GZV001	PO Box 2021	Warren, MI 48090-2021	05/31/2018	Net 30	5/1/2018	Overlea Shopping Center	6635-6665 Belair Road	Baltimore, MD 21226		N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly contract for parking lot sweeping	N	-13		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	CBRE COLUMBIA	95.0	12		N	Y	N	COLUMBIA INDUSTRIAL PROPERTIES EAST, LLC	ATTN: KATHERINE TAYLOR	100 EAST PRATT ST., SUITE 1700	BALTIMORE, MD  21202		5/1/2018	Due on receipt	5/1/2018	2000 South Club Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-95.0		Parking lot sweeping - 2x per month	N	-2	95.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	CBRE COLUMBIA	120.0	13		N	Y	N	COLUMBIA INDUSTRIAL PROPERTIES EAST, LLC	ATTN: KATHERINE TAYLOR	100 EAST PRATT ST., SUITE 1700	BALTIMORE, MD  21202		5/1/2018	Due on receipt	5/1/2018	6201 Columbia Park Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-120.0		Parking lot sweeping - 2x per month	N	-2	120.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	CBRE COLUMBIA	95.0	14		N	Y	N	COLUMBIA INDUSTRIAL PROPERTIES EAST, LLC	ATTN: KATHERINE TAYLOR	100 EAST PRATT ST., SUITE 1700	BALTIMORE, MD  21202		5/1/2018	Due on receipt	5/1/2018	6340 Columbia Park Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-95.0		Parking lot sweeping - 2x per month	N	-2	95.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	COLONIAL ASSOCIATES, LLP.	75.0	15		N	Y	N	COLONIAL ASSOCIATES, LLC	233 EAST REDWOOD STREET	SUITE 100	BALTIMORE, MD  21202		5/1/2018	Due on receipt	5/1/2018	WAL-MART / AAMC				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-75.0		AAMC / WALMART parking lot sweeping - Daily (4/1-4/30)	N	-29	75.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	CONSOLIDATED WIGHT, LLC	52.53	16		N	Y	N	CONSOLIDATED WIGHT, LLC	C/O WP&M MANAGEMENT	11433 CRONRIDGE DRIVE	OWINGS MILLS, MD  21117-2294		5/1/2018	Due on receipt	5/1/2018	11101 MCCORMICK ROAD				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-52.53		Parking lot sweeping - 1x per month	N	-1	52.53	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	COPT - GREENMEADE	200.85	17		N	Y	N	CORPORATE OFFICE PROPERTIES TRUST	BILLBOX #01-1982-45800	P.O. BOX 7541	HICKSVILLE, NY 11802-7541		5/1/2018		5/1/2018	LTS Facility	8080 GREENMEADE DRIVE			N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-200.85		Parking lot sweeping - 1x per month	N	-1	200.85	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	DC Retail 1, LLC	180.0	18		N	Y	N	DC Retail 1, LLC	c/o Lincoln Property Company	2400 Research Blvd, Suite 100	Rockville, MD 20850		5/1/2018	Due on receipt	5/1/2018	10-28 Upper Rock Circle				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-180.0		Parking lot sweeping	N	-4	180.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	DIVISIONS INC.	150.0	19		N	Y	N	DIVISIONS INC.	INVOICING	300 DAVE DOWENS DRIVE	SUITE 500	NEWPORT, KY  41071	5/1/2018	Due on receipt	5/1/2018	KOHL'S EDGEWOOD EFC				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-150.0		Parking Lot Sweeping - 2x per month	N	-2	150.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		20		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Arundel Corp				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		21		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Bay Ridge Plaza				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-21		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		22		N	Y	N						5/1/2018	Due on receipt	5/1/2018	4700 Belle Grove Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		23		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Chesapeake Square				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-28		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		24		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Chestnut Hill				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-8		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		25		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Chestnut Hill West				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping contract	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		26		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Colonial Village Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-30		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		27		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Crain Commerce Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		28		N	Y	N						5/1/2018	Due on receipt	5/1/2018	10096 Red Run Blvd				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		29		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Festival at Pasadena				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-30		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		30		N	Y	N						5/1/2018		5/1/2018	Lake Shore Crossroadsf				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-16		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		31		N	Y	N						5/1/2018	Due on receipt	5/1/2018	North Langley Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		32		N	Y	N						5/1/2018	Due on receipt	5/1/2018	One Mile West				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-17		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		33		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Penrod Court				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		34		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Pikesville Towne Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-9		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		35		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Singer Square				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-5		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		36		N	Y	N						5/1/2018	Due on receipt	5/1/2018	Southgate Marketplace				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for annual parking lot sweeping contract	N	-28		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	FEDDER MANAGEMENT		37		N	Y	N						5/1/2018	Due on receipt	5/1/2018	York Village				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-9		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	First Potomac		38		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	First Potomac		39		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		40		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		41		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		42		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		43		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		44		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		45		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		46		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		47		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		48		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		49		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		50		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		51		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		52		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Florida Rock Properties		53		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	GREENBERG - Turf Valley		54		N	Y	N	GREENBERG GIBBONS COMMERCIAL	10096 RED RUN BOULEVARD	SUITE 100	OWINGS MILLS, MD  21117		05/31/2018	Net 30	5/1/2018	Turf Valley Towne Center				Y
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - Daily	N	-30		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Greenberg - Waugh		55		N	Y	N	GREENBERG GIBBONS COMMERCIAL	10096 RED RUN BOULEVARD	SUITE 100	OWINGS MILLS, MD  21117		05/31/2018	Net 30	5/1/2018	Village at Waugh Chapel				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Parking lot sweeping and grounds litter maintenance services	N	-30		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Greenberg - Waugh	225.0	56		N	Y	N						5/1/2018		5/1/2018	Waugh Chapel Towne Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-225.0			N	-30	225.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Greenberg Gibbons		57		N	Y	N	GREENBERG GIBBONS COMMERCIAL	10096 RED RUN BOULEVARD	SUITE 100	OWINGS MILLS, MD  21117		05/31/2018	Net 30	5/1/2018	EDGEWATER VILLAGE				Y
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 5x per week	N	-21		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	GREENWAY MEDICAL CENTER	90.12	58		N	Y	N	GREENWAY MEDICAL CENTER	P. O. BOX 3423	CROFTON, MD  21114			5/1/2018	Due on receipt	5/1/2018	7500 Hanover Parkway				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-90.12		Parking lot sweeping - 1x per month	N	-1	90.12	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	JOE KIRKPATRICK		59		N	Y	N	MR. JOE KIRKPATRICK	7164 E. FURNACE BRANCH ROAD	GLEN BURNIE, MD  21060			5/1/2018	Due on receipt	5/1/2018	A A Foreign Car Parts				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Parking lot sweeping - 2x per month	N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	JOE KIRKPATRICK	56.65	60		N	Y	N	MR. JOE KIRKPATRICK	7164 E. FURNACE BRANCH ROAD	GLEN BURNIE, MD  21060			5/1/2018	Due on receipt	5/1/2018	Shipley Linthicum Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-56.65		Parking lot sweeping - 1x per week (Tues)	N	-4	56.65	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	JOE KIRKPATRICK	36.05	61		N	Y	N	MR. JOE KIRKPATRICK	7164 E. FURNACE BRANCH ROAD	GLEN BURNIE, MD  21060			5/1/2018	Due on receipt	5/1/2018	Thelma Avenue Condos				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-36.05		Parking lot sweeping - 2x per month	N	-2	36.05	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	90.0	62		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-90.0			N	-2	90.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC		63		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-1		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	133.85	64		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-133.85			N	-2	133.85	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	46.35	65		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-46.35			N	-4	46.35	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	237.5	66		N	Y	N	BOWIE CORPORATE CENTER	C/O LINCOLN PROPERTY COMPANY	7651 MONTELLIER ROAD	LAUREL, MD  20723		5/1/2018	Due on receipt	5/1/2018	4321 Collington Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-237.5		Parking lot sweeping (hours)	N	-1	237.5	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	235.0	67		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-235.0			N	-2	235.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC	75.0	68		N	Y	N	ATTMAN PROPERTIES MANAGEMENT COMPANY	8028 RITCHIE HIGHWAY	SUITE 118	PASADENA, MD  21122		5/1/2018		5/1/2018	Cloverleaf Warehouse & Business Park				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-75.0		Parking lot sweeping - 1x per month	N	-2	75.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - 9950 Business Pkwy	170.0	69		N	Y	N	PPF/LPC 9950 Business Parkway, LLC	c/o LPC Commercial Services	300 West Pratt Street, Suite 520	Baltimore, MD 21201		5/1/2018		5/1/2018	9950 Business Parkway				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-170.0		Parking lot sweeping - 1x per month	N	-1	170.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - KNICKERBOCKER		70		N	Y	N	KNICKERBOCKER PROPERTIES, INC. XI	C/O LPC COMMERCIAL SERVICES, INC.	300 W. PRATT STREET	SUITE 520	BALTIMORE, MD  21201	5/1/2018		5/1/2018	10650 Riggs Hill Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - KNICKERBOCKER		71		N	Y	N	KNICKERBOCKER PROPERTIES, INC. XI	C/O LPC COMMERCIAL SERVICES, INC.	300 W. PRATT STREET	SUITE 520	BALTIMORE, MD  21201	5/1/2018		5/1/2018	3636 Pennsy Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-5		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - KNICKERBOCKER		72		N	Y	N	KNICKERBOCKER PROPERTIES, INC. XI	C/O LPC COMMERCIAL SERVICES, INC.	300 W. PRATT STREET	SUITE 520	BALTIMORE, MD  21201	5/1/2018		5/1/2018	6740 Business Parkway				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - KNICKERBOCKER		73		N	Y	N	KNICKERBOCKER PROPERTIES, INC. XI	C/O LPC COMMERCIAL SERVICES, INC.	300 W. PRATT STREET	SUITE 520	BALTIMORE, MD  21201	5/1/2018		5/1/2018	9055 Junction Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - KNICKERBOCKER		74		N	Y	N	KNICKERBOCKER PROPERTIES, INC. XI	C/O LPC COMMERCIAL SERVICES, INC.	300 W. PRATT STREET	SUITE 520	BALTIMORE, MD  21201	5/1/2018		5/1/2018	1910 Park 100 Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-2		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - Ridgely	285.0	75		N	Y	N	LINCOLN PROPERTY COMPANY	C/O RIDGELY WHITE MARSH REAL ESTATE	HOLDINGS, LLC	5020 CAMPBELL BOULEVARD, SUITE F	NOTTINGHAM, MD  21236	5/1/2018		5/1/2018	7939 Honeygo Blvd				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-285.0		Parking Lot Sweeping - 1x per month	N	-1	285.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - Ridgely	180.0	76		N	Y	N	LINCOLN PROPERTY COMPANY	C/O RIDGELY WHITE MARSH REAL ESTATE	HOLDINGS, LLC	5020 CAMPBELL BOULEVARD, SUITE F	NOTTINGHAM, MD  21236	5/1/2018		5/1/2018	8615 Ridgely's Choice Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-180.0		Parking lot sweeping - 1x per month	N	-1	180.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - SVF MARSHFIELD	150.8	77		N	Y	N	SVF MARSHFIELD, LLC	C/O LPC COMMERCIAL SERVICES, INC.	5020 Campbell Boulevard, Suite F	Nottingham, MD 21236		5/1/2018		5/1/2018	8410 Kelso Drive				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-150.8		Weekly parking lot sweeping (4/1, 4/5, 4/8, 4/12, 4/15, 4/19, 4/26, 4/29)	N	-8	150.8	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	LPC - White Marsh	190.0	78		N	Y	N	New Lot 104, LLC	c/o Lincoln Property Company	5020 Campbell Blvd, Suite F	Nottingham, MD 21236		5/1/2018		5/1/2018	5020 Campbell Boulevard	5022 Campbell Boulevard	5024 Campbell Boulevard	5026 Campbell Boulevard	N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-190.0		Weekly parking lot sweeping (4/4, 4/8, 4/11, 4/15, 4/18, 4/22, 4/25, 4/29)	N	-8	190.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	MAHLI PROPERTIES	45.0	79		N	Y	N	MALHI PROPERTIES	13516 NARROW LEAF COURT	CLARKSVILLE, MD  21029			5/1/2018	Due on receipt	5/1/2018	6656 Dobbin Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-45.0		Parking lot sweeping - 1x per week (Sunday 4/1, 4/8, 4/15, 4/22, 4/29)	N	-5	45.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	MAHLI PROPERTIES	32.0	80		N	Y	N	MALHI PROPERTIES	13516 NARROW LEAF COURT	CLARKSVILLE, MD  21029			5/1/2018	Due on receipt	5/1/2018	8125 Ritchie Highway				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-32.0		Parking lot sweeping - 2x per week (Sundays & Thursdays 4/1, 4/5, 4/8, 4/12, 4/15, 4/19, 4/22, 4/26, 4/29)	N	-9	32.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	OMNI PROFESSIONAL CENTER	131.35	81		N	Y	N	OMNI PROFESSIONAL CENTER	4000 MITCHELLVILLE ROAD	A106	BOWIE, MD  20716		5/1/2018	Due on receipt	5/1/2018	4000 Mitchellville Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-131.35		Parking lot sweeping - 2x per month (4/14, 4/24)	N	-2	131.35	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	PARAGON	58.25	82		N	Y	N	PARAGON COMMERCIAL PROPERTY MANAGEMENT	C/O VILLAGE GREENS SC, LLC	P. O. BOX 34081	CHARLOTTE, NC  28234		5/1/2018	Due on receipt	5/1/2018	Village Greens of Annapolis				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-58.25		Parking lot sweeping services - 2x per week	N	-8	58.25	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	PASADENA CENTER, LLC	25.75	83		N	Y	N	PASADENA CENTER, LLC	C/O VINCE MARKS	369 EDGEWATER ROAD	PASADENA, MD  21122		5/1/2018	Due on receipt	5/1/2018	PASADENA CENTER, LLC	MOUNTAIN ROAD	PASADENA, MD 21122		N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-25.75		Parking lot sweeping - 1x per week (Thursday)	N	-4	25.75	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE - 2299 Johns Hopkins		84		N	Y	N	Hopkins Road Associates	c/o Reliable Real Estate Services, LLC	2410 Evergreen Road ï¿½ Suite 104	Gambrills, MD 21054		5/1/2018	Due on receipt	5/1/2018	2299 Johns Hopkins Rd /	Molloyï¿½s Irish Pub /	1041 MD Rte 3 N lot		N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping services	N	-9		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE BUCHER - Colonial Square		85		N	Y	N	THE BUCHER & KOCH REALTY CO.	C/O RELIABLE REAL ESTATE SERVICES	2410 EVERGREEN RD., SUITE 104	GAMBRILLS, MD  21054		5/1/2018	Due on receipt	5/1/2018	Colonial Square				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 1x per week	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Reliable Real Estate		86		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-5		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Reliable Real Estate		87		N	Y	N						5/1/2018		5/1/2018					N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0			N	-9		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE ROUTE 100 - Chesapeake		88		N	Y	N	ROUTE 100 RETAIL CENTER, LLC	C/O RELIABLE REAL ESTATE SERVICES	2410 EVERGREEN RD., SUITE 104	GAMBRILLS, MD  21054		5/1/2018	Due on receipt	5/1/2018	Chesapeake Health Park				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 2x per week	N	-8		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE SOUTH RIVER		89		N	Y	N	SOUTH RIVER CROSSINGS, LLC	C/O RELIABLE REAL ESTATE SERVICES	2410 EVERGREEN RD., SUITE 104	GAMBRILLS, MD  21054		5/1/2018	Due on receipt	5/1/2018	South River Crossing				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping services	N	-13		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE TELEGRAPH - Business Park		90		N	Y	N	TELEGRAPH ROAD BUSINESS PARK, LLC	C/O RELIABLE REAL ESTATE SERVICES	2410 EVERGREEN RD., SUITE 104	GAMBRILLS, MD  21054		5/1/2018	Due on receipt	5/1/2018	Telegraph Business Park				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 1x per week	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RELIABLE TELEGRAPH - Commerce Center		91		N	Y	N	RT. 32 BUSINESS PARK, LLC	C/O RELIABLE REAL ESTATE SERVICES	2410 EVERGREEN RD., SUITE 104	GAMBRILLS, MD  21054		5/1/2018	Due on receipt	5/1/2018	Telegraph Commerce Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 1x per week	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RIVERSIDE - UNITED HOLDINGS	5.15	92		N	Y	N						5/1/2018		5/1/2018	Westside Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-5.15		Remove and dispose of trash in bin - 1x per week (Sunday 4/8, 4/15, 4/22, 4/29)	N	-4	5.15	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RIVERSIDE REALTY COMPANY	45.0	93		N	Y	N	RIVERSIDE REALTY COMPANY	2545 WILKENS AVENUE	P. O. BOX 4436	BALTIMORE, MD  21223		5/1/2018	Due on receipt	5/1/2018	2545 WILKENS AVE				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-45.0		Fence cleanup - monthly	N	-1	45.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	RIVERSIDE REALTY COMPANY	124.37	94		N	Y	N	RIVERSIDE REALTY COMPANY	2545 WILKENS AVENUE	P. O. BOX 4436	BALTIMORE, MD  21223		5/1/2018	Due on receipt	5/1/2018	Westside Shopping Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-124.37		Parking lot sweeping	N	-30	124.37	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	SECU		95		N	Y	N	Attn: Mark Smith	SECU	971 Corporate Blvd	Linthicum, MD 21090		5/1/2018	Due on receipt	5/1/2018	971 Corporate Blvd				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping - 1x per week	N	-4		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	SEVERN COMMERCE CENTER	41.2	96		N	Y	N	SEVERN COMMERCE CENTER	ATTN:  WENDY BRADFORD	1244 RITCHIE HIGHWAY	SUITE 14	ARNOLD, MD  21012	5/1/2018	Due on receipt	5/1/2018	Severn Commerce Center				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-41.2		Parking lot sweeping - 1x per week (Thursdays)	N	-4	41.2	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	SEVERNA PARK PLACE, LLC		97		N	Y	N	SEVERNA PARK PLACE, LLC	C/O SITE MANAGEMENT	2141 INDUSTRIAL PARKWAY	SILVER SPRING, MD  20904		5/1/2018	Due on receipt	5/1/2018	SEVERNA PARK PLACE				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping & weekly porter service (April 2018)	N	-17		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	SVAP STERLING		98		N	Y	N	SVAP II PASADENA CROSSROADS, LLC	1814 WINDSOR SQUARE DRIVE	MATTHEWS, NC  28105			05/31/2018	Net 30	5/1/2018	Pasadena Crossroads				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		0		Monthly installment for parking lot sweeping	N	-28		Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	TAUBMAN PROPERTIES	66.95	99		N	Y	N	TAUBMAN PROPERTIES	ATTN:  MORT SCHUCHMAN	838 DULANEY VALLEY ROAD	TOWSON, MARYLAND  21204		5/1/2018	Due on receipt	5/1/2018	DULANEY VALLEY PLAZA				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-66.95		Parking lot sweeping - 1x per week (Sunday 4/1, 4/8, 4/15, 4/22, 4/29)	N	-5	66.95	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	TRANSWESTERN - QUAD AVE	231.75	100		N	Y	N	7001 Quad Avenue LLC	02-11761-1011	P. O. BOX 82500	GOLETA, CA  93118-2500		5/1/2018	Due on receipt	5/1/2018	7001 Quad Avenue				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-231.75		Parking lot sweeping - 2x per month (4/3, 4/17, 4/17)	N	-3	231.75	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	TRANSWESTERN - Yellowbrick	255.0	101		N	Y	N	WEBSTER CHESAPEAKE ASSOCIATES	BB# 02-11761-1008	P. O. BOX 82500	GOLETA, CA  93118-2500		5/1/2018	Due on receipt	5/1/2018	8901 & 8965 Yellow Brick Road				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-255.0		Parking lot sweeping	N	-2	255.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	TRIONFO - 884 CHESTERFIELD	142.5	102		N	Y	N	ATTN: Debbie	Trionfo Builders	3825 Blenheim Road	Phoenix , MD  21131		5/1/2018	Due on receipt	5/1/2018	Bay Area Community Church				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-142.5		Parking lot sweeping - full lot	N	-4	142.5	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	U.S. REALTY & INVESTMENT CO.	61.8	103		N	Y	N	U.S. REALTY MANAGEMENT CO., LLC	3003 ENGLISH CREEK AVENUE	SUITE D13A	EGG HARBOUR TOWNSHIP, NJ  08234		5/1/2018	Due on receipt	5/1/2018	RITCHIE HIGHWAY				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-61.8		Parking lot sweeping - 5x per week	N	-21	61.8	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	U.S. REALTY & INVESTMENT CO.	30.9	104		N	Y	N	U.S. REALTY MANAGEMENT CO., LLC	3003 ENGLISH CREEK AVENUE	SUITE D13A	EGG HARBOUR TOWNSHIP, NJ  08234		5/1/2018	Due on receipt	5/1/2018	RITCHIE HIGHWAY				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-30.9		Parking lot sweeping - 5x per week	N	-8	30.9	Sweeping		N	N	NOTHING								
+ENDTRNS																								
+TRNS		INVOICE	5/1/2018	Accounts Receivable	Wiltondale Improvement Association	25.0	105		N	Y	N	Wiltondale Improvement Association, Inc.	c/o Nathan Raider	10096 Red Run Blvd., Suite 300	Owings Mills, MD  21117		5/1/2018	Due on receipt	5/1/2018	Wiltondale Improvement Association				N
+SPL		INVOICE	5/1/2018	Sales:Sweeping		-25.0		Parking lot sweeping - 1x per week (Thursdays 4/5, 4/12, 4/19, 4/26)	N	-4	25.0	Sweeping		N	N	NOTHING								
+ENDTRNS																								

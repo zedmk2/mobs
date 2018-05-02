@@ -8,7 +8,7 @@ import json
 import ast
 
 null= 0
-jcosting = open('download.json')
+jcosting = open('input_from_web.json')
 jcost = jcosting.read()
 jc = json.loads(jcost)
 temp = []
@@ -68,7 +68,7 @@ endTrans = ['ENDTRNS', '', '', '', '', '', '', '', '', '', '', '',
             '', '', '', '', '', '', '', '', '', '', '', '', '']
 
 
-iif_file = open('test.csv','w',newline='')
+iif_file = open('output_for_qb.csv','w',newline='')
 iif_writer = csv.writer(iif_file,delimiter='\t')
 #Creates 3 header rows for transactions and lines
 for i in range(3):
@@ -85,6 +85,8 @@ for prop in jc:
     qty = ''
     if prop['qty'] == 'Count':
         qty = len(prop['location']) * -1
+    elif prop['qty'] == 'Zero':
+        qty=''
     try:
         neg_amount = prop['sw_price'] * -1
     except:
@@ -117,11 +119,6 @@ for prop in jc:
     iif_writer.writerow(spl)
     iif_writer.writerow(endTrans)
     docnum = docnum +1
-
-for prop in queryset:
-    # print(prop.saddr1)
-    pass
-
 
 #Loop over each property, creating trans and lines for each based on setup
 
