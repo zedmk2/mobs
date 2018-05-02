@@ -26,7 +26,7 @@ uploadData = list(uploadReader)
 ##Time variables
 eom = '4/30/2018'
 som = '5/1/2018'
-net30date = '05/31/2018'
+net30date = '5/31/2018'
 job_date_first = '4/1'
 job_date_last = '4/30'
 full_month_string = 'April 2018'
@@ -57,11 +57,11 @@ price = ''
 service_date = ''
 
 trans = ['TRNS', '', 'INVOICE', date, 'Accounts Receivable',
-        customer, amount, docnum, '', 'N', 'Y', 'N', addr1,
-        addr2, addr3, addr4, addr5, duedate, terms, date,
-        saddr1, saddr2, saddr3, saddr4, tosend]
+        prop['client_name'], amount, docnum, '', 'N', 'Y', 'N', prop['addr1'],
+        prop['addr2'], prop['addr3'], prop['addr4'], prop['addr5'], duedate, prop['terms'], date,
+        prop['saddr1'], prop['saddr2'], prop['saddr3'], prop['saddr4'], prop['tosend']]
 spl = ['SPL', '', 'INVOICE', date, 'Sales:Sweeping',
-        '', spl_amount,'', memo, 'N', qty, price, 'Sweeping',
+        '', neg_amount,'', prop['memo'], 'N', qty, prop['sw_price'], 'Sweeping',
         '', 'N', 'N', 'NOTHING', service_date, '', '',
         '', '', '', '', '']
 endTrans = ['ENDTRNS', '', '', '', '', '', '', '', '', '', '', '',
@@ -77,6 +77,8 @@ for i in range(3):
 docnum = 1
 for prop in jc:
     #Need a trigger for eom or beginning of month
+    date = eom
+    service_date = date
     if prop['inv_date'] == 'Start of Month':
         date = som
     duedate = date
@@ -85,10 +87,21 @@ for prop in jc:
     qty = ''
     if prop['qty'] == 'Count':
         qty = len(prop['location']) * -1
-    elif prop['qty'] == 'Zero':
-        qty=''
+
+    if prop['inv_date'] == 'Start of Month':
+        price = prop['sw_mo_price']
+    elif "Monthly install" in str(prop['memo']):
+        price = prop['sw_mo_price']
+    else:
+        price = prop['sw_price']
+
     try:
-        neg_amount = prop['sw_price'] * -1
+        amount = price * abs(qty)
+    except:
+        amount = price
+
+    try:
+        neg_amount = amount * -1
     except:
         neg_amount = 0
 
@@ -108,10 +121,11 @@ for prop in jc:
         print(prop['memo'])
 
     trans = ['TRNS', '', 'INVOICE', date, 'Accounts Receivable',
-            prop['client_name'], prop['sw_price'], docnum, '', 'N', 'Y', 'N', prop['addr1'],
+            prop['client_name'], amount, docnum, '', 'N', 'Y', 'N', prop['addr1'],
             prop['addr2'], prop['addr3'], prop['addr4'], prop['addr5'], duedate, prop['terms'], date,
             prop['saddr1'], prop['saddr2'], prop['saddr3'], prop['saddr4'], prop['tosend']]
-    spl = ['SPL', '', 'INVOICE', date, 'Sales:Sweeping',
+    if prop['inv_type'] == 'SL':
+        spl = ['SPL', '', 'INVOICE', date, 'Sales:Sweeping',
             '', neg_amount,'', prop['memo'], 'N', qty, prop['sw_price'], 'Sweeping',
             '', 'N', 'N', 'NOTHING', service_date, '', '',
             '', '', '', '', '']
