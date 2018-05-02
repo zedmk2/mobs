@@ -95,6 +95,8 @@ for prop in jc:
     else:
         price = prop['sw_price']
 
+    ml_spl = prop['adlspl']
+
     try:
         amount = price * abs(qty)
     except:
@@ -124,13 +126,17 @@ for prop in jc:
             prop['client_name'], amount, docnum, '', 'N', 'Y', 'N', prop['addr1'],
             prop['addr2'], prop['addr3'], prop['addr4'], prop['addr5'], duedate, prop['terms'], date,
             prop['saddr1'], prop['saddr2'], prop['saddr3'], prop['saddr4'], prop['tosend']]
+    iif_writer.writerow(trans)
     if prop['inv_type'] == 'SL':
         spl = ['SPL', '', 'INVOICE', date, 'Sales:Sweeping',
             '', neg_amount,'', prop['memo'], 'N', qty, prop['sw_price'], 'Sweeping',
             '', 'N', 'N', 'NOTHING', service_date, '', '',
             '', '', '', '', '']
-    iif_writer.writerow(trans)
-    iif_writer.writerow(spl)
+        iif_writer.writerow(spl)
+    if prop['inv_type'] == 'ML':
+        for quick_spl in ml_spl:
+            tempvar = quick_spl
+            print(tempvar)
     iif_writer.writerow(endTrans)
     docnum = docnum +1
 
