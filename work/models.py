@@ -96,7 +96,7 @@ class Property(models.Model):
     saddr4 = models.CharField(max_length=200,blank=True,null=True)
     saddr5 = models.CharField(max_length=200,blank=True,null=True)
     tosend = models.CharField(max_length=2,default='N')
-    update_memo = models.CharField(max_length=2,default='N',choices=[('N','No'),('Y','Update memo')])
+    update_memo = models.CharField(max_length=6,default='N',choices=[('N','No'),('Y','Update memo')])
     memo = models.CharField(max_length=200,blank=True,null=True)
     qty = models.CharField(max_length=50,default='Count')
     rl_qty = models.CharField(max_length=50,default='Count')
