@@ -235,8 +235,8 @@ class Work_Date:
 class Job(models.Model):
     job_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='location', null=True)
     job_shift = models.ForeignKey(Shift,on_delete=models.PROTECT,related_name='jobs_in_shift', null=True)
-    start_time = models.TimeField(blank=True,null=True)
-    end_time = models.TimeField(blank=True,null=True)
+    start_time = models.TimeField()
+    end_time = models.TimeField()
     sweep = models.NullBooleanField(blank=True,null=True)
     blow = models.NullBooleanField(blank=True,null=True)
     pick = models.NullBooleanField(blank=True,null=True)

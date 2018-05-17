@@ -31,7 +31,7 @@ urlpatterns = [
     path('payroll/<begin>/<end>/',views.payroll,name='payroll'),
     path('payroll_full/<begin>/<end>/',views.payroll_full,name='payroll_full'),
 
-    path('job_costing/<begin>/<end>/',views.job_costing,name='job_costing'),
+    path('job_costing/<full>/<begin>/<end>/',views.job_costing,name='job_costing'),
 
     path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
     path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),
@@ -40,7 +40,7 @@ urlpatterns = [
     path('inspection/<pk>/',views.UpdateInspection.as_view(),name='inspection_update'),
     path('new_inspection/',views.CreateInspection.as_view(),name='new_inspection'),
     path('new_inspection/<pk>/',views.CreateInspection.as_view(),name='new_inspection_pk'),
-    
+
     path('qb/properties/<begin>/<end>/',views.QB_PropertyView.as_view(),name='property-list'),
     path('qb/shifts/<begin>/<end>/',views.QB_ShiftView.as_view(),name='property-list'),
     url(r'^api/', include(router.urls)),
