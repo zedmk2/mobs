@@ -5,6 +5,7 @@ from . import models
 
 class JobAdmin(admin.ModelAdmin):
     search_fields = ['job_location']
+    list_display = ['job_location','start_time','end_time','date']
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']

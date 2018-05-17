@@ -15,8 +15,6 @@ dupload = open('output_for_qb.csv',encoding = "ISO-8859-1")
 duploadReader = csv.reader(dupload,delimiter='\t')
 dd = list(duploadReader)
 
-print(ud[3])
-print(dd[3])
 i=0
 j=0
 
@@ -30,17 +28,7 @@ for orig in ud:
             for a in orig:
                 i +=1
             if not new==orig:
-
                 print(orig)
                 print(new)
+                print(orig==new)
                 print('nope')
-
-
-for pre in ud:
-    if pre[0] == 'TRNsS':
-        for post in dd:
-            pre[7]=post[7]
-            print(pre[4])
-            if pre == post[0]:
-                print(pre)
-                print(post)

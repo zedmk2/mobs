@@ -471,18 +471,16 @@ class WeekSchedule(generic.ListView):
 
 class PropertySchedule(generic.ListView):
     def get_queryset(self):
-        # self.driver = get_object_or_404(Employee, name=self.kwargs['driver'])
-        # qs = Shift.objects.order_by("date").filter(date__gte=self.kwargs['begin'])
-        qs = Property.objects.filter(pk__lte=20)
+        qs = Property.objects.all()
         return qs
 
     def get(self, request, *args, **kwargs):
         self.object_list = self.get_queryset()
         context = self.get_context_data()
 
-
-        shifts = Shift.objects.order_by("date").filter(date__gte='2018-01-02').filter(date__lte='2018-01-03')
+        shifts = Shift.objects.order_by("date").filter(date__gte='2018-03-04').filter(date__lte='2018-03-10').prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
         record = {}
+
         for s in shifts:
             s1 = 0
             for j in s.jobs_in_shift.all():
@@ -491,8 +489,11 @@ class PropertySchedule(generic.ListView):
                 else:
                     record[j.job_location.name] = 1
 
+        prop_list = Property.objects.all()
+        for p in prop_list:
+                p.completed = record.get(p.name)
 
-        extra_context = {'shifts':shifts,'record':record,'s1':s1}
+        extra_context = {'shifts':shifts,'record':record,'prop_list':prop_list}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 

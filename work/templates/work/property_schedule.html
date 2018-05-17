@@ -10,6 +10,15 @@
 
 <br>
 
+<div class="container">
+prop - TPW - TPM - TPY
+  {% for property in prop_list %}
+
+    <div class="row">{{property}} - {{property.completed}} - {{property.times_per_week}} - {{property.times_per_month}} - {{property.times_per_year}}</div>
+
+  {%endfor%}
+
+</div>
 {% for s in shifts %}
 <strong>{{s}} </strong> - <br>
 {% for j in s.jobs_in_shift.all %}
@@ -17,16 +26,5 @@
 
 {%endfor%}
 {%endfor%}
-
-<div class="container">
-prop - TPW - TPM - TPY
-  {% for property in object_list %}
-
-    <div class="row">{{property}} - {{property.times_per_week}} - {{property.times_per_month}} - {{property.times_per_year}}</div>
-
-  {%endfor%}
-
-</div>
-
 
 {% endblock %}

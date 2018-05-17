@@ -10,11 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='property',
-            name='rl_qty',
-            field=models.CharField(default='Count', max_length=50),
-        ),
+
         migrations.AlterField(
             model_name='property',
             name='inv_type',
