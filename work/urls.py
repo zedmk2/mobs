@@ -32,6 +32,7 @@ urlpatterns = [
     path('payroll_full/<begin>/<end>/',views.payroll_full,name='payroll_full'),
 
     path('job_costing/<full>/<begin>/<end>/',views.job_costing,name='job_costing'),
+    path('job_list/<full>/<begin>/<end>/',views.job_list,name='job_list'),
 
     path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
     path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),

@@ -1,0 +1,81 @@
+{% extends "work/work_base.html" %}
+{% load staticfiles %}
+{% load humanize %}
+{% block work_content %}
+{% regroup prop by client_name as client %}
+
+<div class="container jobCosting">
+<div class="row">
+  <div class="col"> <ul class='reportHeader reportHeader-l'>
+    <li>Job cost report</li>
+    <li>Generated: {%now "m/d/y"%}</li>
+  </ul>
+    </div>
+  <div class="col"> <ul class='reportHeader reportHeader-r'>
+    <li>Mobile Sweep Services, Inc.</li>
+    <li>All customers excluding e-bill (USM, Wal-mart)</li>
+    <li>All services</li>
+    <li>All employees</li>
+    <li>Serviced between {{begin}} - {{end}}</li>
+    <li>Costs based on <strong>$53</strong> per hour</li>
+  </ul></div>
+</div>
+
+<div class='row'>
+<table class='table table-sm jobCostingTable'>
+
+{%for c in client%}
+<tbody>
+  <tr class='jobCostingTable-custRow'><td colspan=11>{{c.grouper}}</td></tr>
+  {% for p in c.list %}
+    {%if p.jobs%}
+    <tr class='jobCostingTable-propRow'>
+      <td colspan=11>{{p.name}} </td>
+    </tr>
+
+    <thead>
+      <tr><th></th>
+      <th>#</th>
+      <th>Date</th>
+      <th>Driver</th>
+      <th>Helper</th>
+      <th class='jobCostingTable-rightData'>Est. time (hr)</th>
+      <th class='jobCostingTable-rightData'>Act. time (hr)</th>
+      <th class='jobCostingTable-rightData'>Start time</th>
+      <th class='jobCostingTable-rightData'>End time</th>
+      <th class='jobCostingTable-rightData'></th>
+      <th class='jobCostingTable-rightData'></th></tr>
+    </thead>
+
+      {% for j in p.jobs %}
+        <tr> <td></td>
+          <td> {{forloop.counter}}.</td>
+          <td> {{j.job_shift.date|date:"m/d/y"}}</td>
+          <td> {{j.job_shift.driver}} </td>
+          <td> {{j.job_shift.helper}} </td>
+          <td>  </td>
+          <td class='jobCostingTable-rightData'> {{j.job_length|floatformat:"2"}} </td>
+          <td class='jobCostingTable-rightData'> {{j.start_time}} </td>
+          <td class='jobCostingTable-rightData'> {{j.end_time}} </td>
+          <td class='jobCostingTable-rightData'>  </td>
+          <td class='jobCostingTable-rightData'>  </td>
+        </tr>
+      {%endfor%}
+      <tr class='jobCostingTable-totalRow'> <td></td>
+        <td class='jobCostingTable-totalLabel' colspan=4> Total for {{p.name}}</td>
+        <td class='jobCostingTable-rightData'> {{p.job_est_total|floatformat:"-2"}}  </td>
+        <td class='jobCostingTable-rightData'> {{p.job_total|floatformat:"2"}} hrs </td>
+        <td class='jobCostingTable-rightData'>  </td>
+        <td class='jobCostingTable-rightData'> </td>
+        <td>  </td>
+        <td class='jobCostingTable-rightData'></td>
+        </tr>
+    {%endif%}
+  {%endfor%}
+  {%endfor%}
+  </tbody>
+
+</table>
+</div>
+</div>
+{% endblock %}
