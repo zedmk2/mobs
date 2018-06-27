@@ -40,7 +40,7 @@ class CreateShiftForm(forms.ModelForm):
     helper = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True),required=False)
     helper_2 = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True),required=False)
     #Update to ModelChoice/Queryset when equipment model added
-    trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504')]
+    trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504'),(203,'203'),(101,'101')]
     truck = forms.ChoiceField(choices = trucks)
 
     class Meta:

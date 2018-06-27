@@ -1,0 +1,122 @@
+{% extends "work/work_base.html" %}
+{{formset.media.css}}
+
+{% load staticfiles %}
+
+{% load widget_tweaks %}
+
+{% block prework %}
+<!-- Include formset plugin - including jQuery dependency -->
+{% endblock %}
+
+{%block work_content%}
+
+<div class="container">
+
+  <div id="formset-template" style="display: none;">
+    <table class='table table-sm'>
+      <tbody>
+        <tr>
+           <td>{{ formset.empty_form }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <form method="POST" action="" id="batchJobForm">
+  	{% csrf_token %}
+
+    {% if form.errors %}
+    Please correct the error{{ form.errors|pluralize }} below.
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <table id='addShift' class='table'>
+        <tr>
+            <td>{{shift_form.driver|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.helper|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.truck|add_class:"shiftSelect2"}}</td>
+            <td>{{shift_form.date}}</td>
+          </tr><tr>
+            <td>{{shift_form.dr_start_time|add_class:"driverStart"}}</td>
+            <td>{{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
+            <td>{{shift_form.he_start_time|add_class:"helperStart"}}</td>
+            <td>{{shift_form.he_end_time|add_class:"helperEnd"}}</td>
+            <td>{{shift_form.he_2_start_time|add_class:"helper2Start"}}</td>
+            <td>{{shift_form.he_2_end_time|add_class:"helper2End"}}</td>
+        </tr>
+    </table>
+
+
+        <table id='addShift' class='table'>
+            <tr>
+                <td>{{shift_form.driver|add_class:"shiftSelect2"}}</td>
+                <td>{{shift_form.helper|add_class:"shiftSelect2"}}</td>
+                <td>{{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
+                <td>{{shift_form.truck|add_class:"shiftSelect2"}}</td>
+                <td>{{shift_form.date}}</td>
+              </tr><tr>
+                <td>{{shift_form.dr_start_time|add_class:"driverStart"}}</td>
+                <td>{{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
+                <td>{{shift_form.he_start_time|add_class:"helperStart"}}</td>
+                <td>{{shift_form.he_end_time|add_class:"helperEnd"}}</td>
+                <td>{{shift_form.he_2_start_time|add_class:"helper2Start"}}</td>
+                <td>{{shift_form.he_2_end_time|add_class:"helper2End"}}</td>
+            </tr>
+        </table>
+
+
+      	<input type="submit" value="Update Shift" class="btn btn-primary btn-large">
+
+      {{ formset.management_form }}
+
+            <div id="jobsIn">
+        <table id='addJob' class='table'>
+
+          {% if formset.errors %}
+              {% for field in form %}
+                  {% for error in field.errors %}
+                      <div class="alert alert-danger">
+                          <strong>{{ error|escape }}</strong>
+                      </div>
+                  {% endfor %}
+              {% endfor %}
+              {% for error in form.non_field_errors %}
+                  <div class="alert alert-danger">
+                      <strong>{{ error|escape }}</strong>
+                  </div>
+              {% endfor %}
+          {% endif %}
+
+    <tbody>
+      <tr>
+        <td>
+      </td>
+      </tr>
+      {%for job_f in formset %}{{job_f.id}}
+    <tr>
+      <td>Location: {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
+      <td>Start time: {{job_f.start_time}}</td>
+      <td>End time: {{job_f.end_time}}</td>
+    </tr>
+      {%endfor %}
+    </tbody>
+    </table>
+    </div>
+  </form>
+</div>
+
+{{ form.media.js }}
+{%endblock%}

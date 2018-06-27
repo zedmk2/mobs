@@ -42,29 +42,62 @@
         {% endfor %}
     {% endif %}
 
-    <table id='addShift' class='table'>
+    <table id='addShift' class='tbl-shift-header'>
+
         <tr>
-            <td>{{shift_form.driver|add_class:"shiftSelect2"}}</td>
-            <td>{{shift_form.helper|add_class:"shiftSelect2"}}</td>
-            <td>{{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
-            <td>{{shift_form.truck|add_class:"shiftSelect2"}}</td>
-            <td>{{shift_form.date}}</td>
-          </tr><tr>
-            <td>{{shift_form.dr_start_time|add_class:"driverStart"}}</td>
-            <td>{{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
-            <td>{{shift_form.he_start_time|add_class:"helperStart"}}</td>
-            <td>{{shift_form.he_end_time|add_class:"helperEnd"}}</td>
-            <td>{{shift_form.he_2_start_time|add_class:"helper2Start"}}</td>
-            <td>{{shift_form.he_2_end_time|add_class:"helper2End"}}</td>
+          <td></td>
+          <td>[Day]:{{shift_form.date}}</td>
+          <td></td>
+          <td></td>
+          <td>{{shift_form.driver|add_class:"shiftSelect2"}}</td>
         </tr>
+        <tr>
+          <td></td>
+          <td>Driver: {{shift_form.driver|add_class:"shiftSelect2"}}</td>
+          <td>Time In: {{shift_form.dr_start_time|add_class:"driverStart"}}</td>
+          <td>Time Out: {{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
+          <td>Viento (Windy):</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Helper: {{shift_form.helper|add_class:"shiftSelect2"}}</td>
+          <td>Time In: {{shift_form.he_start_time|add_class:"helperStart"}}</td>
+          <td>Time Out: {{shift_form.he_end_time|add_class:"helperEnd"}}</td>
+          <td>Lloviento (Rain):</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Helper 2: {{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
+          <td>Time In: {{shift_form.he_2_start_time|add_class:"helper2Start"}}</td>
+          <td>Time Out: {{shift_form.he_2_end_time|add_class:"helper2Start"}}</td>
+          <td>Nieve (Snow):</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Lunch:</td>
+          <td>Time In:</td>
+          <td>Time Out:</td>
+          <td>5</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>Truck: {{shift_form.truck|add_class:"shiftSelect2"}}</td>
+          <td>Mileage start:</td>
+          <td>Mileage end:</td>
+          <td></td>
+        </tr>
+
     </table>
+
+
 
       	<input type="submit" value="Update Shift" class="btn btn-primary btn-large">
 
       {{ formset.management_form }}
 
             <div id="jobsIn">
-        <table id='addJob' class='table'>
+
+  <table  class='tbl-routes'>
 
           {% if formset.errors %}
               {% for field in form %}
@@ -82,15 +115,50 @@
           {% endif %}
 
     <tbody>
-      <tr>
-        <td>
-      </td>
+      <tr class='tbl-routes-first-row'>
+        <th width=30%>Property</th>
+        <th width=10% colspan=2>Time</th>
+        <th width=10% colspan=2>Sweep</th>
+        <th width=10% colspan=3>Blow</th>
+        <th width=10% colspan=3>Pick</th>
+        <th width=10% colspan=2>Trash</th>
+        <th width=10%>Bulk</th>
+        <th width=10%>Dumpster</th>
+      </tr>
+      <tr class='tbl-routes-second-row'>
+          <th></th>
+          <th>In</th>
+          <th>Out</th>
+          <th>Front</th>
+          <th>Back</th>
+          <th>Front</th>
+          <th>Back</th>
+          <th>S/W</th>
+          <th>Front</th>
+          <th>Back</th>
+          <th>S/W</th>
+          <th>Empty</th>
+          <th># bags</th>
+          <th>Yes</th>
+          <th>100%</th>
       </tr>
       {%for job_f in formset %}{{job_f.id}}
     <tr>
-      <td>Location: {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
-      <td>Start time: {{job_f.start_time}}</td>
-      <td>End time: {{job_f.end_time}}</td>
+      <td> {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
+      <td>{{job_f.start_time}}</td>
+      <td>{{job_f.end_time}}</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
     </tr>
       {%endfor %}
     </tbody>

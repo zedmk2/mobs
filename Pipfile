@@ -27,4 +27,4 @@ Faker = "==0.8.10"
 Pillow = "==5.0.0"
 
 [requires]
-python_version = "3.5"
+python_version = "3.6"
