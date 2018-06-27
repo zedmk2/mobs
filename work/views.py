@@ -97,12 +97,14 @@ class UpdateShift(LoginRequiredMixin,generic.UpdateView):
 
     def get(self,request,*args,**kwargs):
         self.object = self.get_object()
+        queryset = self.get_object()
         form_class = self.get_form_class()
         form = self.get_form(form_class)
         job_form = forms.JobsInlineFormset(instance=self.object)
         return self.render_to_response(
             self.get_context_data(shift_form=form,
-                                  formset=job_form))
+                                  formset=job_form,
+                                  obj=queryset))
 
     def post(self, request, *args, **kwargs):
         self.object = self.get_object()
