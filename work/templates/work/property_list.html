@@ -3,21 +3,20 @@
 {% block prework %}
 
   <div class="col-md-4">
-    <div class="card card-with-shadow">
-      <div class="content">
-        <h5 class='title'>Your Groups</h5>
+        <h5 class='title'>Current Property List</h5>
+        <table>
+          <thead>
+            <th>Property Name</th> <th>Property ID</th>
+          </thead>
+
         {% for prop in property_list  %}
+        <tr>
+        <td>{{prop}}</td> <td>{{prop.id}}</td>
+        </tr>
 
-        <li> {{prop.location}} </li>
-        
         {%endfor%}
+        </table>
 
-        {% with property_list.location_set.all|first as image %}
-  <img src="{{ image.sweep }}" />
-{% endwith %}
-      </div>
-
-    </div>
   </div>
 
 {% endblock %}

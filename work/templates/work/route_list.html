@@ -1,0 +1,57 @@
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block prework %}
+
+{% endblock %}
+
+{% block work_content %}
+<div class="container">
+
+
+<div class="row">
+
+</div>
+<h3>Route templates and generator</h3>
+
+<div class="">
+  <form class="form-inline" action="" method="post">
+      {% csrf_token %}
+      Start date: {{date_form.begin|add_class:"form-control"}}
+      End date: {{date_form.end|add_class:"form-control"}}
+      <input class='btn btn-warning' type="submit" name="" value="Apply below route templates to dates? (cannot be undone)">
+  </form>
+</div>
+<br>
+<div class="">
+
+{% regroup object_list by dow as route_list%}
+
+<table class='table table-sm route-table'>
+{% for dow in route_list %}
+<tr class='table-primary'>
+  <td colspan=4>Day of week: {{dow.grouper}}</td>
+</tr>
+
+{% for route in dow.list %}
+
+<td>{{route.driver}}
+<table class='route-table-jobs'>
+  {% for prop in route.job_route.all %}
+    <tr>
+      <td>{{prop.order}} {{prop.route_location.name}}</td>
+    </tr>
+  {% endfor %}
+</table>
+</td>
+
+{% endfor %}
+{% endfor %}
+</table>
+
+</div>
+</div>
+</div>
+{% endblock %}

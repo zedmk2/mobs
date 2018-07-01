@@ -27,6 +27,14 @@ class DateForm(forms.Form):
     begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
     end = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
 
+    def clean(self):
+        cleaned_data = super().clean()
+        begin = cleaned_data.get('begin')
+        end = cleaned_data.get('end')
+        if  begin > end:
+            raise forms.ValidationError("End date must be after start date")
+        return cleaned_data
+
 class CreateShiftForm(forms.ModelForm):
 
     date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy'}))
@@ -70,11 +78,9 @@ class CreateJobForm(forms.ModelForm):
     start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
 
-
     class Meta:
         model = models.Job
         fields = ['job_shift','job_location',
                     'start_time','end_time',]
-
 
 JobsInlineFormset = inlineformset_factory(models.Shift, models.Job, extra=10, max_num=18, can_delete=True, form=CreateJobForm, fields=('job_location','job_shift','start_time','end_time','pick','blow','sweep'))

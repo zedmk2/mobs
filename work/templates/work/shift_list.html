@@ -27,6 +27,7 @@
 
     <form class="" action="" method="post">
       	{% csrf_token %}
+        {{date_form.non_field_errors}}
         <div class='col'>{{date_form.begin|add_class:"form-control"}}</div>
         <div class='col'>{{date_form.end|add_class:"form-control"}}</div>
         <div class='col'><input class='btn btn-primary' type="submit" name="" value="Go"></div>

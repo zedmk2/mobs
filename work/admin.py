@@ -5,7 +5,7 @@ from . import models
 
 class JobAdmin(admin.ModelAdmin):
     search_fields = ['job_location']
-    list_display = ['job_location','start_time','end_time','date']
+    list_display = ['job_shift','job_location','start_time','end_time','date']
 
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
@@ -23,6 +23,13 @@ class JobInlineAdmin(admin.TabularInline):
     ordering = ("-job_location",)
     extra = 8
 
+class RouteJobInline(admin.TabularInline):
+    model = models.RouteJob
+    extra = 10
+
+class RouteAdmin(admin.ModelAdmin):
+    inlines = [RouteJobInline,]
+
 class Shift_Inline_Admin(admin.ModelAdmin):
     inlines = [
     JobInlineAdmin,
@@ -38,3 +45,5 @@ admin.site.register(models.Property, PropertyAdmin)
 admin.site.register(models.Inspection)
 admin.site.register(models.Employee)
 admin.site.register(models.Shift,Shift_Inline_Admin)
+admin.site.register(models.Route, RouteAdmin)
+admin.site.register(models.RouteJob)

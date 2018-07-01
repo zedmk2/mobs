@@ -1,116 +1,104 @@
 {% extends "work/work_base.html" %}
 {% load staticfiles %}
+{% load widget_tweaks %}
 
 {% block prework %}
 
 {% endblock %}
 
 {% block work_content %}
-<div class="row">
-  <div class="col-md-3">
-      <img src="{% static 'unnamed.png' %}" alt="">
-  </div>
+<div class="wrapper-sheet">
 
-  <div class="col-md-9">
+  <table id='addShift' class='tbl-shift-header' width=100%>
 
-    <div class="row">
-      <div class="col">
-        {{shift.date|date:"l"}}: {{shift.date|date:'m-d-y'}}
-      </div>
-      <div class="col">
-        {{shift.driver}}
-      </div>
-    </div>
+      <tr>
+        <td rowspan=7><img src="{% static 'unnamed.png' %}" alt=""></td>
+        <td>{{object.date|date:'l'}}: <span class='input-info'> {{object.date|date:'m/d/y'}} </span> </td>
+        <td></td>
+        <td></td>
+        <td>{{object.driver}}</td>
+      </tr>
+      <tr class='tbl-shift-header-rows'>
 
-    <div class="row">
-      <div class="col-6">
-        Driver: ___________
-      </div>
-      <div class="col-2">
-        Time In: ___________
-      </div>
-      <div class="col-2">
-        Time Out: ___________
-      </div>
-      <div class="col-2">
-        Viento (windy): ___________
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-6">
-        Helper: ___________
-      </div>
-      <div class="col-2">
-        Time In: ___________
-      </div>
-      <div class="col-2">
-        Time Out: ___________
-      </div>
-      <div class="col-2">
-        Lloviendo (rain): ___________
-      </div>
-    </div>
-    <div class="row">
-      <div class="col">
-        Lunch (El Almuerzo):
-      </div>
-      <div class="col-2">
-        Time In: ___________
-      </div>
-      <div class="col-2">
-        Time Out: ___________
-      </div>
-      <div class="col-2">
-        Nieve (snow): ___________
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-2">
-        Truck#:___________
-      </div>
-      <div class="col-3">
-        Millaje al comenza: ___________
-      </div>
-      <div class="col-3">
-        Milaje al terminar: ___________
-      </div>
-    </div>
-  </div>
-</div>
+        <td>Driver:</td>
+        <td>{{object.driver}}</td>
+        <td id='right'>Time In: ________________ {{shift_form.dr_start_time|add_class:"driverStart"}}</td>
+        <td>Time Out: ________________ {{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
+        <td>Viento (Windy): ______ </td>
+      </tr>
+      <tr>
+
+        <td>Helper: ________________________ {{shift_form.helper|add_class:"shiftSelect2"}}</td>
+        <td id='right'>Time In: ________________ {{shift_form.he_start_time|add_class:"helperStart"}}</td>
+        <td>Time Out: ________________ {{shift_form.he_end_time|add_class:"helperEnd"}}</td>
+        <td>Lloviento (Rain): ______ </td>
+      </tr>
+      {% if object.helper_2%}
+      <tr>
+
+        <td>Helper 2: ________________________ {{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
+        <td id='right'>Time In: ________________ {{shift_form.he_2_start_time|add_class:"helperStart"}}</td>
+        <td>Time Out: ________________ {{shift_form.he_2_end_time|add_class:"helperEnd"}}</td>
+        <td> </td>
+      </tr>
+      {%endif%}
+      <tr>
+
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>Nieve (Snow): ______ </td>
+      </tr>
+      <tr>
+
+        <td id='right'>Lunch (El Almuerzo):</td>
+        <td id='right'>Time In: ________________ </td>
+        <td>Time Out: ________________ </td>
+        <td></td>
+      </tr>
+      <tr>
+
+        <td id='right'>Truck #: ________________ {{shift_form.truck|add_class:"shiftSelect2"}}</td>
+        <td>Mileage  al comenza/start: ________________ </td>
+        <td>Mileage al terminar/end: ________________ </td>
+        <td></td>
+      </tr>
+
+  </table>
+
   <div class='row'>
-  <table class="table table-sm table-bordered">
-    <tr>
-      <td>Property:</td>
-      <td>IVR #</td>
-      <td>Minutes</td>
-      <td colspan=2>Time:</td>
-      <td colspan=2>Sweep:</td>
-      <td colspan=3>Blow:</td>
-      <td colspan=3>Pick:</td>
-      <td colspan=2>Trash:</td>
-      <td>Bulk:</td>
-      <td>Dumpster:</td>
+  <table class="tbl-routes">
+    <tr class='tbl-routes-first-row'>
+      <th width=30%>Property</th>
+      <th width=5%></th> <th></th>
+      <th width=15% colspan=2>Time</th>
+      <th width=10% colspan=2>Sweep</th>
+      <th width=10% colspan=3>Blow</th>
+      <th width=10% colspan=3>Pick</th>
+      <th width=10% colspan=2>Trash</th>
+      <th width=5%>Bulk</th>
+      <th width=5%>Dumpster</th>
     </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>In</td>
-      <td>Out</td>
-      <td>Front</td>
-      <td>Back</td>
-      <td>Front</td>
-      <td>Back</td>
-      <td>S/W</td>
-      <td>Front</td>
-      <td>Back</td>
-      <td>S/W</td>
-      <td>Empty</td>
-      <td># bags</td>
-      <td>Yes</td>
-      <td>100%</td>
+    <tr class='tbl-routes-second-row'>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th width=7.5%>In</th>
+      <th>Out</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>S/W</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>S/W</th>
+      <th>Empty</th>
+      <th># bags</th>
+      <th>Yes</th>
+      <th>100%</th>
     </tr>
-    {{shift.jobs_in_shift.all}}
+
     {% for job in shift.jobs_in_shift.all  %}
       <tr>
           <td>{{job.job_location}}</td>
@@ -136,7 +124,7 @@
   </div>
   </div>
 </div>
-
+</div>
 
 
 {% endblock %}

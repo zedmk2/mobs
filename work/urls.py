@@ -14,7 +14,6 @@ urlpatterns = [
 
     url(r'^new/$',views.CreateShift.as_view(),name='create'),
 
-    path('detail/<pk>/',views.SingleShift.as_view(),name='detail'),
     path('date/<date_summary>/',views.DateSummary.as_view(),name='date_summary'),
     path('update/<pk>/',views.UpdateShift.as_view(),name='update'),
     path('shift/<pk>/',views.ViewShift.as_view(),name='single_shift'),
@@ -26,6 +25,7 @@ urlpatterns = [
     path('shiftsbetween/<begin>/<end>/',views.DateListShifts.as_view(),name='date_shift_list'),
 
     path('properties/',views.ListProperties.as_view(),name='properties_list'),
+    path('routes/',views.RouteList.as_view(),name='route_list'),
 
     path('payroll_list/',views.payroll_list,name='payroll_list'),
     path('payroll/<begin>/<end>/',views.payroll,name='payroll'),

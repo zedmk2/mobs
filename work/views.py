@@ -10,9 +10,10 @@ from django.contrib.auth.decorators import login_required
 
 from django.db.models import Prefetch
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.http import Http404
 from django.views import generic
-from work.models import Shift, Job, Property, Employee, Inspection
+from work.models import Shift, Job, Property, Employee, Inspection, Route
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -74,9 +75,6 @@ class CreateShift(LoginRequiredMixin, generic.CreateView):
                                   formset=job_form))
 
 #########UPDATE A PARTICULAR SHIFT AND JOB #####################
-
-class SingleShift(LoginRequiredMixin,generic.DetailView):
-    model = Shift
 
 class DateSummary(generic.ListView):
     model = Shift
@@ -160,6 +158,8 @@ class ListShifts(LoginRequiredMixin,generic.ListView):
             date_form = forms.DateForm(request.POST)
             if date_form.is_valid():
                 return HttpResponseRedirect(reverse('shifts:date_shift_list', kwargs={'begin':date_form.cleaned_data['begin'], 'end':date_form.cleaned_data['end']}))
+            else:
+                return render(request,'work/shift_list.html',{'date_form':date_form})
 
     def get_context_data(self, **kwargs):
         date_form = forms.DateForm()
@@ -199,6 +199,43 @@ class ListProperties(LoginRequiredMixin,generic.ListView):
     template_name = 'work/property_list.html'
     context_object_name = 'property_list'
     model = Property
+
+class RouteList(generic.ListView):
+    model = Route
+    date_form = forms.DateForm()
+
+    def get_queryset(self):
+        return Route.objects.all().prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+
+    def get_context_data(self, **kwargs):
+        date_form = forms.DateForm()
+        context = super().get_context_data(**kwargs)
+        context['date_form'] = date_form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.DateForm(request.POST)
+        if form.is_valid():
+            route_list = Route.objects.all()
+            dates = []
+
+            d1 = form.cleaned_data['begin']
+            d2 = form.cleaned_data['end']
+            # this will give you a list containing all of the dates
+            dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
+            # print("You want to update the following dates: "+str(dates))
+            for d in dd:
+                # print(d)
+                for route in route_list:
+                    if d.weekday()==int(route.weekday):
+                        shift, bool = Shift.objects.get_or_create(date=d,driver=route.driver)
+                        for prop in route.job_route.all():
+                            # print(prop)
+                            shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                            # print("Created shift for %s %s" % (d,j.driver))
+            return HttpResponseRedirect('/work/allshifts/')
+        else:
+            return HttpResponseRedirect('/work/allshifts/')
 
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required

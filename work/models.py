@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.timezone import now
 from django.utils.functional import cached_property
 
-import datetime
+import datetime, calendar
 # Create your models here.
 
 from django.contrib.auth import get_user_model
@@ -234,9 +234,10 @@ class Work_Date:
 
 class Job(models.Model):
     job_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='location', null=True)
-    job_shift = models.ForeignKey(Shift,on_delete=models.PROTECT,related_name='jobs_in_shift', null=True)
-    start_time = models.TimeField()
-    end_time = models.TimeField()
+    job_shift = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='jobs_in_shift', null=True)
+    order = models.IntegerField(default=1)
+    start_time = models.TimeField(blank=True,null=True)
+    end_time = models.TimeField(blank=True,null=True)
     sweep = models.NullBooleanField(blank=True,null=True)
     blow = models.NullBooleanField(blank=True,null=True)
     pick = models.NullBooleanField(blank=True,null=True)
@@ -248,7 +249,10 @@ class Job(models.Model):
     @property
     def job_length(self):
         "Calculates job duration based on clock times"
-        self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.start_time.hour,self.start_time.minute,self.start_time.second)
+        try:
+            self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.start_time.hour,self.start_time.minute,self.start_time.second)
+        except:
+            return 0
         if self.end_time < self.start_time:
             self.end = datetime.datetime(self.date.year,self.date.month,(self.date.day),self.end_time.hour,self.end_time.minute,self.end_time.second)
             self.end = self.end + datetime.timedelta(days=1)
@@ -264,4 +268,65 @@ class Job(models.Model):
         return reverse('shifts:singlejob',kwargs={'pk':self.pk})
 
     class Meta:
-        ordering = ["-job_shift"]
+        ordering = ["-job_shift",'order']
+
+class Route(models.Model):
+    DOW_CHOICES = (
+    ('0', 'Monday'),
+    ('1', 'Tuesday'),
+    ('2', 'Wednesday'),
+    ('3', 'Thursday'),
+    ('4', 'Friday'),
+    ('5', 'Saturday'),
+    ('6', 'Sunday'),)
+
+    weekday = models.CharField(max_length=20, choices=DOW_CHOICES)
+    driver = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='route_driver')
+    route_num = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "routes"
+        ordering = ["weekday"]
+        unique_together = (("weekday","route_num"),
+                            )
+    def dow(self):
+        num_day = self.weekday
+        DOW_CHOICES = (
+        ('0', 'Monday'),
+        ('1', 'Tuesday'),
+        ('2', 'Wednesday'),
+        ('3', 'Thursday'),
+        ('4', 'Friday'),
+        ('5', 'Saturday'),
+        ('6', 'Sunday'),)
+        for i in DOW_CHOICES:
+            if i[0] == num_day:
+                weekday = i[1]
+        return weekday
+
+    def __str__(self):
+        num_day = self.weekday
+        DOW_CHOICES = (
+        ('0', 'Monday'),
+        ('1', 'Tuesday'),
+        ('2', 'Wednesday'),
+        ('3', 'Thursday'),
+        ('4', 'Friday'),
+        ('5', 'Saturday'),
+        ('6', 'Sunday'),)
+        for i in DOW_CHOICES:
+            if i[0] == num_day:
+                weekday = i[1]
+        return "%s %s" % (weekday, self.driver)
+
+class RouteJob(models.Model):
+    route_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='route_location', null=True)
+    job_route = models.ForeignKey(Route,on_delete=models.PROTECT,related_name='job_route', null=True)
+    order = models.IntegerField()
+
+    def __str__(self):
+        return "<%s> -- %s %s" % (self.job_route, self.order, self.route_location)
+
+    class Meta:
+        verbose_name_plural = "route jobs"
+        ordering = ["order"]
