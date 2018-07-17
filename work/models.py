@@ -75,6 +75,7 @@ class Property(models.Model):
     state  = models.CharField(max_length=200, blank=True,null=True)
     zipcode = models.IntegerField(blank=True,null=True)
     county = models.CharField(max_length=30,blank=True,null=True)
+    color = models.CharField(max_length=30,blank=True,null=True)
 
     client_name = models.ForeignKey(Client, on_delete=models.PROTECT,null=True)
     bi_address = models.CharField(max_length=200, blank=True,null=True)

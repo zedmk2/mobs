@@ -75,8 +75,8 @@ class CreateShiftForm(forms.ModelForm):
 
 class CreateJobForm(forms.ModelForm):
 
-    start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
-    end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    start_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    end_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
 
     class Meta:
         model = models.Job

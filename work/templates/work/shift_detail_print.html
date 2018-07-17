@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MOBS v1.8c</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'mobs/js/jqueryui/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mobs/css/base.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+<style>
+@page {size: landscape}
+
+td{
+  border: 1px solid black;
+  width: 10%;
+}
+
+.wrapper-sheet{
+
+}
+
+.tbl-shift-header{
+  height:100px;
+  font-size: 5 rem;
+}
+
+.tbl-shift-header td{
+  background-color:blue;
+}
+
+</style>
+
+  </head>
+  <body>
+ {% load staticfiles %}
+{% load widget_tweaks %}
+
+{% block work_content %}
+<div class="wrapper-sheet">
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-2">
+
+      <img src="{% static 'unnamed.png' %}" alt="">
+    </div>
+    <div class="col-10">
+      <table class='tbl-shift-header' width=100%>
+          <tr>
+            <td width=10%></td>
+            <td width=25% id='right'>{{object.date|date:'l'}}: <span class=''> {{object.date|date:'n/d/y'}} </span> </td>
+            <td width=25%></td>
+            <td width=25% class='jobCostingTable'>{{object.driver}}</td>
+            <td width=15%></td>
+          </tr>
+          <tr class='tbl-shift-header-rows'>
+            <td id='right'>Driver:</td>
+            <td>{% if object.driver %}{{object.driver}}{%else%}________________________{%endif%}</td>
+            <td >Time In: {% if object.dr_start_time %}{{object.dr_start_time}}{%else%}________________________{%endif%}</td>
+            <td>Time Out: {% if object.dr_end_time %}{{object.dr_end_time}}{%else%}________________________{%endif%}</td>
+            <td>Viento (Windy): ______ </td>
+          </tr>
+          <tr>
+            <td id='right'>Helper: </td>
+            <td>{% if object.helper %}{{object.helper}}{%else%}________________________{%endif%}</td>
+            <td >Time In: {% if object.he_start_time %}{{object.he_start_time}}{%else%}________________________{%endif%}</td>
+            <td>Time Out: {% if object.he_end_time %}{{object.he_end_time}}{%else%}________________________{%endif%}</td>
+            <td>Lloviento (Rain): ______ </td>
+          </tr>
+          {% if object.helper_2%}
+          <tr>
+            <td>Helper 2: ________________________ {{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
+            <td >Time In: ________________________ {{shift_form.he_2_start_time|add_class:"helperStart"}}</td>
+            <td>Time Out: ________________________ {{shift_form.he_2_end_time|add_class:"helperEnd"}}</td>
+            <td> </td>
+          </tr>
+          {%endif%}
+          <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>Nieve (Snow): ______ </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td id='center'>Lunch (El Almuerzo):</td>
+            <td>Time In: ________________________ </td>
+            <td>Time Out: ________________________ </td>
+
+            <td></td>
+          </tr>
+          <tr>
+            <td></td>
+            <td id='right'>Truck #: {% if object.truck %}{{object.truck}}{%else%}________________{%endif%}</td>
+            <td>Millaje al comenza: ________________________ </td>
+            <td>Millaje al terminar: ________________________ </td>
+            <td></td>
+          </tr>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+  <div class='row'>
+  <table class="tbl-routes">
+    <tr class='tbl-routes-first-row'>
+      <th width=30%>Property</th>
+      <th width=5%>IVR</th>
+      <th width=5%>Minutes</th>
+      <th width=15% colspan=2>Time</th>
+      <th width=10% colspan=2>Sweep</th>
+      <th width=10% colspan=3>Blow</th>
+      <th width=10% colspan=3>Pick</th>
+      <th width=10% colspan=2>Trash</th>
+      <th width=5%>Bulk</th>
+      <th width=5%>Dumpster</th>
+    </tr>
+    <tr class='tbl-routes-second-row'>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th width=7.5%>In</th>
+      <th>Out</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>S/W</th>
+      <th>Front</th>
+      <th>Back</th>
+      <th>S/W</th>
+      <th>Empty</th>
+      <th># bags</th>
+      <th>Yes</th>
+      <th>100%</th>
+    </tr>
+
+    {% for job in shift.jobs_in_shift.all  %}
+      <tr>
+          <td> <span id='bold'>{{job.job_location}}</span>  <div class="route-sheet-address">
+            ({{job.job_location.address}}, {{job.job_location.city}})
+          </div></td>
+          <td></td>
+          <td>{% if job.job_length %}{{job.job_length}}{%endif%}</td>
+          <td>{% if job.start_time %}{{job.start_time}}{%endif%}</td>
+          <td>{% if job.end_time %}{{job.end_time}}{%endif%}</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+      </tr>
+    {% endfor %}
+  </table>
+  </div>
+  </div>
+</div>
+</div>
+
+{% endblock %}
+
+
+  </body>
+
+
+  <!--  BOOTSTRAP BELOW -->
+
+
+
+
+</html>

@@ -18,6 +18,7 @@ from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import IntegrityError, transaction
 from django.db.models import Count, Sum, Avg
+from easy_pdf.views import PDFTemplateView, PDFTemplateResponseMixin
 
 import datetime
 
@@ -86,6 +87,10 @@ class DateSummary(generic.ListView):
 
 class ViewShift(LoginRequiredMixin,generic.DetailView):
     model = Shift
+
+class PDFShift(LoginRequiredMixin,PDFTemplateResponseMixin,generic.DetailView):
+    model = Shift
+    template_name = 'work/shift_detail_print.html'
 
 class UpdateShift(LoginRequiredMixin,generic.UpdateView):
     model = Shift

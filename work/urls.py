@@ -17,6 +17,7 @@ urlpatterns = [
     path('date/<date_summary>/',views.DateSummary.as_view(),name='date_summary'),
     path('update/<pk>/',views.UpdateShift.as_view(),name='update'),
     path('shift/<pk>/',views.ViewShift.as_view(),name='single_shift'),
+    path('shift_pdf/<pk>/',views.PDFShift.as_view(),name='shift_pdf'),
 
     url(r'^batch_shift/',views.batch_shift,name='batchshift'),
 
