@@ -237,7 +237,7 @@ class RouteList(generic.ListView):
                         for prop in route.job_route.all():
                             # print(prop)
                             shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
-                            # print("Created shift for %s %s" % (d,j.driver))
+                            print("Created shift for %s %s" % (d,route.driver))
             return HttpResponseRedirect('/work/allshifts/')
         else:
             return HttpResponseRedirect('/work/allshifts/')
