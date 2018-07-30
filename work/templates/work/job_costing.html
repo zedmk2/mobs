@@ -26,11 +26,11 @@
 
 {%for c in client%}
 <tbody>
-  <tr class='jobCostingTable-custRow'><td colspan=11>{{c.grouper}}</td></tr>
+  <tr class='jobCostingTable-custRow'><td colspan=13>{{c.grouper}}</td></tr>
   {% for p in c.list %}
     {%if p.jobs%}
     <tr class='jobCostingTable-propRow'>
-      <td colspan=11>{{p.name}} </td>
+      <td colspan=13>{{p.name}} </td>
     </tr>
 
     <thead>
@@ -39,6 +39,8 @@
       <th>Date</th>
       <th>Driver</th>
       <th>Helper</th>
+      <th class='jobCostingTable-rightData'>In</th>
+      <th class='jobCostingTable-rightData'>Out</th>
       <th class='jobCostingTable-rightData'>Est. time (hr)</th>
       <th class='jobCostingTable-rightData'>Act. time (hr)</th>
       <th class='jobCostingTable-rightData'>Act. cost ($)</th>
@@ -53,6 +55,9 @@
           <td> {{j.job_shift.date|date:"m/d/y"}}</td>
           <td> {{j.job_shift.driver}} </td>
           <td> {{j.job_shift.helper}} </td>
+
+          <td class='jobCostingTable-rightData'>{{j.start_time}}</td>
+          <td class='jobCostingTable-rightData'>{{j.end_time}}</td>
           <td>  </td>
           <td class='jobCostingTable-rightData'> {{j.job_length|floatformat:"2"}} </td>
           <td class='jobCostingTable-rightData'> {{j.job_cost|floatformat:"2"}} </td>
@@ -62,7 +67,7 @@
         </tr>
       {%endfor%}
       <tr class='jobCostingTable-totalRow'> <td></td>
-        <td class='jobCostingTable-totalLabel' colspan=4> Total for {{p.name}}</td>
+        <td class='jobCostingTable-totalLabel' colspan=6> Total for {{p.name}}</td>
         <td class='jobCostingTable-rightData'> {{p.job_est_total|floatformat:"-2"}}  </td>
         <td class='jobCostingTable-rightData'> {{p.job_total|floatformat:"2"}} hrs </td>
         <td class='jobCostingTable-rightData'> ${{p.cost_total|floatformat:"2"|intcomma}} </td>
@@ -74,7 +79,7 @@
   {%endfor%}
   {%endfor%}
   </tbody>
-  
+
 </table>
 </div>
 </div>
