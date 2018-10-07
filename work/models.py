@@ -163,6 +163,7 @@ class Shift(models.Model):
     helper_2 = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper_2',blank=True,null=True,)
     truck = models.IntegerField(blank=True,null=True)
     truck_new = models.ForeignKey(Truck,on_delete=models.PROTECT,related_name='truck',blank=True,null=True)
+    day_num = models.IntegerField()
 
     date = models.DateField()
 
@@ -225,9 +226,9 @@ class Shift(models.Model):
         return reverse('shifts:single',kwargs={'pk':self.pk})
 
     class Meta:
-        unique_together = (("driver","date"),
+        unique_together = (("day_num","date"),
                             )
-        ordering = ['-date','driver']
+        ordering = ['-date','day_num']
 
 class Work_Date:
     def __init__(self,date):
