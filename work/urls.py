@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^last30days_shifts/$',views.Last30ListShifts.as_view(),name='all'),
     path('shiftsbetween/<begin>/<end>/',views.DateListShifts.as_view(),name='date_shift_list'),
 
-    path('properties/',views.ListProperties.as_view(),name='properties_list'),
+    path('job/<pk>/',views.UpdateJob.as_view(),name='update_job'),
+
     path('routes/',views.RouteList.as_view(),name='route_list'),
 
     path('payroll_list/',views.payroll_list,name='payroll_list'),
@@ -37,6 +38,8 @@ urlpatterns = [
 
     path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
     path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),
+    path('property_list/',views.PropertyList.as_view(),name='properties'),
+    path('property/<pk>/',views.UpdateProperty.as_view(),name='update_property'),
 
     path('property_checks/<int:priority>/',views.InspectionList.as_view(),name='inspections'),
     path('inspection/<pk>/',views.UpdateInspection.as_view(),name='inspection_update'),

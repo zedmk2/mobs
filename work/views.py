@@ -595,6 +595,27 @@ class PropertySchedule(generic.ListView):
     template_name = "work/property_schedule.html"
 
 ################################################
+###PROPERTY LIST
+#############################################
+
+class PropertyList(LoginRequiredMixin,generic.ListView):
+    def get_queryset(self):
+        queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+        for prop in queryset:
+            prop.recent_jobs = []
+            for loc in prop.location.all():
+                prop.recent_jobs.append(loc)
+            prop.recent_jobs = prop.recent_jobs[-3:]
+        return queryset
+    template_name = "work/property_list.html"
+
+class UpdateProperty(LoginRequiredMixin,generic.UpdateView):
+    model = Property
+    form_class = forms.InspectionForm
+    template_name_suffix = '_form'
+
+
+################################################
 ###PROPERTY CHECKS
 #############################################
 
@@ -638,3 +659,12 @@ class CreateInspection(LoginRequiredMixin,generic.CreateView):
         return initial
 
     success_url = reverse_lazy('shifts:inspections',kwargs={'priority':1})
+
+    ################################################
+    ###JOBS CHECKS
+    #############################################
+
+class UpdateJob(LoginRequiredMixin,generic.UpdateView):
+    model = Job
+    form_class = forms.InspectionForm
+    template_name_suffix = '_form'

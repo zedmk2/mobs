@@ -1,0 +1,25 @@
+{% extends "work/work_base.html" %}
+{{formset.media.css}}
+
+{% load staticfiles %}
+
+{% load widget_tweaks %}
+
+{% block prework %}
+<!-- Include formset plugin - including jQuery dependency -->
+{% endblock %}
+
+
+{%block work_content%}
+
+<div class="container">
+  <ul class='list-group'>
+<li class='list-group-item'>{{object.name}} ({{object.display_name}})</li>
+<li class='list-group-item'>{{object.client_name}}</li>
+<li class='list-group-item'>{{object.address}}, {{object.city}}</li>
+  </ul>
+  </div>
+
+
+
+{%endblock%}

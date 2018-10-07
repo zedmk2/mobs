@@ -1,0 +1,25 @@
+{% extends "work/work_base.html" %}
+{{formset.media.css}}
+
+{% load staticfiles %}
+
+{% load widget_tweaks %}
+
+{% block prework %}
+<!-- Include formset plugin - including jQuery dependency -->
+{% endblock %}
+
+
+{%block work_content%}
+
+<div class="container">
+  <ul class='list-group'>
+<li class='list-group-item'>{{object.job_shift}}</li>
+<li class='list-group-item'>{{object.job_location}}</li>
+<li class='list-group-item'>{{object.start_time}}  - {{object.end_time}}</li>
+  </ul>
+  </div>
+
+
+
+{%endblock%}

@@ -1,22 +1,31 @@
 {% extends "work/work_base.html" %}
 
-{% block prework %}
+{% load widget_tweaks %}
+{% load staticfiles %}
 
-  <div class="col-md-4">
-        <h5 class='title'>Current Property List</h5>
-        <table>
-          <thead>
-            <th>Property Name</th> <th>Property ID</th>
-          </thead>
-
-        {% for prop in property_list  %}
-        <tr>
-        <td>{{prop}}</td> <td>{{prop.id}}</td>
-        </tr>
-
-        {%endfor%}
-        </table>
-
+{% block work_content %}
+<div class="container">
+  <div class="row">
+    <h2>Property List</h2>
   </div>
 
+<ul class='list-group'>
+{%for property in object_list %}
+<li class='list-group-item list-group-item-info'> <a href="{% url 'shifts:update_property' pk=property.pk%}"> {{property}}</a></li>
+  <li class='list-group-item'><ul class='list-group'>{%for job in property.recent_jobs %}
+  <li class='list-group-item'> <a href='{% url 'shifts:update_job' pk=job.pk%}'> <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a> </li>
+
+  {%endfor%}</ul></li>
+  </li>
+  {%endfor%}
+</ul>
+
+  <div class="row propInspecList2">
+    <p><a href="{%url 'shifts:inspections' priority=2%}">Full list</a> | <a href="{%url 'shifts:inspections' priority=1%}">Truncated list</a></p>
+  </div>
+  <div class='row'>
+
+</ul>
+</div>
+</div>
 {% endblock %}
