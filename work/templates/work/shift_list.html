@@ -46,7 +46,7 @@
         {% for shift in shift_list %}
       <li>
         <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
-          <span class='title list-shift-item-heading'>{{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%} | {{shift.dr_start_time}} - {{shift.dr_end_time}} | {{shift.shift_length}} hrs | {{shift.jobs_in_shift.count}} jobs</span>
+          <span class='title list-shift-item-heading'>{{shift.day_num}}. {{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%} | {{shift.dr_start_time}} - {{shift.dr_end_time}} | {{shift.shift_length}} hrs | {{shift.jobs_in_shift.count}} jobs</span>
         </a>
         <a href="{% url 'shifts:single_shift' pk=shift.pk %}">Print</a>
       </li>

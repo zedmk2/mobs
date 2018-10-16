@@ -174,8 +174,8 @@ class ListShifts(LoginRequiredMixin,generic.ListView):
 
 class Last30ListShifts(ListShifts):
     def get_queryset(self):
-        begin = datetime.date.today() - datetime.timedelta(days=30)
-        end = datetime.date.today()
+        begin = datetime.date.today() - datetime.timedelta(days=60)
+        end = datetime.date.today() + datetime.timedelta(days=30)
         return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
 
 class DateListShifts(LoginRequiredMixin,generic.ListView):
@@ -233,7 +233,7 @@ class RouteList(generic.ListView):
                 # print(d)
                 for route in route_list:
                     if d.weekday()==int(route.weekday):
-                        shift, bool = Shift.objects.get_or_create(date=d,driver=route.driver)
+                        shift, bool = Shift.objects.get_or_create(date=d,driver=route.driver,day_num=route.route_num)
                         for prop in route.job_route.all():
                             # print(prop)
                             shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)

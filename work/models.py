@@ -163,7 +163,7 @@ class Shift(models.Model):
     helper_2 = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='sh_helper_2',blank=True,null=True,)
     truck = models.IntegerField(blank=True,null=True)
     truck_new = models.ForeignKey(Truck,on_delete=models.PROTECT,related_name='truck',blank=True,null=True)
-    day_num = models.IntegerField()
+    day_num = models.IntegerField(blank=True,null=True)
 
     date = models.DateField()
 
