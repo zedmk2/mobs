@@ -38,8 +38,8 @@ class DateForm(forms.Form):
 class CreateShiftForm(forms.ModelForm):
 
     date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy'}))
-    dr_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
-    dr_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    dr_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
+    dr_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
     he_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
     he_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}),required=False)
     he_2_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}),required=False)
@@ -78,10 +78,11 @@ class CreateJobForm(forms.ModelForm):
 
     start_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     end_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
+    order = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'jobOrderForm'}))
 
     class Meta:
         model = models.Job
         fields = ['job_shift','job_location',
-                    'start_time','end_time',]
+                    'start_time','end_time','order']
 
-JobsInlineFormset = inlineformset_factory(models.Shift, models.Job, extra=10, max_num=18, can_delete=True, form=CreateJobForm, fields=('job_location','job_shift','start_time','end_time','pick','blow','sweep'))
+JobsInlineFormset = inlineformset_factory(models.Shift, models.Job, extra=10, max_num=18, can_delete=True, form=CreateJobForm, fields=('job_location','job_shift','start_time','end_time','order','pick','blow','sweep'))
