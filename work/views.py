@@ -174,9 +174,50 @@ class ListShifts(LoginRequiredMixin,generic.ListView):
 
 class Last30ListShifts(ListShifts):
     def get_queryset(self):
+        begin = datetime.date.today() - datetime.timedelta(days=30)
+        end = datetime.date.today()
+        return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
+
+class RecentListShifts(ListShifts):
+    def get_queryset(self):
         begin = datetime.date.today() - datetime.timedelta(days=60)
         end = datetime.date.today() + datetime.timedelta(days=30)
         return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
+
+class CalendarLast30ListShifts(ListShifts):
+    def get_queryset(self):
+        begin = datetime.date.today() - datetime.timedelta(days=60)
+        end = datetime.date.today() + datetime.timedelta(days=30)
+        return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift')
+
+        def get_context_data(self, *, object_list=None, **kwargs):
+            """Get the context for this view."""
+            queryset = object_list if object_list is not None else self.object_list
+            page_size = self.get_paginate_by(queryset)
+            context_object_name = self.get_context_object_name(queryset)
+            if page_size:
+                paginator, page, queryset, is_paginated = self.paginate_queryset(queryset, page_size)
+                context = {
+                    'paginator': paginator,
+                    'page_obj': page,
+                    'is_paginated': is_paginated,
+                    'object_lit': queryset,
+                    'poop':'poop',
+                }
+            else:
+                context = {
+                    'paginator': None,
+                    'page_obj': None,
+                    'is_paginated': False,
+                    'object_lit': queryset,
+                    'poop':'poop',
+                }
+            if context_object_name is not None:
+                context[context_object_name] = queryset
+            context.update(kwargs)
+            return super().get_context_data(**context)
+
+    template_name = 'work/calendar.html'
 
 class DateListShifts(LoginRequiredMixin,generic.ListView):
     template_name = 'work/shift_list.html'

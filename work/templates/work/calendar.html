@@ -1,21 +1,33 @@
-{% extends "base.html" %}
 
+{% extends "work/work_base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block work_content %}
 
-{% block content  %}
-<style>
-.yui3-button {
-    margin:10px 0px 10px 0px;
-    color: #fff;
-    background-color: #3476b7;
-}
-</style>
+<html lang='en'>
+  <head>
+    <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>MOBS v1.8c</title>
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'mobs/js/jqueryui/jquery-ui.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mobs/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'mobs/css/style_1.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
 
-  {% if user.is_authenticated %}
-  <div class='container'>
-    <h2>Welcome to MobS</h2>
-    <h5><em>Mobile Sweep job tracking system</em></h5>
-<div class="jumbotron">
+  </head>
+  <!-- Add an additional blue button style -->
+  <style>
+  .yui3-button {
+      margin:10px 0px 10px 0px;
+      color: #fff;
+      background-color: #3476b7;
+  }
+  </style>
+
   <div id="demo" class="yui3-skin-sam yui3-g"> <!-- You need this skin class -->
 
     <div id="leftcolumn" class="yui3-u">
@@ -27,38 +39,10 @@
         <!-- The buttons are created simply by assigning the correct CSS class
         <button id="togglePrevMonth" class="yui3-button">Toggle Previous Month's Dates</button><br>
         <button id="toggleNextMonth" class="yui3-button">Toggle Next Month's Dates</button><br> -->
-        Shifts for: <span id="selecteddate">Select a date</span> | <a href="{% url 'shifts:all' %}">last 30 days</a> | <a href="{% url 'shifts:next' %}">next 30 days</a>
+        Shifts for: <span id="selecteddate"></span>
      </div>
     </div>
   </div>
-  <div class='row'>
-      <div class='col-6'>
-         <a href="{% url 'shifts:create' %}">Log new shift and jobs</a> | <a href="{% url 'shifts:batchshift' %}">Batch new shifts (no jobs)</a>
-      </div>
-      <div class='col-6'>
-        Job costing report
-          <form class="" action="" method="post">
-              {% csrf_token %}
-              {{form.non_field_errors}}
-              {{form.begin}}
-              {{form.end}}
-              <input class='btn btn-primary payrollDateButton' type="submit" name="" value="Go">
-          </form>
-      </div>
-    </div>
-    <div class="row">
-      <div class='col-6'> <a href="{% url 'shifts:payroll_list' %}">Weekly payroll reports</a></div>
-      <div class='col-6'> <a href="{% url 'shifts:properties' %}">Property List</a> | <a href="{% url 'shifts:inspections' priority=1 %}">Property Inspections</a></div>
-    </div>
-  </div>
-
-</div>
-</div>
-
-
-    {% else %}
-
-  {% endif %}
 
   <script type="text/javascript">
   YUI().use('calendar', 'datatype-date', 'cssbutton',  function(Y) {
@@ -110,4 +94,6 @@
       });
   });
   </script>
-{% endblock %}
+
+  {% endblock %}
+</html>

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{% static 'mobs/js/jqueryui/jquery-ui.min.css' %}">
     <link rel="stylesheet" href="{% static 'mobs/css/base.css' %}">
     <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+        <script src="http://yui.yahooapis.com/3.18.1/build/yui/yui-min.js"></script>
 
 
   </head>
@@ -24,7 +25,7 @@
       <a class="p-2 text-dark" href="{% url 'shifts:all' %}">Shift List</a>
       <a class="p-2 text-dark" href="{% url 'shifts:route_list' %}">Route Generator</a>
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
-      <a class="p-2 text-dark" href="{%url 'shifts:inspections' priority=1 %}">Property List</a>
+      <a class="p-2 text-dark" href="{%url 'shifts:properties' %}">Property List</a>
       {%else%}
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
       <a class="btn btn-outline-primary" href="{% url 'accounts:login' %}">Log In</a>

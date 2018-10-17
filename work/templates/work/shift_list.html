@@ -14,9 +14,13 @@
 <div class="row">
 
 </div>
-<h3>Viewing shifts</h3>
+
 
 <div class='row'>
+  <div class="col-2">
+  <h3>Shift list</h3>
+  </div>
+
   <div class="col-2">
     <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#dateRange" aria-expanded="false" aria-controls="collapseExample">
       Change dates?
@@ -28,9 +32,11 @@
     <form class="" action="" method="post">
       	{% csrf_token %}
         {{date_form.non_field_errors}}
-        <div class='col'>{{date_form.begin|add_class:"form-control"}}</div>
-        <div class='col'>{{date_form.end|add_class:"form-control"}}</div>
-        <div class='col'><input class='btn btn-primary' type="submit" name="" value="Go"></div>
+      <div class='row'>
+        <div class='col-5'>{{date_form.begin|add_class:"form-control"}}</div>
+        <div class='col-5'>{{date_form.end|add_class:"form-control"}}</div>
+        <div class='col-2'><input class='btn btn-primary' type="submit" name="" value="Go"></div>
+      </div>
     </form>
 </div>
 </div>
@@ -40,7 +46,7 @@
 
     <div class="list-shift-item-text">
     {% for date, shift_list in date_list  %}
-        <a href={% url 'shifts:date_summary' date_summary=date %}><p class="shiftListDate"> {{date|date:"l, F j"}}<p></a>
+        <a href={% url 'shifts:date_summary' date_summary=date %}><p class="shiftListDate"> {{date|date:"l, F j"}}</p></a>
 
 <ul>
         {% for shift in shift_list %}
