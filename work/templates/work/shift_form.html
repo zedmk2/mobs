@@ -144,7 +144,7 @@
       </tr>
       {%for job_f in formset %}{{job_f.id}}
     <tr>
-      <td> {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
+      <td>{{job_f.order}} {{job_f.job_location|add_class:"locationSelector shiftFormJobLocation"}}</td>
       <td>{{job_f.start_time}}</td>
       <td>{{job_f.end_time}}</td>
       <td></td>
