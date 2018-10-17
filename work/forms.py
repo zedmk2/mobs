@@ -47,6 +47,7 @@ class CreateShiftForm(forms.ModelForm):
     driver = forms.ModelChoiceField(queryset = models.Employee.objects.filter(driver=True))
     helper = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True),required=False)
     helper_2 = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True),required=False)
+    day_num = forms.IntegerField()
     #Update to ModelChoice/Queryset when equipment model added
     trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504'),(203,'203'),(101,'101')]
     truck = forms.ChoiceField(choices = trucks)
@@ -54,7 +55,7 @@ class CreateShiftForm(forms.ModelForm):
     class Meta:
         model = models.Shift
         fields = ['driver','helper','helper_2','truck',
-                    'dr_start_time','dr_end_time','he_start_time','he_end_time','he_2_start_time','he_2_end_time','date']
+                    'dr_start_time','dr_end_time','he_start_time','he_end_time','he_2_start_time','he_2_end_time','date','day_num']
 
     def __init__(self, is_update=False, **kwargs):
         self.is_update = is_update
