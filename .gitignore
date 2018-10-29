@@ -6,7 +6,9 @@ mydb*
 backup*
 db.sqlite3
 /static
+/media
 .DS_Store
 .env
 out.json
 /mobs/migrations
+/work/migrations

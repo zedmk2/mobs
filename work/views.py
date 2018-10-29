@@ -44,10 +44,6 @@ from . import forms
 from rest_framework import viewsets, mixins, generics
 from work.serializers import PropertySerializer, JobSerializer, ShiftSerializer
 
-################PDF VIEW WITH REPORTLAB ############################
-
-
-
 #########CREATE NEW SHIFT AND JOBS #####################
 
 class CreateShift(LoginRequiredMixin, generic.CreateView):
@@ -105,102 +101,7 @@ class PdfShift(generic.DetailView):
     def get(self,request,*args,**kwargs):
         self.object = self.get_object()
         shift = self.object
-        string=str(shift)
-
-        response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'inline; filename='+string
-
-        buffer = BytesIO()
-        width, height = letter
-        # Start writing the PDF here
-
-        p = SimpleDocTemplate(buffer, leftMargin=0.5*inch,rightMargin=0.5*inch,bottomMargin=0.5*inch,topMargin=0.5*inch,pagesize=landscape(letter))
-        logo=os.path.join(settings.BASE_DIR,'static','mobs','ms.jpg')
-        print(str(logo))
-        I = Image(logo,width=2.2*inch,height=1.2*inch)
-        # container for the 'Flowable' objects
-        elements = []
-        #header
-        data_h = [[I,shift.date.strftime('%A')+': '+shift.date.strftime('%b %d, %Y'),'',shift.driver,'Weather'],
-                    ['','Driver','Time in','Time out','Viento (Windy)',''],
-                    ['','Helper','Time in','Time out','Lloviendo (Rain)',''],
-                    ['','Lunch (Almuerzo)','Time in','Time out','Nieve (Snow)',''],
-                    ['','Truck #','Mileage in','Mileage out',''],]
-        t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[3*inch,2*inch,2*inch,2*inch,1*inch,0.4*inch])
-        t_h.setStyle(TableStyle([('LINEBELOW',(1,1),(3,4),1,colors.black),
-                                ('GRID',(5,1),(5,3),1,colors.black),
-                                ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
-                               ('FONT',(0,1),(-1,-1),'Helvetica',8),
-                               ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
-                               ('SPAN',(0,0),(0,-1),
-                               )]))
-
-
-        #Property table
-        data= [['Property', '#', 'Time', '','Sweep','', 'Blow','','','Pick','','','Trash','','Bulk','Dumpster'],
-               ['','', 'In', 'Out', 'Front', 'Back', 'Front', 'Back', 'S/W', 'Front', 'Back', 'S/W', 'Empty', '# Bags','','%'],
-                    ]
-        for job in shift.jobs_in_shift.all():
-            style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8)
-            if job.job_location.color:
-                style.backColor = str(job.job_location.color)
-            text = str(job.job_location.display_name)
-            # +'<br/>'+str(job.job_location.address)
-            P = Paragraph(text,style)
-            data.append([P, '', '', '', '', '', '', '', '', '', '', '', '', ''])
-            if job.job_location.instructions:
-                data.append([str(job.job_location.instructions), '', '', '', '', '', '', '', '', '', '', '', '', ''])
-
-        t=Table(data,colWidths=[3.0*inch,0.4*inch,0.85*inch,0.85*inch,0.5*inch,0.5*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.5*inch,0.5*inch,0.45*inch,0.55*inch],spaceBefore=0.15*inch)
-        t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.lemonchiffon),
-                                ('ALIGN', (1, 0), (-1, 1), "CENTER"),
-                                ('TOPPADDING',(0,2),(-1,-1),4),
-                                ('BOTTOMPADDING',(0,2),(-1,-1),4),
-                               ('GRID',(0,0),(-1,-1),1,colors.black),
-                               ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
-                               ('FONT',(0,1),(-1,-1),'Helvetica',8),
-                               ('SPAN',(2,0),(3,0)),
-                               ('SPAN',(4,0),(5,0)),
-                               ('SPAN',(6,0),(8,0)),
-                               ('SPAN',(9,0),(11,0)),
-                               ('SPAN',(12,0),(13,0)),]))
-
-        #Walmart
-        data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
-                    ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter # again. Hang up','Yes','No',],
-                    ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
-        data_3 = [  ['Walmart, Baltimore National','','',],
-                    ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter # again. Hang up.','Yes','No',],
-                    ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
-        w_1 = Table(data_2,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
-        w_2 = Table(data_3,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
-        w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
-                               ('GRID',(0,1),(-1,-1),1,colors.black),
-                               ('FONT',(0,0),(-1,-1),'Helvetica',8),
-                               ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
-        w_2.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
-                               ('GRID',(0,1),(-1,-1),1,colors.black),
-                               ('FONT',(0,0),(-1,-1),'Helvetica',8),
-                               ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
-        # p.addPageTemplates(pg)
-
-        # elements.append(I)
-        elements.append(t_h)
-        elements.append(t)
-        for job in shift.jobs_in_shift.all():
-            if job.job_location.pk == 25:
-                elements.append(w_1)
-            if job.job_location.pk == 63:
-                elements.append(w_2)
-        # write the document to disk
-
-        p.build(elements)
-        # End writing
-
-        pdf = buffer.getvalue()
-        buffer.close()
-        response.write(pdf)
-
+        response = pdf_build(shift)
         return response
 
     def get_queryset(self):
@@ -394,7 +295,6 @@ class RouteList(generic.ListView):
         if form.is_valid():
             route_list = Route.objects.all()
             dates = []
-
             d1 = form.cleaned_data['begin']
             d2 = form.cleaned_data['end']
             # this will give you a list containing all of the dates
@@ -408,7 +308,11 @@ class RouteList(generic.ListView):
                         for prop in route.job_route.all():
                             # print(prop)
                             shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                        pdf_build(shift)
+                        if bool:
                             print("Created shift for %s %s" % (d,route.driver))
+                        else:
+                            print("Retrieved shift for %s %s" % (d,route.driver))
             return HttpResponseRedirect('/work/allshifts/')
         else:
             return HttpResponseRedirect('/work/allshifts/')
@@ -839,3 +743,96 @@ class UpdateJob(LoginRequiredMixin,generic.UpdateView):
     model = Job
     form_class = forms.InspectionForm
     template_name_suffix = '_form'
+
+#########################################################
+#PDF Build#
+#########################################################
+def pdf_build(shift):
+    string=str(shift)
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename='+string
+    buffer = BytesIO()
+    width, height = letter
+    # Start writing the PDF here
+    p = SimpleDocTemplate(buffer, leftMargin=0.5*inch,rightMargin=0.5*inch,bottomMargin=0.5*inch,topMargin=0.5*inch,pagesize=landscape(letter))
+    logo=os.path.join(settings.BASE_DIR,'static','mobs','ms.jpg')
+    I = Image(logo,width=2.2*inch,height=1.2*inch)
+    # container for the 'Flowable' objects
+    elements = []
+    # Header table
+    data_h = [[I,shift.date.strftime('%A')+': '+shift.date.strftime('%b %d, %Y'),'',shift.driver,'Weather'],
+                ['','Driver','Time in','Time out','Viento (Windy)',''],
+                ['','Helper','Time in','Time out','Lloviendo (Rain)',''],
+                ['','Lunch (Almuerzo)','Time in','Time out','Nieve (Snow)',''],
+                ['','Truck #','Mileage in','Mileage out',''],]
+    t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[3*inch,2*inch,2*inch,2*inch,1*inch,0.4*inch])
+    t_h.setStyle(TableStyle([('LINEBELOW',(1,1),(3,4),1,colors.black),
+                            ('GRID',(5,1),(5,3),1,colors.black),
+                            ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
+                           ('FONT',(0,1),(-1,-1),'Helvetica',8),
+                           ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
+                           ('SPAN',(0,0),(0,-1),
+                           )]))
+    #Property table
+    data= [['Property', '#', 'Time', '','Sweep','', 'Blow','','','Pick','','','Trash','','Bulk','Dumpster'],
+           ['','', 'In', 'Out', 'Front', 'Back', 'Front', 'Back', 'S/W', 'Front', 'Back', 'S/W', 'Empty', '# Bags','','%'],
+                ]
+    for job in shift.jobs_in_shift.all():
+        style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8)
+        if job.job_location.color:
+            style.backColor = str(job.job_location.color)
+        text = str(job.job_location.display_name)
+        # +'<br/>'+str(job.job_location.address)
+        P = Paragraph(text,style)
+        data.append([P, '', '', '', '', '', '', '', '', '', '', '', '', ''])
+        if job.job_location.instructions:
+            data.append([str(job.job_location.instructions), '', '', '', '', '', '', '', '', '', '', '', '', ''])
+    #Table settings
+    t=Table(data,colWidths=[3.0*inch,0.4*inch,0.85*inch,0.85*inch,0.5*inch,0.5*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.5*inch,0.5*inch,0.45*inch,0.55*inch],spaceBefore=0.15*inch)
+    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.lemonchiffon),
+                            ('ALIGN', (1, 0), (-1, 1), "CENTER"),
+                            ('TOPPADDING',(0,2),(-1,-1),4),
+                            ('BOTTOMPADDING',(0,2),(-1,-1),4),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
+                           ('FONT',(0,1),(-1,-1),'Helvetica',8),
+                           ('SPAN',(2,0),(3,0)),
+                           ('SPAN',(4,0),(5,0)),
+                           ('SPAN',(6,0),(8,0)),
+                           ('SPAN',(9,0),(11,0)),
+                           ('SPAN',(12,0),(13,0)),]))
+    #Walmart
+    data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter # again. Hang up','Yes','No',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
+    data_3 = [  ['Walmart, Baltimore National','','',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter # again. Hang up.','Yes','No',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
+    w_1 = Table(data_2,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_2 = Table(data_3,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
+                           ('GRID',(0,1),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
+    w_2.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
+                           ('GRID',(0,1),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
+    elements.append(t_h)
+    elements.append(t)
+    for job in shift.jobs_in_shift.all():
+        if job.job_location.pk == 25:
+            elements.append(w_1)
+        if job.job_location.pk == 63:
+            elements.append(w_2)
+    # write the document to disk
+    p.build(elements)
+    # End writing
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    file_name = os.path.join(settings.MEDIA_ROOT,'routes',string+'.pdf')
+    print('Generating file: '+file_name)
+    with open(file_name, 'wb') as f:
+        f.write(pdf)
+    return response
