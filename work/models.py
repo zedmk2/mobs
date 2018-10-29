@@ -75,6 +75,8 @@ class Property(models.Model):
     state  = models.CharField(max_length=200, blank=True,null=True)
     zipcode = models.IntegerField(blank=True,null=True)
     county = models.CharField(max_length=30,blank=True,null=True)
+
+    instructions = models.CharField(max_length=200,blank=True,null=True)
     color = models.CharField(max_length=30,blank=True,null=True)
 
     client_name = models.ForeignKey(Client, on_delete=models.PROTECT,null=True)
@@ -217,7 +219,7 @@ class Shift(models.Model):
             return 0
 
     def __str__(self):
-        return "%s %s" % (self.date, self.driver)
+        return "%s %s %s" % (self.date, self.day_num, self.driver)
         # def save(self,*args,**kwargs):
 
     #     self.message_html= misaka.html(self.user)
