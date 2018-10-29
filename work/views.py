@@ -154,6 +154,7 @@ class UpdateShift(LoginRequiredMixin,generic.UpdateView):
         self.object = form.save()
         job_form.instance = self.object
         job_form.save()
+        pdf_build(self.object)
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, job_form):

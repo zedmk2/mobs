@@ -19,11 +19,11 @@ urlpatterns = [
 
     url(r'^batch_shift/',views.batch_shift,name='batchshift'),
 
-    url(r'^allshifts/$',views.ListShifts.as_view(),name='full'),
+    url(r'^allshifts/$',views.RecentListShifts.as_view(),name='full'),
     url(r'^last30days_shifts/$',views.Last30ListShifts.as_view(),name='all'),
     path('next30shifts/',views.RecentListShifts.as_view(),name='next'),
     path('shiftsbetween/<begin>/<end>/',views.DateListShifts.as_view(),name='date_shift_list'),
-    path('calendar/',views.CalendarLast30ListShifts.as_view()   ,name='calendar'),
+    path('calendar/',views.CalendarLast30ListShifts.as_view(),name='calendar'),
 
     path('job/<pk>/',views.UpdateJob.as_view(),name='update_job'),
 
