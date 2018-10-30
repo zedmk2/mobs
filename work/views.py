@@ -779,7 +779,7 @@ def pdf_build(shift):
            ['','', 'In', 'Out', 'Front', 'Back', 'Front', 'Back', 'S/W', 'Front', 'Back', 'S/W', 'Empty', '# Bags','','%'],
                 ]
     for job in shift.jobs_in_shift.all():
-        style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8)
+        style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8,borderPadding=(3,5,3,5))
         if job.job_location.color:
             style.backColor = str(job.job_location.color)
         text = str(job.job_location.display_name)
@@ -811,11 +811,11 @@ def pdf_build(shift):
                 ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
     w_1 = Table(data_2,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_2 = Table(data_3,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
-    w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
+    w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
                            ('GRID',(0,1),(-1,-1),1,colors.black),
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
                            ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
-    w_2.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lavenderblush),
+    w_2.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
                            ('GRID',(0,1),(-1,-1),1,colors.black),
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
                            ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
