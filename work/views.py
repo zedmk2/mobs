@@ -767,7 +767,7 @@ def pdf_build(shift):
                 ['','Lunch (Almuerzo)','Time in','Time out','Nieve (Snow)',''],
                 ['','Truck #','Mileage in','Mileage out',''],]
     t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[3*inch,2*inch,2*inch,2*inch,1*inch,0.4*inch])
-    t_h.setStyle(TableStyle([('LINEBELOW',(1,1),(3,4),1,colors.black),
+    t_h.setStyle(TableStyle([('GRID',(1,1),(3,4),1,colors.black),
                             ('GRID',(5,1),(5,3),1,colors.black),
                             ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
                            ('FONT',(0,1),(-1,-1),'Helvetica',8),
