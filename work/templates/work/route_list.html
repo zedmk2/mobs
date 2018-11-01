@@ -37,7 +37,7 @@
 
 {% for route in dow.list %}
 
-<td>{{route.driver}}
+<td>{{route.route_num}}. {{route.driver}}
 <table class='route-table-jobs'>
   {% for prop in route.job_route.all %}
     <tr>

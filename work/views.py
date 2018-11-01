@@ -174,7 +174,7 @@ def batch_shift(request):
             for form_here in shift_form:
                 if form_here.is_valid():
                     form_here.save()
-            return HttpResponseRedirect('/work/allshifts/')
+            return HttpResponseRedirect('/work/next30shifts/')
     else:
         shift_form = ShiftFormSet()
 
@@ -314,9 +314,9 @@ class RouteList(generic.ListView):
                             print("Created shift for %s %s" % (d,route.driver))
                         else:
                             print("Retrieved shift for %s %s" % (d,route.driver))
-            return HttpResponseRedirect('/work/allshifts/')
+            return HttpResponseRedirect('/work/next30shifts/')
         else:
-            return HttpResponseRedirect('/work/allshifts/')
+            return HttpResponseRedirect('/work/next30shifts/')
 
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required

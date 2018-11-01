@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>MOBS v1.8c</title>
+    <title>MOBS v2.0c</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
@@ -22,7 +22,7 @@
       {% if user.is_authenticated %}
       <a class="p-2 text-dark" href="{% url 'shifts:create' %}">New Shift</a>
       <a class="p-2 text-dark" href="{% url 'shifts:batchshift' %}">Batch New Shift</a>
-      <a class="p-2 text-dark" href="{% url 'shifts:all' %}">Shift List</a>
+      <a class="p-2 text-dark" href="{% url 'shifts:next' %}">Shift List</a>
       <a class="p-2 text-dark" href="{% url 'shifts:route_list' %}">Route Generator</a>
       <a class="p-2 text-dark" href="{% url 'shifts:payroll_list' %}">Payroll List</a>
       <a class="p-2 text-dark" href="{%url 'shifts:properties' %}">Property List</a>
