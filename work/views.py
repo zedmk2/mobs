@@ -306,12 +306,12 @@ class RouteList(generic.ListView):
                 for route in route_list:
                     if d.weekday()==int(route.weekday):
                         shift, bool = Shift.objects.get_or_create(date=d,driver=route.driver,day_num=route.route_num)
-                        for prop in route.job_route.all():
-                            # print(prop)
-                            shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
-                        pdf_build(shift)
                         if bool:
+                            for prop in route.job_route.all():
+                                # print(prop)
+                                shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
                             print("Created shift for %s %s" % (d,route.driver))
+                            pdf_build(shift)
                         else:
                             print("Retrieved shift for %s %s" % (d,route.driver))
             return HttpResponseRedirect('/work/next30shifts/')
