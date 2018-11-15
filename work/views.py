@@ -510,7 +510,7 @@ def job_costing(request, begin, end,full):
 
     month = datetime.datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
 
-    context = {'prop':property_set,'job':job_set,'month':month,'begin':begin,'end':end}
+    context = {'prop':property_set,'job':job_set,'month':month,'begin':begin,'end':end, 'full':full}
 
     return render(request,'work/job_costing.html',context)
 

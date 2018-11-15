@@ -25,11 +25,15 @@ urlpatterns = [
     url(r'^accounts/',include('accounts.urls',namespace='accounts')),
     url(r'^work/',include('work.urls',namespace='work')),
     url(r'^thanks/$',views.ThanksPage.as_view(),name='thanks'),
-    
+
 ]
 
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
-        url(r'^__debug__/', include(debug_toolbar.urls)),
+        path('__debug__/', include(debug_toolbar.urls)),
+
+        # For django versions before 2.0:
+        # url(r'^__debug__/', include(debug_toolbar.urls)),
+
     ] + urlpatterns

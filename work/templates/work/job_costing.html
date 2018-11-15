@@ -12,8 +12,10 @@
   </ul>
     </div>
   <div class="col"> <ul class='reportHeader reportHeader-r'>
-    <li>Mobile Sweep Services, Inc.</li>
-    <li>All customers excluding e-bill (USM, Wal-mart)</li>
+    <li>Mobile Sweep Services, Inc.{{full}}</li>
+    <li>All customers {%if full == "all" %} including e-bill (USM, Wal-mart){%else%} excluding e-bill (USM, Wal-mart){%endif%} </li>
+    {%if full == "all" %}<li><a href="{%url 'shifts:job_costing' begin=begin end=end full='0'%}">Exclude e-bill</a> </li>
+    {%else%}<li><a href="{%url 'shifts:job_costing' begin=begin end=end full='all'%}">Include e-bill</a> </li>{%endif%}
     <li>All services</li>
     <li>All employees</li>
     <li>Serviced between {{begin}} - {{end}}</li>
