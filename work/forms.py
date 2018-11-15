@@ -37,7 +37,7 @@ class DateForm(forms.Form):
 
 class CreateShiftForm(forms.ModelForm):
 
-    date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy'}))
+    date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy','autocomplete':'off'}))
     dr_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
     dr_end_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
     he_start_time = forms.TimeField(widget=forms.TextInput(attrs={'class': 'special','type':'time'}), required=False)
@@ -78,7 +78,7 @@ class CreateJobForm(forms.ModelForm):
 
     start_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     end_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
-    order = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'jobOrderForm'}))
+    order = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'jobOrderForm','autocomplete':'off'}))
 
     class Meta:
         model = models.Job

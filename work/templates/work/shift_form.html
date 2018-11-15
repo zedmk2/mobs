@@ -45,45 +45,31 @@
     <table id='addShift' class='tbl-shift-header'>
 
         <tr>
-          <td></td>
+
           <td>Date: {{shift_form.date}} </td>
           <td>Route: {{shift_form.day_num}}</td>
-          <td></td>
+          <td>Truck: {{shift_form.truck|add_class:"shiftSelect2"}}</td>
           <td>{{object.date|date:"l"}} {{object}}</td>
         </tr>
         <tr>
-          <td></td>
+
           <td>Driver: {{shift_form.driver|add_class:"shiftSelect2"}}</td>
           <td>Time In: {{shift_form.dr_start_time|add_class:"driverStart"}}</td>
           <td>Time Out: {{shift_form.dr_end_time|add_class:"driverEnd"}}</td>
-          <td>Viento (Windy):</td>
+          <td><input type="submit" value="Update Shift" class="btn btn-primary btn-large"></td>
         </tr>
         <tr>
-          <td></td>
+
           <td>Helper: {{shift_form.helper|add_class:"shiftSelect2"}}</td>
           <td>Time In: {{shift_form.he_start_time|add_class:"helperStart"}}</td>
           <td>Time Out: {{shift_form.he_end_time|add_class:"helperEnd"}}</td>
-          <td>Lloviento (Rain):</td>
+          <td></td>
         </tr>
         <tr>
-          <td></td>
+
           <td>Helper 2: {{shift_form.helper_2|add_class:"shiftSelect2"}}</td>
           <td>Time In: {{shift_form.he_2_start_time|add_class:"helper2Start"}}</td>
           <td>Time Out: {{shift_form.he_2_end_time|add_class:"helper2Start"}}</td>
-          <td>Nieve (Snow):</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>Lunch:</td>
-          <td>Time In:</td>
-          <td>Time Out:</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>Truck: {{shift_form.truck|add_class:"shiftSelect2"}}</td>
-          <td>Mileage start:</td>
-          <td>Mileage end:</td>
           <td></td>
         </tr>
 
@@ -91,7 +77,7 @@
 
 
 
-      	<input type="submit" value="Update Shift" class="btn btn-primary btn-large">
+
 
       {{ formset.management_form }}
 
