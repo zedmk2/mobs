@@ -309,7 +309,14 @@ class RouteList(generic.ListView):
                         if bool:
                             for prop in route.job_route.all():
                                 # print(prop)
-                                shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                                if prop.freq == 'even':
+                                    if d.isocalendar()[1] %2 == 0:
+                                        shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                                elif prop.freq == 'odd':
+                                    if d.isocalendar()[1] %2 == 1:
+                                        shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                                else:
+                                    shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
                             print("Created shift for %s %s" % (d,route.driver))
                             pdf_build(shift)
                         else:
