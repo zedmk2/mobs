@@ -28,7 +28,8 @@
 <div class="">
 
 {% regroup object_list by dow as route_list%}
-
+<p class='yellow'>Yellow = Even weeks only</p>
+<p class='green'>  Green = Odd weeks only</p>
 <table class='table table-sm route-table'>
 {% for dow in route_list %}
 <tr class='table-primary'>
@@ -41,7 +42,7 @@
 <table class='route-table-jobs'>
   {% for prop in route.job_route.all %}
     <tr>
-      <td>{{prop.order}} {{prop.route_location.name}}</td>
+      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{%endif%}">{{prop.order}}  {{prop.route_location.name}}</td>
     </tr>
   {% endfor %}
 </table>
