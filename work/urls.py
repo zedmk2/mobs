@@ -28,6 +28,7 @@ urlpatterns = [
     path('job/<pk>/',views.UpdateJob.as_view(),name='update_job'),
 
     path('routes/',views.RouteList.as_view(),name='route_list'),
+    path('other_routes/',views.OtherRouteList.as_view(),name='other_route_list'),
 
     path('payroll_list/',views.payroll_list,name='payroll_list'),
     path('payroll/<begin>/<end>/',views.payroll,name='payroll'),

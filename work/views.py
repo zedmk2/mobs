@@ -283,7 +283,7 @@ class RouteList(generic.ListView):
     date_form = forms.DateForm()
 
     def get_queryset(self):
-        return Route.objects.all().prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+        return Route.objects.filter(type='weekly').prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
 
     def get_context_data(self, **kwargs):
         date_form = forms.DateForm()
@@ -294,7 +294,7 @@ class RouteList(generic.ListView):
     def post(self, request, *args, **kwargs):
         form = forms.DateForm(request.POST)
         if form.is_valid():
-            route_list = Route.objects.all()
+            route_list = Route.objects.filter(type='weekly')
             dates = []
             d1 = form.cleaned_data['begin']
             d2 = form.cleaned_data['end']
@@ -324,6 +324,43 @@ class RouteList(generic.ListView):
             return HttpResponseRedirect('/work/next30shifts/')
         else:
             return HttpResponseRedirect('/work/next30shifts/')
+
+class OtherRouteList(generic.ListView):
+    model = Route
+    date_form = forms.QDateForm()
+    route_form = forms.RouteSelectForm()
+    template_name = "work/route_list_2.html"
+
+    def get_queryset(self):
+        return Route.objects.filter(type='commercial').prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+
+    def get_context_data(self, **kwargs):
+        date_form = forms.QDateForm()
+        route_form = forms.RouteSelectForm()
+        context = super().get_context_data(**kwargs)
+        context['date_form'] = date_form
+        context['route_form'] = route_form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.QDateForm(request.POST)
+        route_form = forms.RouteSelectForm(request.POST)
+        if form.is_valid() and route_form.is_valid():
+            route_list = Route.objects.filter(type='weekly')
+            route = route_form.cleaned_data['route_select']
+            date = form.cleaned_data['begin']
+            shift, bool = Shift.objects.get_or_create(date=date,driver=route.driver,day_num=route.route_num)
+            if bool:
+                for prop in route.job_route.all():
+                    # print(prop)
+                    shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                print("Created shift for %s %s" % (date,route.driver))
+                pdf_build(shift)
+            else:
+                print("Retrieved shift for %s %s" % (date,route.driver))
+            return HttpResponseRedirect(reverse('shifts:update', args=[shift.pk]))
+        else:
+            return HttpResponseRedirect('/work/other_routes/')
 
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required

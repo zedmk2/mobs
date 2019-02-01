@@ -23,6 +23,21 @@ class ScheduleForm(forms.ModelForm):
         model = models.Shift
         fields = ['driver','helper','date','truck']
 
+class RouteSelectForm(forms.ModelForm):
+    route_select = forms.ModelChoiceField(queryset=models.Route.objects.filter(type='commercial'))
+
+    def label_from_instance(self, obj):
+        return "{0} {1}".format(obj.route_num, obj)
+
+    def __init__(self, *args, **kwargs):
+        super(RouteSelectForm, self).__init__(*args, **kwargs)
+
+        self.fields['route_select'].label_from_instance = self.label_from_instance
+
+    class Meta:
+        model = models.Route
+        fields = ['weekday']
+
 class DateForm(forms.Form):
     begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
     end = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
@@ -35,6 +50,9 @@ class DateForm(forms.Form):
             raise forms.ValidationError("End date must be after start date")
         return cleaned_data
 
+class QDateForm(forms.Form):
+    begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
+    
 class CreateShiftForm(forms.ModelForm):
 
     date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy','autocomplete':'off'}))

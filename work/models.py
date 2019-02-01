@@ -282,11 +282,13 @@ class Route(models.Model):
     ('3', 'Thursday'),
     ('4', 'Friday'),
     ('5', 'Saturday'),
-    ('6', 'Sunday'),)
+    ('6', 'Sunday'),
+    ('7', 'Variable'),)
 
-    weekday = models.CharField(max_length=20, choices=DOW_CHOICES)
+    weekday = models.CharField(max_length=20, blank=True, null=True,choices=DOW_CHOICES)
     driver = models.ForeignKey(Employee,on_delete=models.PROTECT,related_name='route_driver')
     route_num = models.IntegerField()
+    type = models.CharField(max_length=20, default='weekly')
 
     class Meta:
         verbose_name_plural = "routes"
@@ -302,7 +304,8 @@ class Route(models.Model):
         ('3', 'Thursday'),
         ('4', 'Friday'),
         ('5', 'Saturday'),
-        ('6', 'Sunday'),)
+        ('6', 'Sunday'),
+        ('7', 'Variable'),)
         for i in DOW_CHOICES:
             if i[0] == num_day:
                 weekday = i[1]
@@ -317,7 +320,8 @@ class Route(models.Model):
         ('3', 'Thursday'),
         ('4', 'Friday'),
         ('5', 'Saturday'),
-        ('6', 'Sunday'),)
+        ('6', 'Sunday'),
+        ('7', 'Variable'),)
         for i in DOW_CHOICES:
             if i[0] == num_day:
                 weekday = i[1]
