@@ -122,7 +122,7 @@ class Property(models.Model):
 
     job_costing_report_include = models.BooleanField(default=True)
 
-    check_priority = models.IntegerField(default=3)
+    check_priority = models.IntegerField(default=1)
     check_interval = models.IntegerField(default=30)
 
     class Meta:

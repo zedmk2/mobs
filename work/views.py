@@ -748,9 +748,12 @@ class PropertySchedule(generic.ListView):
                     p.month_target = p.times_per_month
                 elif int(p.times_per_week or 0) == 7:
                     p.month_target = end_of_month_number
-                elif int(p.times_per_week or 0) >0 and type(p.days_of_week)!='NoneType':
-                    for letter in str(p.days_of_week or ''):
-                        p.month_target += days_dict[letter]
+                elif int(p.times_per_week or 0) >0:
+                    if isinstance(p.days_of_week, str):
+                        for letter in str(p.days_of_week or ''):
+                            p.month_target += days_dict[letter]
+                    else:
+                        p.month_target = "NA"
                 else:
                     p.month_target = "NA"
                 p.completed = record.get(p.name)
