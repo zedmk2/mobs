@@ -116,6 +116,7 @@ class Property(models.Model):
     po_price = models.FloatField(blank=True,null=True)
 
     times_per_week = models.IntegerField(blank=True,null=True)
+    days_of_week = models.CharField(blank=True,null=True,max_length=7)
     times_per_month = models.IntegerField(blank=True,null=True)
     times_per_year = models.IntegerField(blank=True,null=True)
 

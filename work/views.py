@@ -1,5 +1,5 @@
 import os
-import time
+import time, calendar
 from collections import defaultdict
 from django.shortcuts import render, render_to_response, HttpResponseRedirect
 from django.contrib.auth import get_user_model
@@ -393,6 +393,7 @@ def payroll_list(request):
     context = {'today':today,'next_tue':next_tue,'prev_day':prev_day,'week_list':week_list, 'date_form':date_form}
     return render(request,'work/payroll_list.html',context)
 
+
 @login_required
 def payroll_full(request,begin,end):
     begin = begin
@@ -684,19 +685,48 @@ class WeekSchedule(generic.ListView):
 
     template_name = "work/schedule.html"
 
+def days_in_month(today):
+        first_of_month = today.replace(day=1)
+        end_of_month_number =  calendar.monthrange(today.year, today.month)[1]
+        end_of_month = today.replace(day=end_of_month_number)
+        list_days = [first_of_month + datetime.timedelta(days=x) for x in range((end_of_month - first_of_month).days + 1)]
+        days_dict = {"M":0,"T":0,"W":0,"R":0,"F":0,"S":0,"U":0}
+        dict = defaultdict(int)
+        for day in list_days:
+            dict[day.weekday()] += 1
+        days_dict["M"] = dict[0]
+        days_dict["T"] = dict[1]
+        days_dict["W"] = dict[2]
+        days_dict["R"] = dict[3]
+        days_dict["F"] = dict[4]
+        days_dict["S"] = dict[5]
+        days_dict["U"] = dict[6]
+
+        return days_dict
+
 class PropertySchedule(generic.ListView):
     def get_queryset(self):
-        qs = Property.objects.all()
+        qs = Property.objects.filter(job_costing_report_include=True)
         return qs
 
     def get(self, request, *args, **kwargs):
+        prop_list = qs = Property.objects.filter(job_costing_report_include=True)
         self.object_list = self.get_queryset()
         context = self.get_context_data()
 
-        shifts = Shift.objects.order_by("date").filter(date__gte='2018-03-04').filter(date__lte='2018-03-10').prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
-        record = {}
+        today = datetime.date.today()
+        first_of_month = today.replace(day=1)
+        end_of_month_number =  calendar.monthrange(today.year, today.month)[1]
+        end_of_month = today.replace(day=end_of_month_number)
 
-        for s in shifts:
+        days_dict = days_in_month(today)
+
+        prev_shifts = Shift.objects.order_by("date").filter(date__gte=first_of_month).filter(date__lt=today).prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
+        remaining_shifts = Shift.objects.order_by("date").filter(date__gte=today).filter(date__lte=end_of_month).prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
+        record = {}
+        record_2 = {}
+
+        for s in prev_shifts:
             s1 = 0
             for j in s.jobs_in_shift.all():
                 if j.job_location.name in record:
@@ -704,11 +734,36 @@ class PropertySchedule(generic.ListView):
                 else:
                     record[j.job_location.name] = 1
 
-        prop_list = Property.objects.all()
-        for p in prop_list:
-                p.completed = record.get(p.name)
+        for s in remaining_shifts:
+            s1 = 0
+            for j in s.jobs_in_shift.all():
+                if j.job_location.name in record_2:
+                    record_2[j.job_location.name] += 1
+                else:
+                    record_2[j.job_location.name] = 1
 
-        extra_context = {'shifts':shifts,'record':record,'prop_list':prop_list}
+        for p in prop_list:
+                p.month_target= 0
+                if int(p.times_per_month or 0) > 0:
+                    p.month_target = p.times_per_month
+                elif int(p.times_per_week or 0) == 7:
+                    p.month_target = end_of_month_number
+                elif int(p.times_per_week or 0) >0 and type(p.days_of_week)!='NoneType':
+                    for letter in str(p.days_of_week or ''):
+                        p.month_target += days_dict[letter]
+                else:
+                    p.month_target = "NA"
+                p.completed = record.get(p.name)
+                p.remaining = record_2.get(p.name)
+                p.difference = int(p.times_per_month or 0) - int(p.completed or 0) - int(p.remaining or 0)
+                if p.difference > 0:
+                    p.difference_class = 'blue'
+                elif p.difference < 0 :
+                    p.difference_class = 'red'
+                else:
+                    p.difference_class = 'grey'
+
+        extra_context = {'days_dict':days_dict,'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record':record,'prop_list':prop_list}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 

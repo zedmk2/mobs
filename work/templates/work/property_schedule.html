@@ -5,18 +5,26 @@
 {% load staticfiles %}
 
 {% block work_content %}
-
-{{record}}
-
-<br>
-
+{{days_dict}}
 <div class="container">
-prop - TPW - TPM - TPY
+<table class='table-striped'>
+  <thead>
+    <th>Prop</th>
+    <th>Month Target</th>
+    <th>Time Completed</th>
+    <th>Time Remaining</th>
+    <th>Difference</th>
+  </thead>
   {% for property in prop_list %}
-
-    <div class="row">{{property}} - {{property.completed}} - {{property.times_per_week}} - {{property.times_per_month}} - {{property.times_per_year}}</div>
-
-  {%endfor%}
+  <tr>
+    <td>{{property}}</td>
+    <td>{{property.month_target}}</td>
+    <td>{{property.completed}}</td>
+    <td>{{property.remaining}}</td>
+    <td class={{property.difference_class}}>{{property.difference}}</td>
+  </tr>
+    {%endfor%}
+</table>
 
 </div>
 {% for s in shifts %}
