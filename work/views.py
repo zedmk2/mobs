@@ -755,13 +755,15 @@ class PropertySchedule(generic.ListView):
                     p.month_target = "NA"
                 p.completed = record.get(p.name)
                 p.remaining = record_2.get(p.name)
-                p.difference = int(p.month_target or 0) - int(p.completed or 0) - int(p.remaining or 0)
-                if p.difference > 0:
-                    p.difference_class = 'blue'
-                elif p.difference < 0 :
-                    p.difference_class = 'red'
-                else:
-                    p.difference_class = 'grey'
+                p.difference_class = 'yellow'
+                if p.month_target != "NA":
+                    p.difference = int(p.month_target or 0) - int(p.completed or 0) - int(p.remaining or 0)
+                    if p.difference > 0:
+                        p.difference_class = 'blue'
+                    elif p.difference < 0 :
+                        p.difference_class = 'red'
+                    else:
+                        p.difference_class = 'grey'
 
         extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record':record,'prop_list':prop_list}
         full_context = {**context, **extra_context}
