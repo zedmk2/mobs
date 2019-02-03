@@ -706,11 +706,11 @@ def days_in_month(today):
 
 class PropertySchedule(generic.ListView):
     def get_queryset(self):
-        qs = Property.objects.filter(job_costing_report_include=True)
+        qs = Property.objects.filter(check_priority=1)
         return qs
 
     def get(self, request, *args, **kwargs):
-        prop_list = qs = Property.objects.filter(job_costing_report_include=True)
+        prop_list = qs = Property.objects.filter(check_priority=1)
         self.object_list = self.get_queryset()
         context = self.get_context_data()
 
