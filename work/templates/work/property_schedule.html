@@ -5,19 +5,20 @@
 {% load staticfiles %}
 
 {% block work_content %}
+
 <div class="container">
 <table class='table-striped'>
   <thead>
-    <th>Prop</th>
-    <th>Month Target</th>
-    <th>Time Completed</th>
-    <th>Time Remaining</th>
-    <th>Difference</th>
+    <th width=60%>Prop</th>
+    <th width=10%>Target</th>
+    <th width=10%>Completed</th>
+    <th width=10%>Scheduled</th>
+    <th width=10%>Difference</th>
   </thead>
   {% for property in prop_list %}
   <tr>
     <td>{{property}}</td>
-    <td>{{property.month_target}}</td>
+    <td>{{property.route_check}}</td>
     <td>{{property.completed}}</td>
     <td>{{property.remaining}}</td>
     <td class={{property.difference_class}}>{{property.difference}}</td>
@@ -33,5 +34,12 @@
 
 {%endfor%}
 {%endfor%}
+
+Meta Check:
+Properties in list: {{prop_list.count}} <br>
+Unique properties on route schedule: {{num_routes}} <br>
+{% for prop in route_prop_list %}
+ {{prop}}<br>
+ {% endfor %}
 
 {% endblock %}

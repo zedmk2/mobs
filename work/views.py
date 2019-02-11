@@ -17,7 +17,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.utils import timezone
 from django.http import Http404, FileResponse, HttpResponse
 from django.views import generic
-from work.models import Shift, Job, Property, Employee, Inspection, Route
+from work.models import Shift, Job, Property, Employee, Inspection, Route, RouteJob
 from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -706,11 +706,21 @@ def days_in_month(today):
 
 class PropertySchedule(generic.ListView):
     def get_queryset(self):
-        qs = Property.objects.filter(check_priority=1)
+        qs = Property.objects.filter(check_priority__lt=3)
         return qs
 
     def get(self, request, *args, **kwargs):
-        prop_list = qs = Property.objects.filter(check_priority=1)
+        prop_list = Property.objects.filter(check_priority__lt=3)
+        route_list = Route.objects.all().prefetch_related('job_route__route_location').prefetch_related('job_route')
+        route_dict = defaultdict(int)
+        route_prop_list = []
+        for route_f in route_list:
+            for route in route_f.job_route.all():
+                route_dict[route.route_location.display_name] +=1
+        for key, value in route_dict.items():
+            route_prop_list.append(key)
+        route_prop_list.sort()
+        num_routes = len(route_prop_list)
         self.object_list = self.get_queryset()
         context = self.get_context_data()
 
@@ -744,6 +754,8 @@ class PropertySchedule(generic.ListView):
 
         for p in prop_list:
                 p.month_target= 0
+                p.route_check = 2
+
                 if int(p.times_per_month or 0) > 0:
                     p.month_target = p.times_per_month
                 elif int(p.times_per_week or 0) == 7:
@@ -768,7 +780,7 @@ class PropertySchedule(generic.ListView):
                     else:
                         p.difference_class = 'grey'
 
-        extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record':record,'prop_list':prop_list}
+        extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record':record,'prop_list':prop_list,'route_dict':route_dict,'route_prop_list':route_prop_list,'num_routes':num_routes}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 
