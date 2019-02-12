@@ -1,0 +1,35 @@
+{% extends "work/work_base.html" %}
+
+{% block prework %}
+
+    <div class="content">
+
+    </div>
+
+    {% if user.is_authenticated %}
+
+    {% endif %}
+
+{% endblock %}
+
+{% block work_content %}
+
+{% regroup object_list by date as date_list_2 %}
+<table class="table">
+<thead>
+</thead>
+
+  {% for date, shift_list in date_list_2  %}
+  <td>{{date}}
+      {% for shift in shift_list %} <ul> <li>  <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
+        {{shift.day_num}}. {{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%} |{% if shift.dr_start_time %} {{shift.dr_start_time}} - {{shift.dr_end_time}} | ({{shift.shift_length|floatformat:'-2'}} hrs, {%else%} N/A | ({%endif%}{{shift.jobs_in_shift.count}} jobs)
+      </a> <br> <<a href="{% url 'shifts:pdf_shift' pk=shift.pk %}">Print view</a>> </li>
+        {% for job in shift.jobs_in_shift.all  %} <li> {{job.job_location.name}}</li> {% endfor %}
+          </ul> {% endfor %}
+  </td>
+  {% endfor %}
+</table>
+
+</div>
+</div>
+{% endblock %}

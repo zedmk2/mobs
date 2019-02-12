@@ -92,6 +92,15 @@ class DateSummary(generic.ListView):
         sel_date = self.kwargs['date_summary']
         return Shift.objects.filter(date=sel_date).prefetch_related('jobs_in_shift').prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift__job_location')
 
+class WeekSummary(generic.ListView):
+    model = Shift
+    template_name = 'work/week_summary.html'
+
+    def get_queryset(self, **kwargs):
+        begin = self.kwargs['begin']
+        end = self.kwargs['end']
+        return Shift.objects.filter(date__gte=begin).filter(date__lte=end).prefetch_related('jobs_in_shift').prefetch_related('driver').prefetch_related('helper').prefetch_related('jobs_in_shift__job_location')
+
 class ViewShift(LoginRequiredMixin,generic.DetailView):
     model = Shift
 

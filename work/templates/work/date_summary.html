@@ -27,9 +27,9 @@
           <p class='title date-summary-heading'>
             <a class='list-shift-item' href="{% url 'shifts:update' pk=shift.pk %}">
             {{shift.day_num}}. {{shift.driver|safe}} + {{shift.helper|safe}} {% if shift.helper_2 %} + {{shift.helper_2}} {%endif%} |{% if shift.dr_start_time %} {{shift.dr_start_time}} - {{shift.dr_end_time}} | ({{shift.shift_length|floatformat:'-2'}} hrs, {%else%} N/A | ({%endif%}{{shift.jobs_in_shift.count}} jobs)
-          </a> <<a href="{% url 'shifts:single_shift' pk=shift.pk %}">Print view</a>></p>
+          </a> <br> <<a href="{% url 'shifts:pdf_shift' pk=shift.pk %}">Print view</a>></p>
           <ul>{% for job in shift.jobs_in_shift.all  %}
-          <li class='date-summary-litem'>{{job.job_location}} - {%if job.start_time%}{{job.start_time|time:"P"}} to {{job.end_time}} ({{job.job_length|floatformat}} hr) {%else%} N/A{%endif%}</li>
+          <li class='date-summary-litem'>{{job.job_location.name}} {%if job.start_time%}- {{job.start_time|time:"P"}} to {{job.end_time}} ({{job.job_length|floatformat}} hr) {%else%} {%endif%}</li>
           {% endfor %}</ul>
 
       </li>
