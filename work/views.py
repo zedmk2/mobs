@@ -29,6 +29,8 @@ from reportlab.lib.units import inch
 from reportlab.lib import colors
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Frame, PageTemplate, Paragraph, Image
 from reportlab.lib.styles import ParagraphStyle
+from . import utils
+from django.utils.safestring import mark_safe
 
 import datetime
 from io import BytesIO
@@ -794,6 +796,58 @@ class PropertySchedule(generic.ListView):
         return self.render_to_response(full_context)
 
     template_name = "work/property_schedule.html"
+
+class Calendar(generic.ListView):
+    def get_queryset(self):
+        qs = Property.objects.filter(check_priority__lt=3)
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        self.object_list = self.get_queryset()
+        context = self.get_context_data()
+
+        today = datetime.date.today()
+        year = today.year
+        month = today.month
+
+        if 'year' in self.kwargs:
+            year = self.kwargs['year']
+            month = self.kwargs['month']
+
+        first_of_month = today.replace(day=1)
+        end_of_month_number =  calendar.monthrange(today.year, today.month)[1]
+        end_of_month = today.replace(day=end_of_month_number)
+
+        if month == 1:
+            lmonth = 12
+            lyear = year - 1
+        else:
+            lmonth = month - 1
+            lyear = year
+        if month ==12:
+            nmonth =1
+            nyear = year +1
+        else:
+            nmonth = month +1
+            nyear = year
+
+        days_dict = days_in_month(today)
+
+        shift_list = Shift.objects.order_by("date").filter(date__gte=today).filter(date__lte=end_of_month).prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
+        record = {}
+        record_2 = {}
+
+        cal = utils.ShiftCalendar()
+        cal.setfirstweekday(6)
+        html_calendar = cal.formatmonth(year, month,withyear=True)
+        html_calendar = html_calendar.replace('<td ', '<td  width="350" height="350"')
+
+        extra_context = {'shift_list':shift_list,'record':record,'lmonth':lmonth,'nmonth':nmonth,'lyear':lyear,'nyear':nyear}
+        extra_context['calendar'] = mark_safe(html_calendar)
+        full_context = {**context, **extra_context}
+        return self.render_to_response(full_context)
+
+    template_name = "work/full_calendar.html"
 
 ################################################
 ###PROPERTY LIST

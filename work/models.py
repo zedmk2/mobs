@@ -226,7 +226,11 @@ class Shift(models.Model):
     #     self.message_html= misaka.html(self.user)
 
     def get_absolute_url(self):
-        return reverse('shifts:single',kwargs={'pk':self.pk})
+        return reverse('shifts:update',kwargs={'pk':self.pk})
+
+    def get_quick_url(self):
+        url = reverse('shifts:update',kwargs={'pk':self.pk})
+        return u'<a href="%s">%s</a>' % (url, self.driver.name)
 
     class Meta:
         unique_together = (("day_num","date"),
