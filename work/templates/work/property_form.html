@@ -11,13 +11,19 @@
 
 
 {%block work_content%}
-
 <div class="container">
   <ul class='list-group'>
 <li class='list-group-item'>{{object.name}} ({{object.display_name}})</li>
 <li class='list-group-item'>{{object.client_name}}</li>
 <li class='list-group-item'>{{object.address}}, {{object.city}}</li>
   </ul>
+<br>
+Showing last {{object.last_ten_num}} jobs:
+<ul class='list-group'>
+  {% for object2 in object.last_ten %}
+  <li class="list-group-item">  <a href="{% url 'shifts:update' pk=object2.shift.pk %}"> {{object2.shift}} </a> </li>
+  {% endfor %}
+</ul>
   </div>
 
 

@@ -729,8 +729,16 @@ class PropertySchedule(generic.ListView):
             for route in route_f.job_route.all():
                 route_dict[route.route_location.display_name] +=1
         for key, value in route_dict.items():
-            route_prop_list.append(key)
+                route_prop_list.append(key)
         route_prop_list.sort()
+
+        prop_list_2 = []
+        for p in prop_list:
+            prop_list_2.append(p.display_name)
+
+        rpl_minus_prop_list = set(route_prop_list) - set(prop_list_2)
+        prop_list_minus_rpl = set(prop_list_2) - set(route_prop_list)
+
         num_routes = len(route_prop_list)
         self.object_list = self.get_queryset()
         context = self.get_context_data()
@@ -744,8 +752,10 @@ class PropertySchedule(generic.ListView):
 
         prev_shifts = Shift.objects.order_by("date").filter(date__gte=first_of_month).filter(date__lt=today).prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
         remaining_shifts = Shift.objects.order_by("date").filter(date__gte=today).filter(date__lte=end_of_month).prefetch_related('jobs_in_shift').prefetch_related('jobs_in_shift__job_location').prefetch_related('driver').prefetch_related('helper')
+        all_shifts = prev_shifts | remaining_shifts
         record = {}
         record_2 = {}
+        record_3 = {}
 
         for s in prev_shifts:
             s1 = 0
@@ -762,6 +772,14 @@ class PropertySchedule(generic.ListView):
                     record_2[j.job_location.name] += 1
                 else:
                     record_2[j.job_location.name] = 1
+
+        for s in all_shifts:
+            s1 = 0
+            for j in s.jobs_in_shift.all():
+                if j.job_location.display_name in record_3:
+                    record_3[j.job_location.display_name] += 1
+                else:
+                    record_3[j.job_location.display_name] = 1
 
         for p in prop_list:
                 p.month_target= 0
@@ -791,7 +809,15 @@ class PropertySchedule(generic.ListView):
                     else:
                         p.difference_class = 'grey'
 
-        extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record':record,'prop_list':prop_list,'route_dict':route_dict,'route_prop_list':route_prop_list,'num_routes':num_routes}
+        record_full_list = []
+        for key, value in record_3.items():
+                record_full_list.append(key)
+        rfl_count = len(record_full_list)
+        schedule_minus_prop_list = set(record_full_list) - set(prop_list_2)
+
+        extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record_full':record_full_list,'rfl_count':rfl_count,
+            'prop_list':prop_list, 'prop_list_2':prop_list_2,'route_dict':route_dict,'route_prop_list':route_prop_list,'num_routes':num_routes,
+            'rpl_minus_prop_list':rpl_minus_prop_list, 'prop_list_minus_rpl':prop_list_minus_rpl, 'schedule_minus_prop_list':schedule_minus_prop_list}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 
@@ -868,6 +894,43 @@ class UpdateProperty(LoginRequiredMixin,generic.UpdateView):
     model = Property
     form_class = forms.InspectionForm
     template_name_suffix = '_form'
+
+    def get_object(self, queryset=None):
+        """
+        Return the object the view is displaying.
+        Require `self.queryset` and a `pk` or `slug` argument in the URLconf.
+        Subclasses can override this to return any object.
+        """
+        # Use a custom queryset if provided; this is required for subclasses
+        # like DateDetailView
+        if queryset is None:
+            queryset = self.get_queryset()
+        # Next, try looking up by primary key.
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        if pk is not None:
+            queryset = queryset.filter(pk=pk).prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+        # Next, try looking up by slug.
+        if slug is not None and (pk is None or self.query_pk_and_slug):
+            slug_field = self.get_slug_field()
+            queryset = queryset.filter(**{slug_field: slug})
+        # If none of those are defined, it's an error.
+        if pk is None and slug is None:
+            raise AttributeError(
+                "Generic detail view %s must be called with either an object "
+                "pk or a slug in the URLconf." % self.__class__.__name__
+            )
+        try:
+            # Get the single item from the filtered queryset
+            obj = queryset.get()
+        except queryset.model.DoesNotExist:
+            raise Http404(_("No %(verbose_name)s found matching the query") %
+                          {'verbose_name': queryset.model._meta.verbose_name})
+        for o in obj.location.all()[:20]:
+            o.shift = o.job_shift
+        obj.last_ten = obj.location.all()[:20]
+        obj.last_ten_num = len(obj.last_ten)
+        return obj
 
 
 ################################################
