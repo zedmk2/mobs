@@ -814,10 +814,12 @@ class PropertySchedule(generic.ListView):
                 record_full_list.append(key)
         rfl_count = len(record_full_list)
         schedule_minus_prop_list = set(record_full_list) - set(prop_list_2)
+        prop_list_minus_schedule = set(prop_list_2) - set(record_full_list)
+
 
         extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record_full':record_full_list,'rfl_count':rfl_count,
             'prop_list':prop_list, 'prop_list_2':prop_list_2,'route_dict':route_dict,'route_prop_list':route_prop_list,'num_routes':num_routes,
-            'rpl_minus_prop_list':rpl_minus_prop_list, 'prop_list_minus_rpl':prop_list_minus_rpl, 'schedule_minus_prop_list':schedule_minus_prop_list}
+            'rpl_minus_prop_list':sorted(rpl_minus_prop_list), 'prop_list_minus_rpl':sorted(prop_list_minus_rpl), 'schedule_minus_prop_list':sorted(schedule_minus_prop_list), 'prop_list_minus_schedule':sorted(prop_list_minus_schedule)}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 
