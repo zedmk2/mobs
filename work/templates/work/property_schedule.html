@@ -44,7 +44,7 @@ Properties in above list: {{prop_list.count}} <br>
    {% endfor %}
 </div>
 
-<a data-toggle='collapse' href="#schedule_list">Total list of properties on this month's schedule: {{rfl_count}}</a>
+<a data-toggle='collapse' href="#schedule_list">Unique properties actually scheduled/completed this month: {{rfl_count}}</a>
 <div class="collapse" id='schedule_list'>
   <ul>
     {% for r in record_full %}
@@ -66,13 +66,8 @@ Properties on weekly schedule missing from above table:
   <li>{{r}}</li>
   {%endfor%}
 </ul>
-Properties on above table missing from weekly schedule:
-<ul>
-  {% for p in prop_list_minus_rpl %}
-  <li>{{p}}</li>
-  {% endfor %}
-</ul>
-Properties on above table missing from actually scheduled work:
+
+Properties on above table missing from actually scheduled/completed work:
 <ul>
   {% for p in prop_list_minus_schedule %}
   <li>{{p}}</li>
@@ -80,5 +75,10 @@ Properties on above table missing from actually scheduled work:
 </ul>
 <br>
 
-
+Properties on above table missing from weekly schedule:
+<ul>
+  {% for p in prop_list_minus_rpl %}
+  <li>{{p}}</li>
+  {% endfor %}
+</ul>
 {% endblock %}
