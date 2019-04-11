@@ -1,0 +1,21 @@
+
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block work_content %}
+
+
+<div class="container-fluid">
+  <form class="" action="" method="post">
+    {% csrf_token %}
+
+    {{ form.management_form }}
+  {{form}}
+    <input type="submit" value="Submit">
+  </form>
+</div>
+
+
+{% endblock %}

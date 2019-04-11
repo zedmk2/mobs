@@ -5,48 +5,49 @@
 {% load staticfiles %}
 
 {% block work_content %}
+{{form}}
 
-Temp: {{temp}} <br><br>
-DATERANGE:<br>{{date_range}}<br><br>
-Queryset: {{queryset}} <br> <br>
-<br>Week of: {{kwargs.begin}} to {{kwargs.end}} <br>
-<br>
-These are the drivers and helpers: {{employees}} <br> <br>
-{{formset}}
- {{form_date}}<br>{%for form in formset%} {{form.id}}
-<br>Form date:  {%if form.date.value == '2018-02-02'%} TEST {%endif%}<br>
-Form:{{form.driver}} {{form.helper}} {{form.date.value}} {{forloop.counter}}
+<div class="container-fluid">
+  <form class="" action="" method="post">
+    {% csrf_token %}
+    {{ form.management_form }}
+    <div class="row">
+      {%for d in date_list%}
+      <div class="col">
+        {{d}}<br>{{d|date:"l"}}{{d|date:"d"}}
 
-{%endfor%}
-<br>
+          <div class="row">
+            {%for f in form%}
+            {% if f.date.value|date:"d" == d|date:"d" %}
+            <div class="col-6">
+              {{f.driver}}
+            </div>
+            <div class="col-6">
+              {{f.helper}}
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
 
-<br>
-<br>
-{%regroup queryset by date as date_queryset%}
-<div class="container">
-
-<table class='table scheduleTable'>
-<thead>{%for k,v in date_range.items%}
-<th>{{k}}<br>{{k|date:"l"}}</th>
-{%endfor%}</thead>
-<tbody><tr>
-{%for q2 in date_queryset%}
-<td>
-
-    <table class='scheduleRows'>{%for q in q2.list%}
-      <tr><td>{{q.driver}} </td><td> {{q.helper}}</td></tr>
-    {% endfor %}</table>
-
-</td>
-{%endfor%}</tr>
-<tr>
-{%for q2 in date_queryset%}
-<td>
-OFF:
-</td>
-{%endfor%}</tr>
-</tbody>
-</table>
-
+      </div>
+      {% endfor %}
+    </div>
+    <input type="submit" value="Submit">
+  </form>
 </div>
+
+<br>
+<br>
+DELETE BELOW
+<br>
+<br>
+<br>
+<br>
+
+Form date: {{form_date}}
+<br> <br>
+
+These are the drivers and helpers: {{employees}} <br>
+
+
 {% endblock %}

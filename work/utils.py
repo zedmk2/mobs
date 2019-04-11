@@ -18,7 +18,7 @@ class ShiftCalendar(HTMLCalendar):
         events_html = "<ul>"
         for event in events_from_day:
             if event.date.day == day:
-                events_html +=  event.get_quick_url() + " (" + str(len(event.jobs_in_shift.all()))+ ")" + "<br> <ul class='calendar-job-list'>"
+                events_html +=  event.get_quick_url() + " (" + str(len(event.jobs_in_shift.all())) + ") " + str(event.shift_length()) + " hrs." + "<br> <ul class='calendar-job-list'>"
                 for job in event.jobs_in_shift.all()[:3]:
                     events_html += "<li class='calendar-job-list-item'>" + str(job.job_location.name) + "</li>"
                 events_html += "</ul>"

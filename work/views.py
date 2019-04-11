@@ -48,6 +48,11 @@ from work.serializers import PropertySerializer, JobSerializer, ShiftSerializer
 
 #########CREATE NEW SHIFT AND JOBS #####################
 
+class Temp1(generic.FormView):
+    form_class=forms.ScheduleFormSet
+    template_name = "work/schedule2.html"
+    success_url = reverse_lazy('shifts:all')
+
 class CreateShift(LoginRequiredMixin, generic.CreateView):
     model = Shift
 
@@ -643,58 +648,106 @@ class QB_ShiftView(generics.ListCreateAPIView):
 
 ################ SCHEDULE VIEWS ##############
 
-class WeekSchedule(generic.ListView):
-    def get_queryset(self):
-        # self.driver = get_object_or_404(Employee, name=self.kwargs['driver'])
-        qs = Shift.objects.order_by("date").filter(date__gte=self.kwargs['begin']).filter(date__lte=self.kwargs['end']).prefetch_related('driver').prefetch_related('helper')
-        return qs
+def week_schedule(request, begin, end):
+        today = datetime.date.today()
+        context={}
 
-    def get(self, request, *args, **kwargs):
-        self.object_list = self.get_queryset()
-        allow_empty = self.get_allow_empty()
-        if not allow_empty:
-            # When pagination is enabled and object_list is a queryset,
-            # it's better to do a cheap query than to load the unpaginated
-            # queryset in memory.
-            if self.get_paginate_by(self.object_list) is not None and hasattr(self.object_list, 'exists'):
-                is_empty = not self.object_list.exists()
-            else:
-                is_empty = len(self.object_list) == 0
-            if is_empty:
-                raise Http404(_("Empty list and '%(class_name)s.allow_empty' is False.") % {
-                    'class_name': self.__class__.__name__,
-                })
-        context = self.get_context_data()
-
-        employees = Employee.objects.filter(driver=True) | Employee.objects.filter(helper=True)
+        employees = Employee.objects.filter(driver=True).filter(end_date__exact=None) | Employee.objects.filter(helper=True).filter(end_date__exact=None)
         employee_list = [employee.name for employee in employees]
 
-        queryset = [q for q in self.object_list]
+        qs = Shift.objects.order_by("date").filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper')
+        queryset = [q for q in qs]
 
-        temp = [q.date for q in self.object_list]
-        temp2 = [self.kwargs['begin'],self.kwargs['end']]
-        d1 = datetime.datetime.strptime(self.kwargs['begin'],'%Y-%m-%d')
-        d2 = datetime.datetime.strptime(self.kwargs['end'],'%Y-%m-%d')
+        d1 = datetime.datetime.strptime(begin,'%Y-%m-%d')
+        d2 = datetime.datetime.strptime(end,'%Y-%m-%d')
         # this will give you a list containing all of the dates
         dd = [(d1 + datetime.timedelta(days=x)).date() for x in range((d2-d1).days + 1)]
 
-        date_range = {key: [] for key in sorted(dd)}
-
-        for key,value in date_range.items():
-            for i in queryset:
-                if key == i.date:
-                    date_range[key].append(i)
-
         form_date = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
-        ScheduleFormSet = formsets.formset_factory(forms.ScheduleForm,extra=4,max_num=5)
-        formset = ScheduleFormSet(initial=form_date)
 
+        queryset = [q for q in qs]
+        initial_form_data = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
+        #
+        form = forms.ScheduleFormSet()
 
-        extra_context = {'form_date':form_date,'temp':dd,'date_range':date_range,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,'formset':formset}
+        # extra_context = {'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,'formset':formset}
+        extra_context={'form':form,'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,}
         full_context = {**context, **extra_context}
-        return self.render_to_response(full_context)
+        if request.method =='POST':
+            form = forms.ScheduleFormSetModel(request.POST)
+            if form.is_valid():
+                for sub_form in form:
+                    if sub_form.has_changed():
+                        sub_form.save(commit = False)
+                        sub_form.save()
+                return HttpResponseRedirect('/thanks1/')
+            else:
+                return HttpResponseRedirect('/thanks2/')
 
-    template_name = "work/schedule.html"
+        return render(request,'work/schedule2.html',full_context)
+
+# class WeekSchedule(generic.FormView):
+#     form_class = forms.ScheduleFormSet
+#     success_url = reverse_lazy('shifts:all')
+#     template_name = "work/schedule2.html"
+#
+#     def get_form(self, form_class=None):
+#         """Return an instance of the form to be used in this view."""
+#         if form_class is None:
+#             form_class = self.get_form_class()
+#         return form_class(**self.get_form_kwargs())
+#
+#     def get_queryset(self):
+#         # self.driver = get_object_or_404(Employee, name=self.kwargs['driver'])
+#         qs = Shift.objects.order_by("date").filter(date__gte=self.kwargs['begin']).filter(date__lte=self.kwargs['end']).prefetch_related('driver').prefetch_related('helper')
+#         return qs
+#
+#     def get(self, request, *args, **kwargs):
+#         today = datetime.date.today()
+#         self.object_list = self.get_queryset()
+#
+#         context={}
+#
+#         employees = Employee.objects.filter(driver=True).filter(end_date__exact=None) | Employee.objects.filter(helper=True).filter(end_date__exact=None)
+#         employee_list = [employee.name for employee in employees]
+#
+#         queryset = [q for q in self.object_list]
+#
+#         d1 = datetime.datetime.strptime(self.kwargs['begin'],'%Y-%m-%d')
+#         d2 = datetime.datetime.strptime(self.kwargs['end'],'%Y-%m-%d')
+#         # this will give you a list containing all of the dates
+#         dd = [(d1 + datetime.timedelta(days=x)).date() for x in range((d2-d1).days + 1)]
+#
+#         form_date = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
+#
+#         context = self.get_context_data()
+#         # extra_context = {'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,'formset':formset}
+#         extra_context={'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,}
+#         full_context = {**context, **extra_context}
+#         return self.render_to_response(full_context)
+#
+#     def get_initial(self):
+#         self.object_list = self.get_queryset()
+#         queryset = [q for q in self.object_list]
+#         initial_form_data = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
+#         return initial_form_data
+#
+#     def post(self, request, *args, **kwargs):
+#         form = self.get_form()
+#         if form.is_valid():
+#             return self.get_context_data()
+#         else:
+#             return self.form_invalid(form)
+#
+#     def form_valid(self, form):
+#         for sub_form in form:
+#             if sub_form.has_changed():
+#                 sub_form.save()
+#         return HttpResponseRedirect(self.get_success_url())
+#
+#     def form_invalid(self, form):
+#         """If the form is invalid, render the invalid form."""
+#         return self.render_to_response(self.get_context_data())
 
 def days_in_month(today):
         first_of_month = today.replace(day=1)

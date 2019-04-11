@@ -3,7 +3,7 @@ from . import views
 from django import forms
 from django.core import validators
 from django.forms import formsets
-from django.forms.models import inlineformset_factory
+from django.forms.models import formset_factory, inlineformset_factory, modelformset_factory
 from datetime import time
 
 class InspectionForm(forms.ModelForm):
@@ -18,10 +18,11 @@ class UpdateInspectionForm(forms.ModelForm):
         fields = ['updated_by','prop','date','rating','description',]
 
 class ScheduleForm(forms.ModelForm):
-
+    date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy','autocomplete':'off'}))
     class Meta:
         model = models.Shift
-        fields = ['driver','helper','date','truck']
+        fields = ['driver','helper','day_num','date']
+
 
 class RouteSelectForm(forms.ModelForm):
     route_select = forms.ModelChoiceField(queryset=models.Route.objects.filter(type='commercial'))
@@ -52,7 +53,7 @@ class DateForm(forms.Form):
 
 class QDateForm(forms.Form):
     begin = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'payrollDate','type':'date','placeholder':'mm/dd/yyyy'}))
-    
+
 class CreateShiftForm(forms.ModelForm):
 
     date = forms.DateField(required=True,widget=forms.DateInput(attrs={'class': 'shiftDate','placeholder':'mm/dd/yyyy','autocomplete':'off'}))
@@ -104,3 +105,5 @@ class CreateJobForm(forms.ModelForm):
                     'start_time','end_time','order']
 
 JobsInlineFormset = inlineformset_factory(models.Shift, models.Job, extra=10, max_num=18, can_delete=True, form=CreateJobForm, fields=('job_location','job_shift','start_time','end_time','order','pick','blow','sweep'))
+ScheduleFormSet = formset_factory(ScheduleForm, max_num=5)
+ScheduleFormSetModel = modelformset_factory(models.Job, fields=('order',))

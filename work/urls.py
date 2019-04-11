@@ -15,7 +15,7 @@ urlpatterns = [
     path('date/<date_summary>/',views.DateSummary.as_view(),name='date_summary'),
     path('week_summary/<begin>/<end>/',views.WeekSummary.as_view(),name='week_summary'),
 
-    path('week_schedule/<begin>/<end>/',views.WeekSchedule.as_view(),name='week_schedule'),
+    path('week_schedule/<begin>/<end>/',views.week_schedule,name='week_schedule'),
 
     path('update/<pk>/',views.UpdateShift.as_view(),name='update'),
     path('shift/<pk>/',views.ViewShift.as_view(),name='single_shift'),
@@ -42,7 +42,6 @@ urlpatterns = [
     path('job_costing/<full>/<begin>/<end>/',views.job_costing,name='job_costing'),
     path('job_list/<full>/<begin>/<end>/',views.job_list,name='job_list'),
 
-
     path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),
     path('property_list/',views.PropertyList.as_view(),name='properties'),
     path('property/<pk>/',views.UpdateProperty.as_view(),name='update_property'),
@@ -54,5 +53,8 @@ urlpatterns = [
 
     path('qb/properties/<begin>/<end>/',views.QB_PropertyView.as_view(),name='property-list'),
     path('qb/shifts/<begin>/<end>/',views.QB_ShiftView.as_view(),name='property-list'),
+    path('temp/',views.Temp1.as_view(),name='temp'),
+
     url(r'^api/', include(router.urls)),
+
 ]
