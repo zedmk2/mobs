@@ -655,34 +655,47 @@ def week_schedule(request, begin, end):
         employees = Employee.objects.filter(driver=True).filter(end_date__exact=None) | Employee.objects.filter(helper=True).filter(end_date__exact=None)
         employee_list = [employee.name for employee in employees]
 
-        qs = Shift.objects.order_by("date").filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper')
+        qs = Shift.objects.order_by("date","driver").filter(date__gte=begin).filter(date__lte=end).prefetch_related('driver').prefetch_related('helper')
         queryset = [q for q in qs]
 
         d1 = datetime.datetime.strptime(begin,'%Y-%m-%d')
         d2 = datetime.datetime.strptime(end,'%Y-%m-%d')
         # this will give you a list containing all of the dates
         dd = [(d1 + datetime.timedelta(days=x)).date() for x in range((d2-d1).days + 1)]
+        date_dict = defaultdict(list)
+        missing_date_dict = defaultdict(list)
+        #Find on/off workers for each date
+        for d in dd:
+            for q in qs:
+                if q.date == d:
+                    date_dict[d].append(q.driver.name)
+                    try:
+                        date_dict[d].append(q.helper.name)
+                    except:
+                        date_dict[d].append("None")
+            missing_date_dict[d] = list(set(employee_list) - set(date_dict[d]))
+            missing_date_dict[d].sort()
 
-        form_date = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
-
-        queryset = [q for q in qs]
+        #Initiate form and initial data
         initial_form_data = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
         #
-        form = forms.ScheduleFormSet()
+        form = forms.ScheduleFormSetModel(queryset=qs)
+        # form = forms.ScheduleFormSet(initial=initial_form_data)
 
-        # extra_context = {'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,'kwargs':kwargs,'formset':formset}
-        extra_context={'form':form,'form_date':form_date,'date_list':dd,'queryset':queryset,'employees':employee_list,}
+        extra_context={'form':form,'date_list':dd,'queryset':qs,'employees':employee_list,'date_dict':dict(date_dict),'missing_date_dict':dict(missing_date_dict)}
         full_context = {**context, **extra_context}
         if request.method =='POST':
-            form = forms.ScheduleFormSetModel(request.POST)
+            form = forms.ScheduleFormSetModel(request.POST,initial=initial_form_data)
             if form.is_valid():
                 for sub_form in form:
                     if sub_form.has_changed():
                         sub_form.save(commit = False)
+                        pdf_build(sub_form.save())
                         sub_form.save()
-                return HttpResponseRedirect('/thanks1/')
+                return HttpResponseRedirect(reverse('shifts:all',))
             else:
-                return HttpResponseRedirect('/thanks2/')
+                print(form.errors)
+                full_context['form'] = form
 
         return render(request,'work/schedule2.html',full_context)
 
@@ -729,13 +742,20 @@ def week_schedule(request, begin, end):
 #     def get_initial(self):
 #         self.object_list = self.get_queryset()
 #         queryset = [q for q in self.object_list]
-#         initial_form_data = [{'driver':q.driver,'helper':q.helper,'date':q.date} for q in queryset]
+#         initial_form_data = [{'driver':q.driver,'helper':q.helper,'date':q.date, 'id':q.id} for q in queryset]
 #         return initial_form_data
 #
 #     def post(self, request, *args, **kwargs):
-#         form = self.get_form()
-#         if form.is_valid():
-#             return self.get_context_data()
+#         initial_form_data = self.get_initial()
+#         formset = forms.ScheduleFormSet(self.request.POST, initial=initial_form_data)
+#         if formset.is_valid():
+#             # fs = formset.save(commit=False)
+#             for sub_form in formset:
+#                 if sub_form.has_changed():
+#                     print(sub_form)
+#                     sub_form.save(commit = False)
+#                     sub_form.save()
+#             return HttpResponseRedirect('/thanks1/')
 #         else:
 #             return self.form_invalid(form)
 #
@@ -1130,7 +1150,8 @@ def pdf_build(shift):
     pdf = buffer.getvalue()
     buffer.close()
     response.write(pdf)
-    file_name = os.path.join(settings.MEDIA_ROOT,'routes',string+'.pdf')
+    short_file_name = str(shift.date) + " Shift #" + str(shift.day_num)
+    file_name = os.path.join(settings.MEDIA_ROOT,'routes',short_file_name+'.pdf')
     print('Generating file: '+file_name)
     with open(file_name, 'wb') as f:
         f.write(pdf)

@@ -3,16 +3,53 @@
 
 {% load widget_tweaks %}
 {% load staticfiles %}
-
 {% block work_content %}
 
+ <br> <br>
+{{missing_date_dict.items}}
 
+<br> <br>
+for key, value in date_dict.items%}
+{} {{key}} {{value}} <br>
+endfor%}
+{% for key, value in missing_date_dict.items %}
+
+{{value}}
+
+{% endfor %}
 <div class="container-fluid">
   <form class="" action="" method="post">
     {% csrf_token %}
-
     {{ form.management_form }}
-  {{form}}
+    <div class="row">
+      {%for d in date_list%}
+      <div class="col">
+        {{d}}<br>{{d|date:"l"}}{{d|date:"d"}}
+
+          <div class="row">
+            {%for f in form%} {{f.id}} {{f.date.as_hidden}} {{f.errors}}
+            {% if f.date.value|date:"d" == d|date:"d" %}
+
+
+            <div class="col-6"> {% if f.driver.value  %} {{f.driver}} {% else %} blank {% endif %}</div>
+            <div class="col-6"> {% if f.driver.value  %} {{f.helper}} {% else %} blank {% endif %}</div>
+
+
+            {% endif %}
+            {% endfor %}
+          </div>
+          <div class="row">OFF: <br>
+            {% for key, value in missing_date_dict.items %}
+            {% if key|date:"d" == d|date:"d" %}
+            {% for v in value %}
+            {{v}} <br>
+            {% endfor %}
+            {% endif %}
+            {% endfor %}
+          </div>
+      </div>
+      {% endfor %}
+    </div>
     <input type="submit" value="Submit">
   </form>
 </div>

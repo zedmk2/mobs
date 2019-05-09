@@ -106,4 +106,4 @@ class CreateJobForm(forms.ModelForm):
 
 JobsInlineFormset = inlineformset_factory(models.Shift, models.Job, extra=10, max_num=18, can_delete=True, form=CreateJobForm, fields=('job_location','job_shift','start_time','end_time','order','pick','blow','sweep'))
 ScheduleFormSet = formset_factory(ScheduleForm, max_num=5)
-ScheduleFormSetModel = modelformset_factory(models.Job, fields=('order',))
+ScheduleFormSetModel = modelformset_factory(models.Shift, exclude=(), extra=0, max_num=10)

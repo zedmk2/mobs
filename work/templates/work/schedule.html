@@ -17,7 +17,7 @@
         {{d}}<br>{{d|date:"l"}}{{d|date:"d"}}
 
           <div class="row">
-            {%for f in form%}
+            {%for f in form%} {{f.id}} {{f.date}}
             {% if f.date.value|date:"d" == d|date:"d" %}
             <div class="col-6">
               {{f.driver}}
