@@ -29,6 +29,9 @@ class RouteJobInline(admin.TabularInline):
 
 class RouteAdmin(admin.ModelAdmin):
     inlines = [RouteJobInline,]
+    list_display = ["weekday", "route_num", "driver"]
+    list_editable = [ "route_num", "driver"]
+
 
 class Shift_Inline_Admin(admin.ModelAdmin):
     inlines = [
