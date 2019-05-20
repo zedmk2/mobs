@@ -297,7 +297,7 @@ class Route(models.Model):
 
     class Meta:
         verbose_name_plural = "routes"
-        ordering = ["weekday"]
+        ordering = ["weekday", "route_num"]
         unique_together = (("weekday","route_num"),
                             )
     def dow(self):
