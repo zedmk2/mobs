@@ -1142,6 +1142,7 @@ def pdf_build(shift):
             elements.append(w_1)
         if "Walgreens" in job.job_location.name:
             elements.append(w_2)
+            break
     # write the document to disk
     p.build(elements)
     # End writing
