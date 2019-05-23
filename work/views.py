@@ -1124,9 +1124,7 @@ def pdf_build(shift):
     data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
                 ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter # again. Hang up','Yes','No',],
                 ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
-    data_3 = [  ['Walmart, Baltimore National','','',],
-                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter # again. Hang up.','Yes','No',],
-                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 05326779#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
+    data_3 = [  ['WALGREENS: Sign in/out in Verisae (mobile.verisae.com | Username: USM Mobile Sweep | Password: Hugh#2200 | Location enabled)','Yes','No'],]
     w_1 = Table(data_2,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_2 = Table(data_3,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
@@ -1134,7 +1132,7 @@ def pdf_build(shift):
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
                            ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
     w_2.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
-                           ('GRID',(0,1),(-1,-1),1,colors.black),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
                            ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
     elements.append(t_h)
@@ -1142,7 +1140,7 @@ def pdf_build(shift):
     for job in shift.jobs_in_shift.all():
         if job.job_location.pk == 25:
             elements.append(w_1)
-        if job.job_location.pk == 63:
+        if "Walgreens" in job.job_location.name:
             elements.append(w_2)
     # write the document to disk
     p.build(elements)
