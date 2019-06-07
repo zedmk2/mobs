@@ -5,18 +5,6 @@
 {% load staticfiles %}
 {% block work_content %}
 
- <br> <br>
-{{missing_date_dict.items}}
-
-<br> <br>
-for key, value in date_dict.items%}
-{} {{key}} {{value}} <br>
-endfor%}
-{% for key, value in missing_date_dict.items %}
-
-{{value}}
-
-{% endfor %}
 <div class="container-fluid">
   <form class="" action="" method="post">
     {% csrf_token %}
@@ -24,7 +12,7 @@ endfor%}
     <div class="row">
       {%for d in date_list%}
       <div class="col">
-        {{d}}<br>{{d|date:"l"}}{{d|date:"d"}}
+        {{d}}<br>{{d|date:"l"}}
 
           <div class="row">
             {%for f in form%} {{f.id}} {{f.date.as_hidden}} {{f.errors}}
