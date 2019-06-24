@@ -1149,6 +1149,9 @@ def pdf_build(shift):
             elements.append(w_1)
         if job.job_location.pk == 66:
             elements.append(w_4)
+            break
+        if job.job_location.pk == 64:
+            elements.append(w_4)
     for job in shift.jobs_in_shift.all():
         if "Walgreens" in job.job_location.name:
             elements.append(w_2)
