@@ -125,6 +125,21 @@ class Property(models.Model):
     check_priority = models.IntegerField(default=1)
     check_interval = models.IntegerField(default=30)
 
+    def sweep_price(self):
+        "Calculates average sweep price based on times per period"
+        try:
+            if self.sw_price:
+                return self.sw_price
+                self.end = self.end + datetime.timedelta(days=1)
+            elif self.sw_mo_price:
+                if self.times_per_month:
+                    return round(self.sw_mo_price/self.times_per_month, 1)
+                elif self.times_per_week:
+                    return round(self.sw_mo_price/self.times_per_week/4.3, 1)
+            return 0
+        except:
+            return 0
+
     class Meta:
         verbose_name_plural = "properties"
         ordering = ["display_name"]
@@ -315,6 +330,16 @@ class Route(models.Model):
             if i[0] == num_day:
                 weekday = i[1]
         return weekday
+
+    def route_price(self):
+        "Calculates pricing of route based on property sweep price"
+        rp = 0
+        try:
+            for property in self.job_route.all():
+                rp += property.route_location.sweep_price()
+            return round(rp,1)
+        except:
+            return 0
 
     def __str__(self):
         num_day = self.weekday

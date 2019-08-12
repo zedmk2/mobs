@@ -378,6 +378,23 @@ class OtherRouteList(generic.ListView):
         else:
             return HttpResponseRedirect('/work/other_routes/')
 
+class RoutePricing(generic.ListView):
+    model = Route
+    date_form = forms.DateForm()
+    template_name = "work/route_list_3.html"
+
+    def get_queryset(self):
+        # return Route.objects.filter(type='commercial').prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+        return Route.objects.all().prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+
+    def get_context_data(self, **kwargs):
+        date_form = forms.QDateForm()
+        route_form = forms.RouteSelectForm()
+        context = super().get_context_data(**kwargs)
+        context['date_form'] = date_form
+        context['route_form'] = route_form
+        return context
+
 ##############VIEWS FOR PAYROLL REPORTS
 @login_required
 def payroll_list(request):

@@ -1,0 +1,46 @@
+{% extends "work/work_base.html" %}
+
+{% load widget_tweaks %}
+{% load staticfiles %}
+
+{% block prework %}
+
+{% endblock %}
+
+{% block work_content %}
+<div class="container">
+
+<h3>Route pricing</h3>
+
+{% regroup object_list by dow as route_list%}
+<div class="row">
+  {% for dow in route_list %}
+  <div class="row">
+    Day of week: {{dow.grouper}} <br>
+      {% for route in dow.list %}
+
+    {{route.route_num}}. {{route.driver}}
+          <table class='route-table-pricing'>
+            {% for prop in route.job_route.all %}
+              <tr>
+                <td width=7.5% class="{% if prop.freq == "even" %} yellow {% elif prop.freq == "odd" %}green{%endif%}" > {{prop.order}} </td>
+                <td>{{prop.route_location.name}}</td>
+                <td width=2.5%></td>
+                <td width=10%>{{prop.route_location.sweep_price}}</td>
+              </tr>
+            {% endfor %}
+            <tr class='route-table-pricing-total'>
+              <td>Total:</td>
+              <td></td>
+              <td></td>
+              <td>{{route.route_price}}</td>
+            </tr>
+          </table>
+
+      {% endfor %}
+      </div>
+    {% endfor %}
+</div>
+</div>
+
+{% endblock %}

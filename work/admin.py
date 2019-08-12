@@ -10,7 +10,7 @@ class JobAdmin(admin.ModelAdmin):
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['id','name','display_name','color','instructions','check_priority','sw_price','sw_mo_price','times_per_week','days_of_week','times_per_month','times_per_year']
-    list_editable = ['name','display_name','color','instructions','check_priority','sw_price','sw_mo_price','times_per_month','times_per_week','days_of_week','times_per_year',]
+    list_editable = ['color',]
     list_filter = ['job_costing_report_include',]
 
 class ClientAdmin(admin.ModelAdmin):
