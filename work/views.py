@@ -385,7 +385,26 @@ class RoutePricing(generic.ListView):
 
     def get_queryset(self):
         # return Route.objects.filter(type='commercial').prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
-        return Route.objects.all().prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+        qs = Route.objects.all().prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+        today = datetime.datetime.now()
+        six_mos = today - datetime.timedelta(days=220)
+        ts = Shift.objects.filter(date__gte='2018-12-21').filter(date__lte='2019-01-01')
+        job_lengths = defaultdict()
+        for shift in ts:
+            # print(shift)
+            for job in shift.jobs_in_shift.all():
+                job_lengths[job.job_location.name] = job.job_length
+
+        for route in qs:
+            props = route.job_route.all()
+            for prop in props:
+                try:
+                    prop.job_length = job_lengths[prop.route_location.name]
+                except:
+                    prop.job_length = 1
+                # print(property.route_location)
+        print(job_lengths)
+        return qs
 
     def get_context_data(self, **kwargs):
         date_form = forms.QDateForm()

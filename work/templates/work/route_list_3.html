@@ -25,7 +25,7 @@
               <tr>
                 <td width=7.5% class="{% if prop.freq == "even" %} yellow {% elif prop.freq == "odd" %}green{%endif%}" > {{prop.order}} </td>
                 <td>{{prop.route_location.name}}</td>
-                <td width=2.5%></td>
+                <td width=2.5%>{{prop.job_length}}</td>
                 <td width=10%>{{prop.route_location.sweep_price}}</td>
               </tr>
             {% endfor %}
