@@ -1192,10 +1192,6 @@ def pdf_build(shift):
         if job.job_location.pk == 64:
             elements.append(w_4)
             break
-    for job in shift.jobs_in_shift.all():
-        if "Walgreens" in job.job_location.name:
-            elements.append(w_2)
-            break
     # write the document to disk
     p.build(elements)
     # End writing
