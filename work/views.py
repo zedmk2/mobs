@@ -829,7 +829,7 @@ class PropertySchedule(generic.ListView):
         qs = Property.objects.filter(check_priority__lt=3)
         return qs
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, date=0, *args, **kwargs):
         prop_list = Property.objects.filter(check_priority__lt=3)
         route_list = Route.objects.all().prefetch_related('job_route__route_location').prefetch_related('job_route')
         route_dict = defaultdict(int)
@@ -852,7 +852,9 @@ class PropertySchedule(generic.ListView):
         self.object_list = self.get_queryset()
         context = self.get_context_data()
 
-        today = datetime.date.today()
+        today = datetime.datetime.today()
+        if date!=0:
+            today = datetime.datetime.strptime(date, '%Y-%m-%d')
         first_of_month = today.replace(day=1)
         end_of_month_number =  calendar.monthrange(today.year, today.month)[1]
         end_of_month = today.replace(day=end_of_month_number)
@@ -1141,7 +1143,7 @@ def pdf_build(shift):
         P = Paragraph(text,style)
         data.append([P, '', '', '', '', '', '', '', '', '', '', '', '', ''])
         if job.job_location.instructions:
-            data.append([str(job.job_location.instructions), '', '', '', '', '', '', '', '', '', '', '', '', ''])
+            data.append([str(job.job_location.instructions), ])
     #Table settings
     t=Table(data,colWidths=[3.0*inch,0.4*inch,0.85*inch,0.85*inch,0.5*inch,0.5*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.4*inch,0.5*inch,0.5*inch,0.45*inch,0.55*inch],spaceBefore=0.15*inch)
     t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.lemonchiffon),
