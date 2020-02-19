@@ -45,6 +45,7 @@ urlpatterns = [
 
     path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),
     path('property_schedule/<date>/',views.PropertySchedule.as_view(),name='property_schedule_date'),
+    path('annual_schedule/',views.AnnualSchedule.as_view(),name='annual_schedule'),
     path('property_list/',views.PropertyList.as_view(),name='properties'),
     path('property/<pk>/',views.UpdateProperty.as_view(),name='update_property'),
 

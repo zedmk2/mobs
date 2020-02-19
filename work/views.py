@@ -936,6 +936,17 @@ class PropertySchedule(generic.ListView):
 
     template_name = "work/property_schedule.html"
 
+class AnnualSchedule(LoginRequiredMixin,generic.ListView):
+    def get_queryset(self):
+        queryset = Property.objects.filter(times_per_year__gte=0).prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+        for prop in queryset:
+            prop.recent_jobs = []
+            for loc in prop.location.all():
+                prop.recent_jobs.append(loc)
+            prop.recent_jobs = prop.recent_jobs[-3:]
+        return queryset
+    template_name = "work/annual_list.html"
+
 class Calendar(generic.ListView):
     def get_queryset(self):
         qs = Property.objects.filter(check_priority__lt=3)
@@ -1002,6 +1013,8 @@ class PropertyList(LoginRequiredMixin,generic.ListView):
             prop.recent_jobs = prop.recent_jobs[-3:]
         return queryset
     template_name = "work/property_list.html"
+
+
 
 class UpdateProperty(LoginRequiredMixin,generic.UpdateView):
     model = Property
@@ -1164,10 +1177,12 @@ def pdf_build(shift):
                 ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
     data_3 = [  ['BLUE: No blower. Noise forbidden from 10p to 7a | AZUL: Sin soplador. Ruido prohibido de 10p a 7a'],]
     data_4 = [  ['Sun Valley and Southgate Shopping Center: Usa bolsas de basura negras solo por favor','Yes','No'],]
+    data_5 = [  ['Cabin Branch: Code is 6201 or 1875'],]
 
     w_1 = Table(data_2,colWidths=[10.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_2 = Table(data_3,colWidths=[10.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_4 = Table(data_4,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_5 = Table(data_5,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
     w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
                            ('GRID',(0,1),(-1,-1),1,colors.black),
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
@@ -1180,6 +1195,11 @@ def pdf_build(shift):
                            ('GRID',(0,0),(-1,-1),1,colors.black),
                            ('FONT',(0,0),(-1,-1),'Helvetica',8),
                            ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
+    w_5.setStyle(TableStyle([('BACKGROUND',(0,0),(3,3),'#ffffff'),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'LEFT'),]))
+
     elements.append(t_h)
     elements.append(t)
     for job in shift.jobs_in_shift.all():
