@@ -106,7 +106,6 @@ class Property(models.Model):
     adlspl = models.CharField(max_length=500,blank=True,null=True)
     # ml_spl = ListField()
 
-
     start_date = models.DateField(blank=True,null=True)
     end_date = models.DateField(blank=True,null=True)
 
