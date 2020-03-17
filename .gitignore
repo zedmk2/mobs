@@ -10,5 +10,5 @@ db.sqlite3
 .DS_Store
 .env
 out.json
-/mobs/migrations
-/work/migrations
+/mobs/migrations/*
+/work/migrations/*

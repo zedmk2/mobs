@@ -71,10 +71,17 @@ class CreateShiftForm(forms.ModelForm):
     trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504'),(203,'203'),(101,'101')]
     truck = forms.ChoiceField(choices = trucks)
 
+    ST_CHOICES = (
+    ('0', 'Sweeping'),
+    ('1', 'Landscaping'),
+    ('2', 'Power Washing'),
+    ('9', 'Other'),)
+    shift_type = forms.ChoiceField(choices = ST_CHOICES)
+
     class Meta:
         model = models.Shift
         fields = ['driver','helper','helper_2','truck',
-                    'dr_start_time','dr_end_time','he_start_time','he_end_time','he_2_start_time','he_2_end_time','date','day_num']
+                    'dr_start_time','dr_end_time','he_start_time','he_end_time','he_2_start_time','he_2_end_time','date','day_num','shift_type']
 
     def __init__(self, is_update=False, **kwargs):
         self.is_update = is_update

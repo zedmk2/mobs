@@ -47,7 +47,7 @@
         <tr>
 
           <td>Date: {{shift_form.date}} </td>
-          <td>Route: {{shift_form.day_num}}</td>
+          <td>Route: {{shift_form.day_num}} </td>
           <td>Truck: {{shift_form.truck|add_class:"shiftSelect2"}}</td>
           <td>{{object.date|date:"l"}} {{object}}</td>
         </tr>
@@ -63,7 +63,7 @@
           <td>Helper: {{shift_form.helper|add_class:"shiftSelect2"}}</td>
           <td>Time In: {{shift_form.he_start_time|add_class:"helperStart"}}</td>
           <td>Time Out: {{shift_form.he_end_time|add_class:"helperEnd"}}</td>
-          <td></td>
+          <td>Shift type: {{shift_form.shift_type|add_class:"shiftSelect2"}}</td>
         </tr>
         <tr>
 

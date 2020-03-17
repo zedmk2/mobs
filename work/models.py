@@ -171,6 +171,8 @@ class Inspection(models.Model):
     def get_absolute_url(self):
         return reverse('shifts:inspection_update',kwargs={'pk':self.id} )
 
+
+
 class Shift(models.Model):
     # user = models.ForeignKey(User,related_name='user_shifts')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -187,7 +189,7 @@ class Shift(models.Model):
     ('1', 'Landscaping'),
     ('2', 'Power Washing'),
     ('9', 'Other'),)
-    shift_type = models.CharField(max_length=20, blank=True, null=True,choices=ST_CHOICES)
+    shift_type = models.CharField(max_length=20, blank=True, null=True,choices=ST_CHOICES,default='0')
 
     date = models.DateField()
 
