@@ -182,6 +182,13 @@ class Shift(models.Model):
     truck_new = models.ForeignKey(Truck,on_delete=models.PROTECT,related_name='truck',blank=True,null=True)
     day_num = models.IntegerField(blank=True,null=True)
 
+    ST_CHOICES = (
+    ('0', 'Sweeping'),
+    ('1', 'Landscaping'),
+    ('2', 'Power Washing'),
+    ('9', 'Other'),)
+    shift_type = models.CharField(max_length=20, blank=True, null=True,choices=ST_CHOICES)
+
     date = models.DateField()
 
     dr_start_time = models.TimeField(blank=True,null=True, verbose_name="driver start time",)
