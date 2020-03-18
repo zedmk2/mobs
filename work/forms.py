@@ -90,7 +90,7 @@ class CreateShiftForm(forms.ModelForm):
     def clean_pk(self):
         pk = self.cleaned_data['pk']
         try:
-            product = Shift.objects.get(pk=pk)
+            product = Shift.objects.get(pk=pk) 
         except:
             pass
         else:
@@ -104,7 +104,7 @@ class CreateJobForm(forms.ModelForm):
 
     start_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
     end_time = forms.TimeField(required=False,widget=forms.TextInput(attrs={'class': 'special','type':'time'}))
-    order = forms.IntegerField(required=False,widget=forms.TextInput(attrs={'class':'jobOrderForm','autocomplete':'off'}))
+    order = forms.IntegerField(widget=forms.TextInput(attrs={'class':'jobOrderForm','autocomplete':'off'}))
 
     class Meta:
         model = models.Job

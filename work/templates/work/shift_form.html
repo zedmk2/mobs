@@ -10,7 +10,7 @@
 {% endblock %}
 
 {%block work_content%}
-
+<br>
 <div class="container">
 
   <div id="formset-template" style="display: none;">
@@ -84,13 +84,14 @@
             <div id="jobsIn">
 
   <table  class='tbl-routes'>
-
           {% if formset.errors %}
-              {% for field in form %}
+              {% for field in formset %}
                   {% for error in field.errors %}
+                  {%if error == 'order' %}
                       <div class="alert alert-danger">
-                          <strong>{{ error|escape }}</strong>
+                          <strong>Please check job order number for all jobs</strong>
                       </div>
+                      {%endif%}
                   {% endfor %}
               {% endfor %}
               {% for error in form.non_field_errors %}
