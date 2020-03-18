@@ -25,7 +25,7 @@
         {%for emp in emp_mix%}<tr>
           <td>{{emp.employee}}</td>
           {%for i in emp.shifts%}
-          <td>{{i}}</td>
+          <td>{{i|floatformat:"-2"}}</td>
           {%endfor %}
           <td>{{emp.total}}</td>
         {%endfor%}
