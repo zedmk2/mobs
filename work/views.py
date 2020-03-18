@@ -509,7 +509,7 @@ def payroll(request,begin,end):
     # this will give you a list containing all of the dates
     dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
 
-    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=300).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2')
+    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=900).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2')
 
     emp_mix =[]
     i=0
@@ -543,11 +543,11 @@ def payroll(request,begin,end):
             for j in range(len(iter2)):
                 if dd[k] == iter2[j].date:
                     if emp.name == iter2[j].driver.name:
-                        iter4[k]= iter2[j].shift_length()
+                        iter4[k] += iter2[j].shift_length()
                     elif emp.name == iter2[j].helper.name:
-                        iter4[k]= iter2[j].help_length()
+                        iter4[k] += iter2[j].help_length()
                     elif emp.name == iter2[j].helper_2.name:
-                        iter4[k]= iter2[j].help_2_length()
+                        iter4[k] += iter2[j].help_2_length()
 
         emp_mix[i]['shifts'] = iter4
         i=i+1
@@ -555,7 +555,7 @@ def payroll(request,begin,end):
         total_hours += emp_mix[i]['total']
     total_hours = round(total_hours,2)
 
-    context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str}
+    context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str,'iter2':iter2}
     return render(request,'work/payroll.html',context)
 
 
@@ -1257,8 +1257,8 @@ def landscape_pdf_build(shift):
                            ('SPAN',(0,0),(0,-1),
                            )]))
     #Property table
-    data= [['Property', '#', 'Time', '','Front','', 'Back',],
-           ['','', 'In', 'Out', 'In', 'Out', 'In', 'Out', ],
+    data= [['Property', '#', 'Time (Hora)','','Work completed (Trabajos completados)',],
+           ['','', 'In', 'Out', 'Mow', 'Edge', 'Weed','Mulch'],
                 ]
     for job in shift.jobs_in_shift.all():
         style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8,borderPadding=(3,5,3,5))
@@ -1271,7 +1271,7 @@ def landscape_pdf_build(shift):
         if job.job_location.instructions:
             data.append([str(job.job_location.instructions), ])
     #Table settings
-    t=Table(data,colWidths=[5.0*inch,0.4*inch,0.85*inch,0.85*inch,0.85*inch,0.85*inch,0.85*inch,],spaceBefore=0.15*inch)
+    t=Table(data,colWidths=[5.0*inch,0.4*inch,0.85*inch,0.85*inch,],spaceBefore=0.15*inch)
     t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.lemonchiffon),
                             ('ALIGN', (1, 0), (-1, 1), "CENTER"),
                             ('TOPPADDING',(0,2),(-1,-1),4),
@@ -1280,8 +1280,8 @@ def landscape_pdf_build(shift):
                            ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
                            ('FONT',(0,1),(-1,-1),'Helvetica',8),
                            ('SPAN',(2,0),(3,0)),
-                           ('SPAN',(4,0),(5,0)),
-                           ('SPAN',(6,0),(7,0)),
+                           ('SPAN',(4,0),(7,0)),
+
                            ]))
     #Walmart
     data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
