@@ -34,6 +34,7 @@ urlpatterns = [
 
     path('routes/',views.RouteList.as_view(),name='route_list'),
     path('other_routes/',views.OtherRouteList.as_view(),name='other_route_list'),
+    path('landscaping_routes/',views.LandscapingRouteList.as_view(),name='landscaping_route_list'),
     path('route_pricing/',views.RoutePricing.as_view(),name='route_pricing'),
 
     path('payroll_list/',views.payroll_list,name='payroll_list'),

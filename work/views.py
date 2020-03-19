@@ -378,6 +378,43 @@ class OtherRouteList(generic.ListView):
         else:
             return HttpResponseRedirect('/work/other_routes/')
 
+class LandscapingRouteList(generic.ListView):
+    model = Route
+    date_form = forms.QDateForm()
+    route_form = forms.RouteSelectForm()
+    template_name = "work/route_list_l.html"
+
+    def get_queryset(self):
+        return Route.objects.filter(type='landscaping').prefetch_related('driver').prefetch_related('job_route').prefetch_related('job_route__route_location')
+
+    def get_context_data(self, **kwargs):
+        date_form = forms.QDateForm()
+        route_form = forms.RouteSelectForm()
+        context = super().get_context_data(**kwargs)
+        context['date_form'] = date_form
+        context['route_form'] = route_form
+        return context
+
+    def post(self, request, *args, **kwargs):
+        form = forms.QDateForm(request.POST)
+        route_form = forms.RouteSelectForm(request.POST)
+        if form.is_valid() and route_form.is_valid():
+            route_list = Route.objects.filter(type='weekly')
+            route = route_form.cleaned_data['route_select']
+            date = form.cleaned_data['begin']
+            shift, bool = Shift.objects.get_or_create(date=date,driver=route.driver,day_num=route.route_num)
+            if bool:
+                for prop in route.job_route.all():
+                    # print(prop)
+                    shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                print("Created shift for %s %s" % (date,route.driver))
+                pdf_build(shift)
+            else:
+                print("Retrieved shift for %s %s" % (date,route.driver))
+            return HttpResponseRedirect(reverse('shifts:update', args=[shift.pk]))
+        else:
+            return HttpResponseRedirect('/work/other_routes/')
+
 class RoutePricing(generic.ListView):
     model = Route
     date_form = forms.DateForm()

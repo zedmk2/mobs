@@ -13,6 +13,11 @@ class PropertyAdmin(admin.ModelAdmin):
     list_editable = ['color',]
     list_filter = ['job_costing_report_include',]
 
+class RouteJobAdmin(admin.ModelAdmin):
+    search_fields = ['route_location']
+    list_display = ['route_location','job_route','order','freq']
+    list_editable = ['job_route','order','freq']
+
 class ClientAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['id','name','billing_name']
@@ -49,4 +54,4 @@ admin.site.register(models.Inspection)
 admin.site.register(models.Employee)
 admin.site.register(models.Shift,Shift_Inline_Admin)
 admin.site.register(models.Route, RouteAdmin)
-admin.site.register(models.RouteJob)
+admin.site.register(models.RouteJob, RouteJobAdmin)
