@@ -1,5 +1,7 @@
 from django.contrib import admin
 from . import models
+from django.contrib import admin
+from django.contrib.admin.models import LogEntry
 
 # Register your models here.
 
@@ -47,6 +49,19 @@ class Shift_Inline_Admin(admin.ModelAdmin):
             kwargs["queryset"] = School.objects.order_by('job_location')
         return super(Shift_Inline_Admin, self).formfield_for_foreignkey(db_field, request, **kwargs)
 
+
+class LogEntryAdmin(admin.ModelAdmin):
+    readonly_fields = ('content_type',
+        'user',
+        'action_time',
+        'object_id',
+        'object_repr',
+        'action_flag',
+        'change_message'
+    )
+    list_display = [ "action_time", "user",'content_type','object_repr','change_message']
+
+admin.site.register(LogEntry, LogEntryAdmin)
 admin.site.register(models.Job, JobAdmin)
 admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Property, PropertyAdmin)
