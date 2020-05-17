@@ -1172,7 +1172,11 @@ def pdf_build(shift):
     # container for the 'Flowable' objects
     elements = []
     # Header table
-    data_h = [[I,shift.date.strftime('%A')+': '+shift.date.strftime('%b %d, %Y'),'',shift.driver,'Weather'],
+    terms_adder = ''
+    for job in shift.jobs_in_shift.all():
+        if job.job_location.saddr5:
+            terms_adder = job.job_location.saddr5
+    data_h = [[I,shift.date.strftime('%A')+': '+shift.date.strftime('%b %d, %Y'),terms_adder,shift.driver,'Weather'],
                 ['','Driver','Time in','Time out','Viento (Windy)',''],
                 ['','Helper','Time in','Time out','Lloviendo (Rain)',''],
                 ['','Lunch (Almuerzo)','Time in','Time out','Nieve (Snow)',''],
