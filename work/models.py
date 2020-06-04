@@ -285,6 +285,10 @@ class Job(models.Model):
             self.start = datetime.datetime(self.date.year,self.date.month,self.date.day,self.start_time.hour,self.start_time.minute,self.start_time.second)
         except:
             return 0
+        try:
+            self.end_time < self.start_time
+        except:
+            return 0
         if self.end_time < self.start_time:
             self.end = datetime.datetime(self.date.year,self.date.month,(self.date.day),self.end_time.hour,self.end_time.minute,self.end_time.second)
             self.end = self.end + datetime.timedelta(days=1)
