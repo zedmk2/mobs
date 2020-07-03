@@ -11,4 +11,4 @@ db.sqlite3
 .env
 out.json
 /mobs/migrations/*
-/work/migrations/*
+*/work/migrations/*

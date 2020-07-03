@@ -1090,7 +1090,7 @@ class UpdateProperty(LoginRequiredMixin,generic.UpdateView):
             raise Http404(_("No %(verbose_name)s found matching the query") %
                           {'verbose_name': queryset.model._meta.verbose_name})
 
-        obj.last_ten = obj.location.all().order_by('-job_shift__date')[:20].prefetch_related('job_shift').prefetch_related('job_shift__driver')
+        obj.last_ten = obj.location.all().order_by('-job_shift__date')[:31].prefetch_related('job_shift').prefetch_related('job_shift__driver')
         for o in obj.last_ten:
             o.shift = o.job_shift
         obj.last_ten_num = len(obj.last_ten)
