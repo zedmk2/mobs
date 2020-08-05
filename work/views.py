@@ -1040,6 +1040,17 @@ class Calendar(generic.ListView):
 ###PROPERTY LIST
 #############################################
 
+class ServiceHistory(LoginRequiredMixin,generic.ListView):
+    def get_queryset(self):
+        queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+        for prop in queryset:
+            prop.recent_jobs = []
+            for loc in prop.location.all():
+                prop.recent_jobs.append(loc)
+            prop.recent_jobs = prop.recent_jobs[-3:]
+        return queryset
+    template_name = "work/service_history.html"
+
 class PropertyList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
@@ -1049,9 +1060,15 @@ class PropertyList(LoginRequiredMixin,generic.ListView):
                 prop.recent_jobs.append(loc)
             prop.recent_jobs = prop.recent_jobs[-3:]
         return queryset
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in the publisher
+        context['weekly'] = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').filter(times_per_week__gt=0).order_by('-times_per_week','display_name')
+        return context
+
     template_name = "work/property_list.html"
-
-
 
 class UpdateProperty(LoginRequiredMixin,generic.UpdateView):
     model = Property

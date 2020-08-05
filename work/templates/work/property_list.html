@@ -8,24 +8,85 @@
   <div class="row">
     <h2>Property List</h2>
   </div>
+<h3>Weekly jobs</h3>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Property</th>
+        <th scope="col">Client</th>
+        <th scope="col">Times Per Week</th>
+        <th scope="col">Days of Week</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for property in weekly %}
+      {%if property.check_priority == 1%}
+      {%if property.times_per_week  %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{property.display_name}}</td>
+        <td>{{property.client_name}}</td>
+        <td>{{property.times_per_week}}</td>
+        <td>{%if property.times_per_week == 7%}All{%else%}{{property.days_of_week}}{%endif%}</td>
+      </tr>
+      {%endif%}
+      {%endif%}
+      {%endfor%}
+    </tbody>
+  </table>
 
-<ul class='list-group'>
-{%for property in object_list %}
-<li class='list-group-item list-group-item-info'> <a href="{% url 'shifts:update_property' pk=property.pk%}"> {{property.name}} | {{property.display_name}} | {{property.times_per_week}} | {{property.times_per_month}} | {{property.times_per_year}} |</a></li>
-  <li class='list-group-item'><ul class='list-group'>{%for job in property.recent_jobs %}
-  <li class='list-group-item'> <a href='{% url 'shifts:update' pk=job.job_shift.pk%}'> <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a> </li>
+<h3>Monthly (commercial) jobs</h3>
 
-  {%endfor%}</ul></li>
-  </li>
-  {%endfor%}
-</ul>
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Property</th>
+        <th scope="col">Client</th>
+        <th scope="col">Times Per Month</th>
+      </tr>
+    </thead>
+    <tbody>
+      {%for property in object_list %}
+      {%if property.check_priority == 1%}
+      {%if property.times_per_month  %}
+      <tr>
+        <th scope="row">{{forloop.counter}}</th>
+        <td>{{property.display_name}}</td>
+        <td>{{property.client_name}}</td>
+        <td>{{property.times_per_month}}</td>
+      </tr>
+      {%endif%}
+      {%endif%}
+      {%endfor%}
+    </tbody>
+  </table>
 
-  <div class="row propInspecList2">
-    <p><a href="{%url 'shifts:inspections' priority=2%}">Full list</a> | <a href="{%url 'shifts:inspections' priority=1%}">Truncated list</a></p>
-  </div>
-  <div class='row'>
+<h3>Seasonal jobs</h3>
 
-</ul>
-</div>
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Property</th>
+          <th scope="col">Client</th>
+          <th scope="col">Times Per Year</th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for property in object_list %}
+        {%if property.times_per_year  %}
+        <tr>
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{property.display_name}}</td>
+          <td>{{property.client_name}}</td>
+          <td>{{property.times_per_yaer}}</td>
+        </tr>
+        {%endif%}
+        {%endfor%}
+      </tbody>
+    </table>
+
 </div>
 {% endblock %}
