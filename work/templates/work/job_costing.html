@@ -84,5 +84,31 @@
 
 </table>
 </div>
+<button class="btn btn-primary d-print-none" type="button" data-toggle="collapse" data-target="#collapseStats" aria-expanded="false" aria-controls="collapseStats">
+  Property descriptive statistics
+</button>
+<div class="collapse" id="collapseStats">
+  <table class="table table-sm table-bordered">
+    <tr>
+      <td>Property</td>
+      <td>Property visits</td>
+      <td>Total hours</td>
+      <td>Average visit time (hr)</td>
+      <td>Monthly contract price</td>
+      <td>Per sweep price</td>
+    </tr>
+    {%for p in prop%}
+    <tr>
+    <td>{{p}}</td>
+    <td>{{p.job_num}}</td>
+     <td>{{p.job_total}}</td>
+     <td>{{p.job_avg}}</td>
+     <td>{{p.sw_mo_price}}</td>
+     <td>{{p.sw_price}}</td>
+    </tr>
+    {%endfor%}
+
+  </table>
+</div>
 </div>
 {% endblock %}
