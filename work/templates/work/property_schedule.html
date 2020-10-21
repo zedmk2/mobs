@@ -7,6 +7,9 @@
 {% block work_content %}
 
 <div class="container">
+<div class="">
+<a href="{% url 'work:property_schedule_date' date=nmonth %}" class="btn btn-primary" role="button" aria-disabled="true">Next month</a>
+</div>
 <table class='table-striped'>
   <thead>
     <th width=60%>Prop</th>
