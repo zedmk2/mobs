@@ -1187,6 +1187,8 @@ def pdf_build(shift):
     # Start writing the PDF here
     p = SimpleDocTemplate(buffer, leftMargin=0.5*inch,rightMargin=0.5*inch,bottomMargin=0.5*inch,topMargin=0.5*inch,pagesize=landscape(letter))
     logo=os.path.join(settings.BASE_DIR,'static','mobs','ms.jpg')
+    if str(shift.driver) == 'Action':
+        logo=os.path.join(settings.BASE_DIR,'static','mobs','action.jpg')
     I = Image(logo,width=2.2*inch,height=1.2*inch)
     # container for the 'Flowable' objects
     elements = []
