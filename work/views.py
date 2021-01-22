@@ -1179,6 +1179,9 @@ def pdf_build(shift):
     if shift.shift_type == '1':
         response = landscape_pdf_build(shift)
         return response
+    if str(shift.driver) == 'Action':
+        response = action_pdf_build(shift)
+        return response
 
     response = HttpResponse(content_type='application/pdf')
     response['Content-Disposition'] = 'inline; filename='+string
@@ -1238,6 +1241,120 @@ def pdf_build(shift):
                            ('SPAN',(6,0),(8,0)),
                            ('SPAN',(9,0),(11,0)),
                            ('SPAN',(12,0),(13,0)),]))
+    #Walmart
+    data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter # again. Hang up','Yes','No',],
+                ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter 4. Enter #. Enter 2. Enter #. Hang up.','Yes','No']]
+    data_3 = [  ['BLUE: No blower. Noise forbidden from 10p to 7a | AZUL: Sin soplador. Ruido prohibido de 10p a 7a'],]
+    data_4 = [  ['Sun Valley and Southgate Shopping Center: Usa bolsas de basura negras solo por favor','Yes','No'],]
+    data_5 = [  ['Cabin Branch: Code is 6201 or 1875'],]
+
+    w_1 = Table(data_2,colWidths=[10.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_2 = Table(data_3,colWidths=[10.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_4 = Table(data_4,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_5 = Table(data_5,colWidths=[9.5*inch, 0.5*inch,0.5*inch],spaceBefore=0.15*inch)
+    w_1.setStyle(TableStyle([('BACKGROUND',(1,1),(3,3),colors.lawngreen),
+                           ('GRID',(0,1),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
+    w_2.setStyle(TableStyle([('BACKGROUND',(0,0),(3,3),'#deeff9'),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'LEFT'),]))
+    w_4.setStyle(TableStyle([('BACKGROUND',(0,0),(3,3),colors.lawngreen),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'CENTER'),]))
+    w_5.setStyle(TableStyle([('BACKGROUND',(0,0),(3,3),'#ffffff'),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,-1),'Helvetica',8),
+                           ('ALIGN',(-2,0),(-1,-1),'LEFT'),]))
+
+    elements.append(t_h)
+    elements.append(t)
+    for job in shift.jobs_in_shift.all():
+        if job.job_location.pk == 25:
+            elements.append(w_1)
+    for job in shift.jobs_in_shift.all():
+        if job.job_location.color == '#deeff9':
+            elements.append(w_2)
+            break
+
+
+    # write the document to disk
+    p.build(elements)
+    # End writing
+    pdf = buffer.getvalue()
+    buffer.close()
+    response.write(pdf)
+    short_file_name = str(shift.date) + " Shift #" + str(shift.day_num)
+    file_name = os.path.join(settings.MEDIA_ROOT,'routes',short_file_name+'.pdf')
+    print('Generating file: '+file_name)
+    with open(file_name, 'wb') as f:
+        f.write(pdf)
+    return response
+
+def action_pdf_build(shift):
+    string=str(shift)
+    # different layout for Landscaping works
+    if shift.shift_type == '1':
+        response = landscape_pdf_build(shift)
+        return response
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'inline; filename='+string
+    buffer = BytesIO()
+    width, height = letter
+    # Start writing the PDF here
+    p = SimpleDocTemplate(buffer, leftMargin=0.5*inch,rightMargin=0.5*inch,bottomMargin=0.5*inch,topMargin=0.5*inch,pagesize=landscape(letter))
+    logo=os.path.join(settings.BASE_DIR,'static','mobs','action.jpg')
+    I = Image(logo,width=2.2*inch,height=1.2*inch)
+    # container for the 'Flowable' objects
+    elements = []
+    # Header table
+    terms_adder = ''
+    current_date = shift.date
+    tom_date = current_date + datetime.timedelta(days=1)
+    for job in shift.jobs_in_shift.all():
+        if job.job_location.saddr5:
+            terms_adder = job.job_location.saddr5
+    data_h = [[I,current_date.strftime('%A')+': '+current_date.strftime('%b %d, %Y')+' / '+tom_date.strftime('%A')+': '+tom_date.strftime('%b %d, %Y'),terms_adder,shift.driver,'','Weather'],
+                ['','Driver','','','Windy'],
+                ['','Helper','','','Rainy'],
+                ['','','','','Snow'],
+                ['','Truck #',''],]
+    t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[4*inch,3*inch,1*inch,0.5*inch])
+    t_h.setStyle(TableStyle([('GRID',(1,1),(1,4),1,colors.black),
+                            ('GRID',(5,1),(5,3),1,colors.black),
+                            ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
+                           ('FONT',(0,1),(-1,-1),'Helvetica',8),
+                           ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
+                           ('SPAN',(0,0),(0,-1),
+                           )]))
+    #Property table
+    data= [['Property', 'Done?', 'Comments', ],
+           ['','', '', ],
+                ]
+    for job in shift.jobs_in_shift.all():
+        style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8,borderPadding=(3,5,3,5))
+        if job.job_location.color:
+            style.backColor = str(job.job_location.color)
+        text = str(job.job_location.display_name)
+        # +'<br/>'+str(job.job_location.address)
+        P = Paragraph(text,style)
+        data.append([P, '', '', ])
+        if job.job_location.instructions:
+            data.append([str(job.job_location.instructions), ])
+    #Table settings
+    t=Table(data,colWidths=[4.0*inch,0.5*inch,5.0*inch,0.85*inch,0.5*inch,0.5*inch,0.4*inch,],spaceBefore=0.15*inch)
+    t.setStyle(TableStyle([('BACKGROUND',(0,0),(-1,0),colors.lemonchiffon),
+                            ('ALIGN', (1, 0), (-1, 1), "CENTER"),
+                            ('TOPPADDING',(0,2),(-1,-1),4),
+                            ('BOTTOMPADDING',(0,2),(-1,-1),4),
+                           ('GRID',(0,0),(-1,-1),1,colors.black),
+                           ('FONT',(0,0),(-1,0),'Helvetica-Bold',8),
+                           ('FONT',(0,1),(-1,-1),'Helvetica',8),
+                           ]))
     #Walmart
     data_2 = [  ['Walmart, Philadelphia Rd, Aberdeen','','',],
                 ['Dial (516) 500-7776. Enter 1 for Eng or 9 for Espanol. Enter 316878#. Enter 00580672#. Enter # again. Hang up','Yes','No',],
