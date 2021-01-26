@@ -33,6 +33,7 @@ DEBUG = os.environ.get("DEBUG") == 'True'
 ALLOWED_HOSTS = ['mobilesweep.pythonanywhere.com',
     '127.0.0.1',
     'mobs.mobilesweepinc.com',
+    'bobs.mobilesweepinc.com',
 ]
 
 
