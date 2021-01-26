@@ -44,8 +44,8 @@ urlpatterns = [
     path('job_costing/<full>/<begin>/<end>/',views.job_costing,name='job_costing'),
     path('job_list/<full>/<begin>/<end>/',views.job_list,name='job_list'),
 
-    path('property_schedule/',views.PropertySchedule.as_view(),name='property_schedule'),
-    path('property_schedule/<date>/',views.PropertySchedule.as_view(),name='property_schedule_date'),
+    path('property_checklist/',views.PropertySchedule.as_view(),name='property_checklist'),
+    path('property_checklist/<date>/',views.PropertySchedule.as_view(),name='property_checklist_date'),
     path('annual_schedule/',views.AnnualSchedule.as_view(),name='annual_schedule'),
     path('service_history/',views.ServiceHistory.as_view(),name='service_history'),
     path('property_list/',views.PropertyList.as_view(),name='properties_list'),

@@ -965,15 +965,17 @@ class PropertySchedule(generic.ListView):
         prop_list_minus_schedule = set(prop_list_2) - set(record_full_list)
         nmonth = today+datetime.timedelta(days=30)
         nmonth = datetime.datetime.strftime(nmonth, '%Y-%m-%d')
+        lmonth = today-datetime.timedelta(days=30)
+        lmonth = datetime.datetime.strftime(lmonth, '%Y-%m-%d')
 
         extra_context = {'prev_shifts':prev_shifts,'remaining_shifts':remaining_shifts,'record_full':sorted(record_full_list),'rfl_count':rfl_count,
             'prop_list':prop_list, 'prop_list_2':prop_list_2,'route_dict':route_dict,'route_prop_list':route_prop_list,'num_routes':num_routes,
             'rpl_minus_prop_list':sorted(rpl_minus_prop_list), 'prop_list_minus_rpl':sorted(prop_list_minus_rpl),
-            'schedule_minus_prop_list':sorted(schedule_minus_prop_list), 'prop_list_minus_schedule':sorted(prop_list_minus_schedule),'nmonth':nmonth,}
+            'schedule_minus_prop_list':sorted(schedule_minus_prop_list), 'prop_list_minus_schedule':sorted(prop_list_minus_schedule),'nmonth':nmonth,'lmonth':lmonth,}
         full_context = {**context, **extra_context}
         return self.render_to_response(full_context)
 
-    template_name = "work/property_schedule.html"
+    template_name = "work/property_checklist.html"
 
 class AnnualSchedule(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
