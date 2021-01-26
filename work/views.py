@@ -1068,14 +1068,18 @@ class Calendar(generic.ListView):
 
 class ServiceHistory(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('client_name')
+        today = datetime.date.today()
+        mos_three = today - datetime.timedelta(weeks=15)
+        queryset = Property.objects.prefetch_related(Prefetch('location', queryset=Job.objects.filter(job_shift__date__gte=mos_three).select_related('job_shift__helper').select_related('job_shift__driver').order_by('-id'),to_attr='jobz')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('client_name')[0:50]
         for prop in queryset:
             prop.recent_jobs = []
-            for loc in prop.location.all():
+            prop_locations = prop.jobz
+            for loc in prop_locations:
                 prop.recent_jobs.append(loc)
             prop.recent_jobs = prop.recent_jobs[-6:]
             try:
                 prop.last_done = prop.recent_jobs[-1].job_shift.date
+
             except:
                 prop.last_done = "not done"
 

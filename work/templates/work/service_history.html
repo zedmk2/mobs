@@ -45,8 +45,10 @@
                               <div class='collapse' id='c-{{property|slugify}}'>
                                 <li  class='list-group-item'>
                                 <ul class='list-group'>{%for job in property.recent_jobs %}
-                                <li class='list-group-item'> <a href='{% url 'shifts:update' pk=job.job_shift.pk%}'>
-                                <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a> </li>
+                                <li class='list-group-item'>
+                                  <a href='{% url 'shifts:update' pk=job.job_shift.pk%}'>
+                                <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a>
+                               </li>
                                 {%endfor%}
                               </div>
             </td>
