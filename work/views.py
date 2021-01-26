@@ -982,7 +982,29 @@ class AnnualSchedule(LoginRequiredMixin,generic.ListView):
             prop.recent_jobs = []
             for loc in prop.location.all():
                 prop.recent_jobs.append(loc)
-            prop.recent_jobs = prop.recent_jobs[-3:]
+            prop.recent_jobs = prop.recent_jobs[-6:]
+            #Calculating expected days between sweeps, based on times per year
+            prop.time_between = 360 / prop.times_per_year
+            prop.time_between_early = prop.time_between - 30
+            prop.time_between_late = prop.time_between + prop.time_between / 6
+            #Calculating time since last swept
+            prop.today = datetime.date.today()
+            try:
+                prop.last_done = prop.recent_jobs[-1].job_shift.date
+                prop.days_since = prop.today - prop.last_done
+                prop.days_since = prop.days_since.days
+                prop.days_since_number = prop.days_since
+                if prop.days_since < prop.time_between_early:
+                    prop.sweep_status = 'table-success'
+                elif prop.days_since < prop.time_between:
+                    prop.sweep_status = 'table-warning'
+                elif prop.days_since < prop.time_between_late:
+                    prop.sweep_status = 'table-danger'
+                else:
+                    prop.sweep_status = 'table-dark'
+            except:
+                prop.last_done = "not done"
+                prop.sweep_status = 'table-light'
         return queryset
     template_name = "work/annual_list.html"
 

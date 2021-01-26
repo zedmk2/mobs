@@ -4,23 +4,59 @@
 {% load staticfiles %}
 
 {% block work_content %}
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <h2>Property List - Quarterly / Biannual Sweeps</h2>
+    <h3>Property List - Quarterly / Triannual / Biannual Sweeps</h3>
+  </div>
+  <div class="row">
+    <table>
+      <tr>
+        <td style="padding:0px 5px 0px 5px" class="table-success">Recently serviced</td>
+        <td style="padding:0px 5px 0px 5px" class="table-warning">Schedule soon</td>
+        <td style="padding:0px 5px 0px 5px" class="table-danger">Overdue</td>
+      </tr>
+    </table>
   </div>
 
-<ul class='list-group'>
-{%for property in object_list %}
-<li class='list-group-item list-group-item-info'> <a href="{% url 'shifts:update_property' pk=property.pk%}"> {{property.name}} | {{property.display_name}} |<br> <b>Times Per Year: {{property.times_per_year}} ({{property.memo}}) </b></a></li>
-  <li class='list-group-item'><ul class='list-group'>{%for job in property.recent_jobs %}
-  <li class='list-group-item'> <a href='{% url 'shifts:update' pk=job.job_shift.pk%}'> <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a> </li>
+  <div class="">
+    <table data-toggle="table" data-search="true" class='table table-bordered'>
+      <thead class='thead-dark'>
+        <tr>
+          <th data-sortable="true" data-field="prop" >Property</th>
+          <th data-sortable="true" data-field="client" >Client</th>
+          <th data-sortable="true" data-field="time" >Est. Time (hr.)</th>
+          <th data-sortable="true" data-field="tpy" >Per Yr.</th>
+          <th>Instructions</th>
+          <th data-sortable="true" data-field="last_done" >Last scheduled:</th>
+          <th data-sortable="true" data-field="status" >Status</th>
+        </tr>
+      </thead>
 
-  {%endfor%}</ul></li>
-  </li>
-  {%endfor%}
-</ul>
+    {%for property in object_list %}
+    <tr class="{{property.sweep_status}}"> <a href="{% url 'shifts:update_property' pk=property.pk%}">
+            <td>{{property.name}}</td> <td> {{property.client_name}}</td> <td> {{property.adlspl}}</td>
+             <td>{{property.times_per_year}}</td><td> ({{property.memo}})</td>
 
-</ul>
+            <td>{{property.last_done}} | {{property.days_since}} days
+              <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#c-{{property|slugify}}" aria-expanded="false" aria-controls="collapseExample">
+                  Expand  </button>
+                              <div class='collapse' id='c-{{property|slugify}}'>
+                                <li  class='list-group-item'>
+                                <ul class='list-group'>{%for job in property.recent_jobs %}
+                                <li class='list-group-item'> <a href='{% url 'shifts:update' pk=job.job_shift.pk%}'>
+                                <span class="{{property.color}}" aria-hidden="true"></span> {{job.job_shift}} </a> </li>
+                                {%endfor%}
+                              </div>
+            </td>
+            <td>{%if "success" in property.sweep_status %}<i class="material-icons">done</i>
+                {%elif "warning" in property.sweep_status %}<i class="material-icons">schedule</i>
+                {%elif "danger" in property.sweep_status %}<i class="material-icons">warning</i>
+                {%else%}<i class="material-icons">search_off</i>{%endif%}</td>
+      </tr>
+      {%endfor%}
+    </table>
+  </div>
+
 </div>
 </div>
 {% endblock %}
