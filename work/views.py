@@ -1,7 +1,7 @@
 import os
 import time, calendar
 from collections import defaultdict
-from django.shortcuts import render, render_to_response, HttpResponseRedirect
+from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth import get_user_model
 User = get_user_model()
 
@@ -34,8 +34,6 @@ from django.utils.safestring import mark_safe
 
 import datetime
 from io import BytesIO
-
-from braces.views import SelectRelatedMixin
 
 from django import forms
 from django.forms import formsets, inlineformset_factory
@@ -1070,12 +1068,13 @@ class ServiceHistory(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
         today = datetime.date.today()
         mos_three = today - datetime.timedelta(weeks=15)
-        queryset = Property.objects.prefetch_related(Prefetch('location', queryset=Job.objects.filter(job_shift__date__gte=mos_three).select_related('job_shift__helper').select_related('job_shift__driver').order_by('-id'),to_attr='jobz')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('client_name')[0:50]
+        queryset = Property.objects.prefetch_related(Prefetch('location', queryset=Job.objects.filter(job_shift__date__gte=mos_three).select_related('job_shift__helper').select_related('job_shift__driver').order_by('-id'),to_attr='jobz')).prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver').prefetch_related('client_name')
         for prop in queryset:
             prop.recent_jobs = []
             prop_locations = prop.jobz
-            for loc in prop_locations:
-                prop.recent_jobs.append(loc)
+            for loc in prop.location.all():
+                if loc.job_shift.date <= today:
+                    prop.recent_jobs.append(loc)
             prop.recent_jobs = prop.recent_jobs[-6:]
             try:
                 prop.last_done = prop.recent_jobs[-1].job_shift.date

@@ -34,7 +34,7 @@
 
     {%for property in object_list %}
     <tr class="{{property.sweep_status}}"> <a href="{% url 'shifts:update_property' pk=property.pk%}">
-            <td style="width:20%">{{property.name}}</td>
+            <td style="width:20%"><a href='{% url 'shifts:update_property' pk=property.pk%}'> {{property.name}} </a></td>
             <td style="width:20%"> {{property.client_name}}</td>
             <td style="width:10%"> {{property.adlspl}}</td>
             <td style="width:10%">{{property.times_per_week}}</td>

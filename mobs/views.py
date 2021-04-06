@@ -1,5 +1,5 @@
 from django.views.generic import TemplateView, FormView
-from django.shortcuts import render, render_to_response, HttpResponseRedirect, reverse
+from django.shortcuts import render, HttpResponseRedirect, reverse
 from . import forms
 
 

@@ -43,26 +43,35 @@ class Truck(models.Model):
     def __str__(self):
         return "%s" % (self.name)
 
-class Client(models.Model):
+class ClientManager(models.Manager):
+    def get_by_natural_key(self, name, billing_name, action_name):
+        return self.get(name=name, billing_name=billing_name)
 
-    name = models.CharField(max_length=200, unique=True)
+class Client(models.Model):
+    name = models.CharField(max_length=200)
     billing_name = models.CharField(max_length=200, blank=True,null=True)
     address = models.CharField(max_length=200)
     city = models.CharField(max_length=200)
     state  = models.CharField(max_length=200)
     zipcode = models.IntegerField()
-
     start_date = models.DateField(blank=True,null=True)
     end_date = models.DateField(blank=True,null=True)
 
+    objects = ClientManager()
+
     class Meta:
+        unique_together = (("name","state"),
+                            )
         ordering = ["name"]
+
+    def natural_key(self):
+        return (self.name, self.billing_name, "Action")
 
     def __str__(self):
         return self.name
 
 class Property(models.Model):
-    name = models.CharField(max_length=200, unique=True)
+    name = models.CharField(max_length=200)
     display_name = models.CharField(max_length=200)
     invoice_name = models.CharField(max_length=200,blank=True,null=True)
 
@@ -142,6 +151,8 @@ class Property(models.Model):
     class Meta:
         verbose_name_plural = "properties"
         ordering = ["display_name"]
+        unique_together = (("name","client_name"),
+                            )
 
     def __str__(self):
         return self.display_name
