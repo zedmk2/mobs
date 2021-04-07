@@ -148,6 +148,9 @@ class Property(models.Model):
         except:
             return 0
 
+    def natural_key(self):
+        return (self.name, self.display_name)
+
     class Meta:
         verbose_name_plural = "properties"
         ordering = ["display_name"]
@@ -384,7 +387,7 @@ class RouteJob(models.Model):
     route_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='route_location', null=True)
     job_route = models.ForeignKey(Route,on_delete=models.PROTECT,related_name='job_route', null=True)
     order = models.IntegerField()
-    freq = models.CharField(max_length=20, null=True, blank=True)
+    freq = models.CharField(max_length=20, null=True, blank=True,choices=[('even','Even weeks'),('odd',"Odd Weeks"),('first','First week of month'),('second','Second week of month')])
 
     def __str__(self):
         return "<%s> -- %s %s" % (self.job_route, self.order, self.route_location)

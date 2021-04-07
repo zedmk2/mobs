@@ -544,7 +544,8 @@ def payroll(request,begin,end):
     # this will give you a list containing all of the dates
     dd = [d1 + datetime.timedelta(days=x) for x in range((d2-d1).days + 1)]
 
-    employee = Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=900).exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2')
+    employee = (Employee.objects.filter(em_uid__gte=100).filter(em_uid__lte=999).
+               exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2'))
 
     emp_mix =[]
     i=0
@@ -562,33 +563,44 @@ def payroll(request,begin,end):
         iter4 = []
         if iter2 == []:
             emp_mix[i]['total']=0
-        else:
-            l=0
-            for k in range(len(iter2)):
-                if emp.name == iter2[k].driver.name:
-                    l += iter2[k].shift_length()
-                elif emp.name == iter2[k].helper.name:
-                    l += iter2[k].help_length()
-                elif emp.name == iter2[k].helper_2.name:
-                    l += iter2[k].help_2_length()
-            emp_mix[i]['total'] = round(l,2)
-
+            
         for k in range(len(dd)):
             iter4.append(0)
             for j in range(len(iter2)):
                 if dd[k] == iter2[j].date:
-                    if emp.name == iter2[j].driver.name:
-                        iter4[k] += iter2[j].shift_length()
-                    elif emp.name == iter2[j].helper.name:
-                        iter4[k] += iter2[j].help_length()
-                    elif emp.name == iter2[j].helper_2.name:
-                        iter4[k] += iter2[j].help_2_length()
-
+                    if emp.em_uid > 700:
+                        try:
+                            if emp.name == iter2[j].driver.name and emp.name == iter2[j].helper.name:
+                                iter4[k] += 1.3
+                            elif emp.name == iter2[j].driver.name:
+                                iter4[k] += 1
+                            elif emp.name == iter2[j].helper.name:
+                                iter4[k] += 1
+                            elif emp.name == iter2[j].helper_2.name:
+                                iter4[k] += 1
+                        except:
+                            if emp.name == iter2[j].driver.name:
+                                iter4[k] += 1
+                            elif emp.name == iter2[j].helper.name:
+                                iter4[k] += 1
+                            elif emp.name == iter2[j].helper_2.name:
+                                iter4[k] += 1
+                    else:
+                        if emp.name == iter2[j].driver.name:
+                            iter4[k] += iter2[j].shift_length()
+                        elif emp.name == iter2[j].helper.name:
+                            iter4[k] += iter2[j].help_length()
+                        elif emp.name == iter2[j].helper_2.name:
+                            iter4[k] += iter2[j].help_2_length()
         emp_mix[i]['shifts'] = iter4
+        emp_mix[i]['total'] = sum(iter4)
         i=i+1
-    for i in range(len(emp_mix)):
-        total_hours += emp_mix[i]['total']
-    total_hours = round(total_hours,2)
+        for i in range(len(emp_mix)):
+            try:
+                total_hours += emp_mix[i]['total']
+            except:
+                total_hours = 0
+        total_hours = round(total_hours,2)
 
     context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str,'iter2':iter2}
     return render(request,'work/payroll.html',context)
@@ -1211,7 +1223,7 @@ def pdf_build(shift):
     if shift.shift_type == '1':
         response = landscape_pdf_build(shift)
         return response
-    if str(shift.driver) == 'Action':
+    if shift.driver.em_uid >= 800:
         response = action_pdf_build(shift)
         return response
 

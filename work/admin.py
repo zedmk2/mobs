@@ -9,6 +9,10 @@ class JobAdmin(admin.ModelAdmin):
     search_fields = ['job_location']
     list_display = ['job_shift','job_location','start_time','end_time','date']
 
+class EmployeeAdmin(admin.ModelAdmin):
+    list_display = ['name','first_name','last_name','em_uid','start_date','end_date','driver','helper','porter']
+    list_editable = ['em_uid','start_date','end_date',]
+
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['id','name','display_name','color','instructions','check_priority','sw_price','sw_mo_price','times_per_week','days_of_week','times_per_month','times_per_year']
@@ -66,7 +70,7 @@ admin.site.register(models.Job, JobAdmin)
 admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Property, PropertyAdmin)
 admin.site.register(models.Inspection)
-admin.site.register(models.Employee)
+admin.site.register(models.Employee, EmployeeAdmin)
 admin.site.register(models.Shift,Shift_Inline_Admin)
 admin.site.register(models.Route, RouteAdmin)
 admin.site.register(models.RouteJob, RouteJobAdmin)
