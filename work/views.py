@@ -594,14 +594,14 @@ def payroll(request,begin,end):
                         elif emp.name == iter2[j].helper_2.name:
                             iter4[k] += iter2[j].help_2_length()
         emp_mix[i]['shifts'] = iter4
-        emp_mix[i]['total'] = sum(iter4)
+        emp_mix[i]['total'] = round(sum(iter4),2)
 
-        for i in range(len(emp_mix)):
-            try:
-                total_hours += emp_mix[i]['total']
-            except:
-                total_hours = 0
-        total_hours = round(total_hours,2)
+    for i in range(len(emp_mix)):
+        try:
+            total_hours += emp_mix[i]['total']
+        except:
+            total_hours = 0
+    total_hours = round(total_hours,2)
 
     context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str,'emp':employee}
     return render(request,'work/payroll.html',context)
