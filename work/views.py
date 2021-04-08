@@ -548,8 +548,9 @@ def payroll(request,begin,end):
                exclude(end_date__lte=end).prefetch_related('sh_driver').prefetch_related('sh_helper').prefetch_related('sh_helper_2'))
 
     emp_mix =[]
-    i=0
+    i=-1
     for emp in employee:
+        i=i+1
         emp_mix.append({'employee':"",'jobs':"",'shifts':"",'total':""})
         emp2 = emp
         emp_mix[i]['employee'] = emp.name
@@ -563,7 +564,7 @@ def payroll(request,begin,end):
         iter4 = []
         if iter2 == []:
             emp_mix[i]['total']=0
-            
+
         for k in range(len(dd)):
             iter4.append(0)
             for j in range(len(iter2)):
@@ -594,7 +595,7 @@ def payroll(request,begin,end):
                             iter4[k] += iter2[j].help_2_length()
         emp_mix[i]['shifts'] = iter4
         emp_mix[i]['total'] = sum(iter4)
-        i=i+1
+
         for i in range(len(emp_mix)):
             try:
                 total_hours += emp_mix[i]['total']
@@ -602,7 +603,7 @@ def payroll(request,begin,end):
                 total_hours = 0
         total_hours = round(total_hours,2)
 
-    context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str,'iter2':iter2}
+    context = {'emp_mix':emp_mix,'dates':dd,'total_hours':total_hours,'begin':begin_str,'end':end_str,'emp':employee}
     return render(request,'work/payroll.html',context)
 
 

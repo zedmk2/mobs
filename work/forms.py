@@ -68,7 +68,7 @@ class CreateShiftForm(forms.ModelForm):
     helper_2 = forms.ModelChoiceField(queryset = models.Employee.objects.filter(helper=True),required=False)
     day_num = forms.IntegerField()
     #Update to ModelChoice/Queryset when equipment model added
-    trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504'),(203,'203'),(101,'101')]
+    trucks = [(415,'415'),(501,'501'),(502,'502'),(503,'503'),(504,'504'),(203,'203'),(101,'101'),(12,'12'),(13,'13'),(14,'14'),(15,'15'),(16,'16'),(17,'17'),(18,'18'),(999,'Other')]
     truck = forms.ChoiceField(choices = trucks)
 
     ST_CHOICES = (
@@ -90,7 +90,7 @@ class CreateShiftForm(forms.ModelForm):
     def clean_pk(self):
         pk = self.cleaned_data['pk']
         try:
-            product = Shift.objects.get(pk=pk) 
+            product = Shift.objects.get(pk=pk)
         except:
             pass
         else:

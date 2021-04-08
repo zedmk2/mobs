@@ -47,9 +47,9 @@
       <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{% elif prop.freq == "first" %}blue{% elif prop.freq == "second" %}red{%endif%}">{{prop.order}}  {{prop.route_location.display_name|truncatechars:25}}</td><td>{{prop.route_location.sweep_price}}</td>
     </tr>
   {% endfor %}
-  <!-- <tr>
-    <td>Total:</td><td align=right>${{route.route_price}}</td>
-  </tr> -->
+  <tr>
+    <td></td><td align=right><b>{{route.route_price|floatformat:"0"}}</b></td>
+  </tr>
 </table>
 </td>
 

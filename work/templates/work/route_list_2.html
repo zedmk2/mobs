@@ -8,13 +8,13 @@
 {% endblock %}
 
 {% block work_content %}
-<div class="container">
+<div class="container-fluid">
 
 
 <div class="row">
 
 </div>
-<h3>Route templates and generator</h3>
+<h3>Commercial / Monthly - Route templates and generator</h3>
 
 <div class="">
   <form class="form-inline" action="" method="post">
@@ -33,19 +33,21 @@
   <td colspan=4>Day of week: {{dow.grouper}}</td>
 </tr>
 
+<tr>
 {% for route in dow.list %}
-
+{% if forloop.counter0|divisibleby:7 %}<tr>{% endif %}
 <td>{{route.route_num}}. {{route.driver}}
 <table class='route-table-jobs'>
   {% for prop in route.job_route.all %}
     <tr>
-      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{%endif%}">{{prop.order}}  {{prop.route_location.name}}</td>
+      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{%endif%}">{{prop.order}}  {{prop.route_location.name|truncatechars:30}}</td>
     </tr>
   {% endfor %}
 </table>
 </td>
-
+{% if forloop.counter|divisibleby:7 or forloop.last %}</tr>{% endif %}
 {% endfor %}
+</tr>
 {% endfor %}
 </table>
 
