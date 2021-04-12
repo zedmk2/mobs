@@ -1364,12 +1364,12 @@ def action_pdf_build(shift):
         if job.job_location.saddr5:
             terms_adder = job.job_location.saddr5
     data_h = [[I,current_date.strftime('%A')+': '+current_date.strftime('%b %d, %Y')+' / '+tom_date.strftime('%A')+': '+tom_date.strftime('%b %d, %Y'),terms_adder,shift.driver,'','Weather'],
-                ['','Driver','','','Windy'],
-                ['','Helper','','','Rainy'],
+                ['','Driver','Time in','Time out','Viento (Windy)',''],
+                ['','Helper','Time in','Time out','Lloviendo (Rain)',''],
                 ['','','','','Snow'],
                 ['','Truck #',''],]
-    t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[4*inch,3*inch,1*inch,0.5*inch])
-    t_h.setStyle(TableStyle([('GRID',(1,1),(1,4),1,colors.black),
+    t_h = Table(data_h,rowHeights=[0.3*inch,0.3*inch,0.3*inch,0.3*inch,0.3*inch],colWidths=[3*inch,2*inch,2*inch,2*inch,1*inch,0.4*inch])
+    t_h.setStyle(TableStyle([('GRID',(1,1),(3,4),1,colors.black),
                             ('GRID',(5,1),(5,3),1,colors.black),
                             ('VALIGN',(0,0),(-1,-1),'MIDDLE'),
                            ('FONT',(0,1),(-1,-1),'Helvetica',8),
