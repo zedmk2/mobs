@@ -329,6 +329,12 @@ class RouteList(generic.ListView):
                                 elif prop.freq == 'odd':
                                     if d.isocalendar()[1] %2 == 1:
                                         shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                                elif prop.freq == 'first':
+                                    if d.isocalendar()[1] -d.replace(day=(7-d.weekday())).isocalendar()[1]+1 == 1:
+                                        shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
+                                elif prop.freq == 'second':
+                                    if d.isocalendar()[1] -d.replace(day=(7-d.weekday())).isocalendar()[1]+1 == 2:
+                                        shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
                                 else:
                                     shift.jobs_in_shift.get_or_create(job_location=prop.route_location,order=prop.order)
                             print("Created shift for %s %s" % (d,route.driver))

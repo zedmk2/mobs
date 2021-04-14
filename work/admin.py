@@ -16,7 +16,7 @@ class EmployeeAdmin(admin.ModelAdmin):
 class PropertyAdmin(admin.ModelAdmin):
     search_fields = ['name']
     list_display = ['id','name','display_name','color','instructions','check_priority','sw_price','sw_mo_price','times_per_week','days_of_week','times_per_month','times_per_year']
-    list_editable = ['color',]
+    list_editable = ['color','check_priority',]
     list_filter = ['job_costing_report_include',]
 
 class RouteJobAdmin(admin.ModelAdmin):
@@ -43,6 +43,9 @@ class RouteAdmin(admin.ModelAdmin):
     list_display = ["weekday", "route_num", "driver"]
     list_editable = [ "route_num", "driver"]
 
+class ShiftAdmin(admin.ModelAdmin):
+    list_display = ["id","driver",  "date", "created_at"]
+    list_editable = [ "driver", "date"]
 
 class Shift_Inline_Admin(admin.ModelAdmin):
     inlines = [
@@ -71,6 +74,6 @@ admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Property, PropertyAdmin)
 admin.site.register(models.Inspection)
 admin.site.register(models.Employee, EmployeeAdmin)
-admin.site.register(models.Shift,Shift_Inline_Admin)
+admin.site.register(models.Shift,ShiftAdmin,)
 admin.site.register(models.Route, RouteAdmin)
 admin.site.register(models.RouteJob, RouteJobAdmin)
