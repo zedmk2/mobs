@@ -279,7 +279,7 @@ class Work_Date:
         self.date = date
 
 class Job(models.Model):
-    job_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='location', null=True)
+    job_location = models.ForeignKey(Property,on_delete=models.CASCADE, related_name='location', null=True)
     job_shift = models.ForeignKey(Shift,on_delete=models.CASCADE,related_name='jobs_in_shift', null=True)
     order = models.IntegerField(default=1)
     start_time = models.TimeField(blank=True,null=True)
@@ -384,8 +384,8 @@ class Route(models.Model):
         return "%s %s" % (weekday, self.driver)
 
 class RouteJob(models.Model):
-    route_location = models.ForeignKey(Property,on_delete=models.PROTECT, related_name='route_location', null=True)
-    job_route = models.ForeignKey(Route,on_delete=models.PROTECT,related_name='job_route', null=True)
+    route_location = models.ForeignKey(Property,on_delete=models.CASCADE, related_name='route_location', null=True)
+    job_route = models.ForeignKey(Route,on_delete=models.CASCADE,related_name='job_route', null=True)
     order = models.IntegerField()
     freq = models.CharField(max_length=20, null=True, blank=True,choices=[('even','Even weeks'),('odd',"Odd Weeks"),('first','First week of month'),('second','Second week of month')])
 
