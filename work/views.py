@@ -874,11 +874,11 @@ def days_in_month(today):
 
 class PropertySchedule(generic.ListView):
     def get_queryset(self):
-        qs = Property.objects.filter(check_priority__lt=3)
+        qs = Property.objects.filter(check_priority__lt=2)
         return qs
 
     def get(self, request, date=0, *args, **kwargs):
-        prop_list = Property.objects.filter(check_priority__lt=3)
+        prop_list = Property.objects.filter(check_priority__lt=2)
         route_list = Route.objects.all().prefetch_related('job_route__route_location').prefetch_related('job_route')
         route_dict = defaultdict(int)
         route_prop_list = []
