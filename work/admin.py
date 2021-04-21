@@ -48,6 +48,8 @@ class ShiftAdmin(admin.ModelAdmin):
     list_editable = [ "driver", "date"]
 
 class Shift_Inline_Admin(admin.ModelAdmin):
+    list_display = ["id","driver",  "date", "created_at"]
+    list_editable = [ "driver", "date"]
     inlines = [
     JobInlineAdmin,
     ]
@@ -74,6 +76,6 @@ admin.site.register(models.Client, ClientAdmin)
 admin.site.register(models.Property, PropertyAdmin)
 admin.site.register(models.Inspection)
 admin.site.register(models.Employee, EmployeeAdmin)
-admin.site.register(models.Shift,ShiftAdmin,)
+admin.site.register(models.Shift,Shift_Inline_Admin)
 admin.site.register(models.Route, RouteAdmin)
 admin.site.register(models.RouteJob, RouteJobAdmin)
