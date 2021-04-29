@@ -122,6 +122,7 @@ class Property(models.Model):
     sw_mo_price = models.FloatField(blank=True,null=True)
     bu_price = models.FloatField(blank=True,null=True)
     po_price = models.FloatField(blank=True,null=True)
+    length = models.FloatField(blank=True,null=True)
 
     times_per_week = models.IntegerField(blank=True,null=True)
     days_of_week = models.CharField(blank=True,null=True,max_length=7)
