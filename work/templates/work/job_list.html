@@ -5,6 +5,24 @@
 {% regroup prop by client_name as client %}
 
 <div class="container jobCosting">
+<table class="table table-sm">
+<thead><tr> <th>Name</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
+</thead>
+<tbody>
+  <!-- <tr>
+    <td>{{p.name}}</td> <td></td>
+  </tr> -->
+  {% for p in prop%}
+  {% for j in p.jobs %}
+  <tr> <td>{{p.name}}</td> <td>{{j.job_shift.date}}</td><td>{{j.start_time}}</td> <td>{{j.end_time}}</td></tr>
+  {%endfor %}
+  {%endfor%}
+</tbody>
+</table>
+
+
+<!--   
+
 <div class="row">
   <div class="col"> <ul class='reportHeader reportHeader-l'>
     <li>Job cost report</li>
@@ -23,7 +41,7 @@
 
 <div class='row'>
 <table class='table table-sm jobCostingTable'>
-
+{{prop}}
 {%for c in client%}
 <tbody>
   <tr class='jobCostingTable-custRow'><td colspan=11>{{c.grouper}}</td></tr>
@@ -76,6 +94,6 @@
   </tbody>
 
 </table>
-</div>
+</div> -->
 </div>
 {% endblock %}
