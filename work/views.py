@@ -967,6 +967,7 @@ class PropertySchedule(generic.ListView):
                 p.difference_class = 'yellow'
                 if p.month_target != "NA":
                     p.difference = int(p.month_target or 0) - int(p.completed or 0) - int(p.remaining or 0)
+                    p.difference_percent = int((p.difference / int(p.month_target or 1))*100)
                     if p.difference > 0:
                         p.difference_class = 'blue'
                     elif p.difference < 0 :

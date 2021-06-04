@@ -15,11 +15,12 @@
       <div class="">
       <table data-toggle="table" data-search="true" class='table-striped'>
         <thead>
-          <th data-sortable="true" data-field="prop" width=60%>Prop</th>
+          <th data-sortable="true" data-field="prop" width=50%>Prop</th>
           <th data-sortable="true" data-field="Target" width=10%>Target</th>
           <th data-sortable="true" data-field="Completed" width=10%>Completed</th>
           <th data-sortable="true" data-field="Scheduled" width=10%>Scheduled</th>
           <th data-sortable="true" data-field="Difference" width=10%>Difference</th>
+          <th data-sortable="true" data-field="Difference_percent" width=10%>Diff %</th>
         </thead>
         {% for property in prop_list %}
         <tr>
@@ -27,7 +28,8 @@
           <td>{{property.month_target}}</td>
           <td>{{property.completed}}</td>
           <td>{{property.remaining}}</td>
-          <td class={{property.difference_class}}>{{property.difference}}</td>
+          <td>{{property.difference}}</td>
+          <td class={{property.difference_class}}>{{property.difference_percent}}</td>
         </tr>
           {%endfor%}
       </table>

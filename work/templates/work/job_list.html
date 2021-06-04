@@ -2,11 +2,10 @@
 {% load static %}
 {% load humanize %}
 {% block work_content %}
-{% regroup prop by client_name as client %}
 
 <div class="container jobCosting">
 <table class="table table-sm">
-<thead><tr> <th>Name</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
+<thead><tr> <th>Name</th> <th>Sweep Price</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
 </thead>
 <tbody>
   <!-- <tr>
@@ -14,7 +13,7 @@
   </tr> -->
   {% for p in prop%}
   {% for j in p.jobs %}
-  <tr> <td>{{p.name}}</td> <td>{{j.job_shift.date}}</td><td>{{j.start_time}}</td> <td>{{j.end_time}}</td></tr>
+  <tr> <td>{{p.name}}</td> <td>{{p.sw_price}}</td> <td>{{j.job_shift.date}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
   {%endfor %}
   {%endfor%}
 </tbody>
