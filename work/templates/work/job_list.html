@@ -13,7 +13,7 @@
   </tr> -->
   {% for p in prop%}
   {% for j in p.jobs %}
-  <tr> <td>{{p.name}}</td> <td>{{p.sw_price}}</td> <td>{{j.job_shift.date}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
+  <tr> <td>{{p.name}}</td> <td>{{p.sw_price}}</td> <td>{{j.job_shift.date|date:"Y-m-d"}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
   {%endfor %}
   {%endfor%}
 </tbody>
