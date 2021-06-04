@@ -5,19 +5,19 @@
 
 <div class="container jobCosting">
 <table class="table table-sm table-bordered">
-<thead><tr> <th>Name</th> <th>Sweep Price</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
-</thead>
-<tbody>
-  <!-- <tr>
-    <td>{{p.name}}</td> <td></td>
-  </tr> -->
-  {% for p in prop%}
-  {% for j in p.jobs %}
-  <tr> <td>{{p.name}}</td> <td>{{p.sw_price}}</td> <td>{{j.job_shift.date|date:"Y-m-d"}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
-  {%endfor %}
-  {%endfor%}
-</tbody>
-</table>
+  <thead><tr> <th>Name</th> <th>Sweep Price</th> <th> Sw Price</th> <th>Sweep Month Price</th> <th>Times Per Mo</th> <th>Times Per Week</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
+  </thead>
+  <tbody>
+    <!-- <tr>
+      <td>{{p.name}}</td> <td></td>
+    </tr> -->
+    {% for p in prop%}
+    {% for j in p.jobs %}
+    <tr> <td>{{p.name}}</td> <td>{{p.sweep_price}}</td> <td>{{p.sw_price}}</td> <td>{{p.sw_mo_price}}</td> <td>{{p.times_per_month}}</td> <td>{{p.times_per_week}}</td> <td>{{j.job_shift.date|date:"Y-m-d"}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
+    {%endfor %}
+    {%endfor%}
+  </tbody>
+  </table>
 
 
 <!--   

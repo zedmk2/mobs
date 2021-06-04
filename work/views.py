@@ -675,38 +675,38 @@ def job_list(request, begin, end,full):
     price = 53
     for p in property_set:
         p.job_num = 0
-        p.job_total = 0
-        p.job_avg = 0
-        p.cost_total = 0
-        p.sw_total_price = 0
-        p.a_dph_sum = 0
-        for j in p.jobs:
-            p.job_num += 1
-            p.job_total += j.job_length
-            j.job_cost = j.job_length * price
-            p.cost_total += j.job_cost
-        try:
-            p.job_avg = p.job_total / p.job_num
-        except:
-            p.job_avg = 0
-        if not p.sw_price and p.sw_mo_price:
-            try:
-                p.sw_price = p.sw_mo_price / p.job_num
-            except ZeroDivisionError:
-                p.sw_price = 0
-        if p.sw_price:
-                p.sw_total_price = p.sw_price * p.job_num
-        for j in p.jobs:
-            j.e_dph = ""
-            try:
-                j.a_dph = p.sw_price/j.job_length
-                p.a_dph_sum += j.a_dph
-            except:
-                j.a_dph = 0
-        try:
-            p.a_dph_avg = p.a_dph_sum / p.job_num
-        except:
-            p.a_dph_avg = 0
+        # p.job_total = 0
+        # p.job_avg = 0
+        # p.cost_total = 0
+        # p.sw_total_price = 0
+        # p.a_dph_sum = 0
+        # for j in p.jobs:
+        #     p.job_num += 1
+        #     p.job_total += j.job_length
+        #     j.job_cost = j.job_length * price
+        #     p.cost_total += j.job_cost
+        # try:
+        #     p.job_avg = p.job_total / p.job_num
+        # except:
+        #     p.job_avg = 0
+        # if not p.sw_price and p.sw_mo_price:
+        #     try:
+        #         p.sw_price = p.sw_mo_price / p.job_num
+        #     except ZeroDivisionError:
+        #         p.sw_price = 0
+        # if p.sw_price:
+        #         p.sw_total_price = p.sw_price * p.job_num
+        # for j in p.jobs:
+        #     j.e_dph = ""
+        #     try:
+        #         j.a_dph = p.sw_price/j.job_length
+        #         p.a_dph_sum += j.a_dph
+        #     except:
+        #         j.a_dph = 0
+        # try:
+        #     p.a_dph_avg = p.a_dph_sum / p.job_num
+        # except:
+        #     p.a_dph_avg = 0
 
     month = datetime.datetime.strptime(begin,'%Y-%m-%d').strftime('%B %Y')
 
