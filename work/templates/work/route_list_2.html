@@ -40,9 +40,12 @@
 <table class='route-table-jobs'>
   {% for prop in route.job_route.all %}
     <tr>
-      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{%endif%}">{{prop.order}}  {{prop.route_location.name|truncatechars:30}}</td>
+      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{%endif%}">{{prop.order}}  {{prop.route_location.name|truncatechars:30}}</td><td>{{prop.route_location.sweep_price}}</td>
     </tr>
   {% endfor %}
+  <tr>
+    <td></td><td align=right><b>{{route.route_price|floatformat:"0"}}</b></td>
+  </tr>
 </table>
 </td>
 {% if forloop.counter|divisibleby:7 or forloop.last %}</tr>{% endif %}
