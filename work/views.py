@@ -294,7 +294,7 @@ class DateListJobs(LoginRequiredMixin,generic.ListView):
     date_form = forms.DateForm()
 
     def get_queryset(self):
-        return Job.objects.filter(job_shift__date__gte=self.kwargs['begin']).filter(job_shift__date__lte=self.kwargs['end']).prefetch_related('job_location').prefetch_related('job_shift')
+        return Job.objects.filter(job_shift__date__gte=self.kwargs['begin']).filter(job_shift__date__lte=self.kwargs['end']).prefetch_related('job_location').prefetch_related('job_location__client_name').prefetch_related('job_shift')
 
     def post(self,request,*args,**kwargs):
         if request.method == 'POST':

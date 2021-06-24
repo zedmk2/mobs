@@ -33,7 +33,7 @@
 
 <div class="container jobCosting">
 <table class="table table-sm table-bordered">
-  <thead><tr> <th>Name</th> <th>Sweep Price</th> <th>Sweep Price</th> <th>Sweep Month Contract Price</th> <th>Times Per Mo</th> <th>Times Per Week</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
+  <thead><tr> <th>Name</th> <th>Customer</th> <th>Sweep Price</th> <th>Sweep Month Contract Price</th> <th>Times Per Mo</th> <th>Times Per Week</th> <th>Date</th> <th>In</th> <th>Out</th> </tr>
   </thead>
   <tbody>
     <!-- <tr>
@@ -41,7 +41,7 @@
     </tr> -->
     {% for j in job_list%}
     
-    <tr> <td>{{j.job_location}}</td> <td>{{j.job_location}}</td> <td>{{j.job_location.sw_price}}</td> <td>{{j.job_location.sw_mo_price}}</td> <td>{{j.job_location.times_per_month}}</td> <td>{{j.job_location.times_per_week}}</td> <td>{{j.job_shift.date|date:"Y-m-d"}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
+    <tr> <td>{{j.job_location}}</td> <td>{{j.job_location.client_name}}</td> <td>{{j.job_location.sw_price}}</td> <td>{{j.job_location.sw_mo_price}}</td> <td>{{j.job_location.times_per_month}}</td> <td>{{j.job_location.times_per_week}}</td> <td>{{j.job_shift.date|date:"Y-m-d"}}</td><td>{{j.start_time|time:"H:i"}}</td> <td>{{j.end_time|time:"H:i"}}</td></tr>
     
     {%endfor%}
   </tbody>
