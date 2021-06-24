@@ -287,6 +287,30 @@ class DateListShifts(LoginRequiredMixin,generic.ListView):
         context['class'] = 'jQUIAccordion2'
         return context
 
+class DateListJobs(LoginRequiredMixin,generic.ListView):
+    template_name = 'work/job_list.html'
+    context_object_name = 'job_list'
+
+    date_form = forms.DateForm()
+
+    def get_queryset(self):
+        return Job.objects.filter(job_shift__date__gte=self.kwargs['begin']).filter(job_shift__date__lte=self.kwargs['end']).prefetch_related('job_location').prefetch_related('job_shift')
+
+    def post(self,request,*args,**kwargs):
+        if request.method == 'POST':
+            date_form = forms.DateForm(request.POST)
+            if date_form.is_valid():
+                return HttpResponseRedirect(reverse('shifts:date_job_list', kwargs={'begin':date_form.cleaned_data['begin'], 'end':date_form.cleaned_data['end']}))
+
+    def get_context_data(self, **kwargs):
+        date_form = forms.DateForm()
+        context = super().get_context_data(**kwargs)
+        context['date_form'] = date_form
+        context['class'] = 'jQUIAccordion2'
+        context['begin'] = self.kwargs['begin']
+        context['end'] = self.kwargs['end']
+        return context
+
 class ListProperties(LoginRequiredMixin,generic.ListView):
     template_name = 'work/property_list.html'
     context_object_name = 'property_list'
