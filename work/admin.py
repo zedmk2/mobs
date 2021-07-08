@@ -6,7 +6,7 @@ from django.contrib.admin.models import LogEntry
 # Register your models here.
 
 class JobAdmin(admin.ModelAdmin):
-    search_fields = ['job_location']
+    search_fields = ['job_location__display_name']
     list_display = ['job_shift','job_location','start_time','end_time','date']
 
 class EmployeeAdmin(admin.ModelAdmin):
