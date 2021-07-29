@@ -5,6 +5,19 @@ from work.models import Shift
 import calendar
 from django.urls import reverse, reverse_lazy
 
+def percent_color(number):
+    if number < 0:
+        return 'blue'
+    elif number >0  and number < 35:
+        return '#fccfcf'
+    elif number >34  and number < 75:
+        return '#ff7575'
+    elif number >74 :
+        return '#ff2626'
+    else:
+        return 'grey'
+    
+
 class ShiftCalendar(HTMLCalendar):
     def __init__(self, events=None):
         super(ShiftCalendar, self).__init__()

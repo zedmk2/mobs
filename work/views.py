@@ -992,12 +992,7 @@ class PropertySchedule(generic.ListView):
                 if p.month_target != "NA":
                     p.difference = int(p.month_target or 0) - int(p.completed or 0) - int(p.remaining or 0)
                     p.difference_percent = int((p.difference / int(p.month_target or 1))*100)
-                    if p.difference > 0:
-                        p.difference_class = 'blue'
-                    elif p.difference < 0 :
-                        p.difference_class = 'red'
-                    else:
-                        p.difference_class = 'grey'
+                    p.difference_class = utils.percent_color(p.difference_percent)
 
         record_full_list = []
         for key, value in record_3.items():

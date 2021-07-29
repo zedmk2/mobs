@@ -1,21 +1,12 @@
 {% extends "work/work_base.html" %}
-
 {% load widget_tweaks %}
 {% load static %}
-
 {% block prework %}
-
 {% endblock %}
-
 {% block work_content %}
 <div class="container-fluid">
 
-
-<div class="row">
-
-</div>
 <h3>Route templates and generator</h3>
-
 <div class="">
   <form class="form-inline" action="" method="post">
       {% csrf_token %}
@@ -26,7 +17,6 @@
 </div>
 <br>
 <div class="">
-
 
 {% regroup object_list by dow as route_list%}
 <p class='yellow'>Yellow = Even weeks only</p>
@@ -40,15 +30,17 @@
 </tr>
 {% for route in dow.list %}
 
-<td>{{route.route_num}}. {{route.driver}}
+<td>{{route.route_num}}. {{route.driver}} 
 <table class='route-table-jobs'>
   {% for prop in route.job_route.all %}
     <tr>
-      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{% elif prop.freq == "first" %}blue{% elif prop.freq == "second" %}red{%endif%}">{{prop.order}}  {{prop.route_location.display_name|truncatechars:25}}</td><td>{{prop.route_location.sweep_price}}</td>
+      <td class="{% if prop.freq == "even" %}yellow{% elif prop.freq == "odd" %}green{% elif prop.freq == "first" %}blue{% elif prop.freq == "second" %}red{%endif%}">{{prop.order}}  {{prop.route_location.display_name|truncatechars:25}}</td>
+      <td align=right>{{prop.route_location.sweep_price}}</td>
+      <td align=right>{{prop.route_location.length}}</td>
     </tr>
   {% endfor %}
   <tr>
-    <td></td><td align=right><b>{{route.route_price|floatformat:"0"}}</b></td>
+    <td></td><td align=right><b>{{route.route_price|floatformat:"0"}}</b></td> <td align=right><b>{{route.route_length}}</b></td>
   </tr>
 </table>
 </td>

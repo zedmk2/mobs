@@ -367,6 +367,19 @@ class Route(models.Model):
             return round(rp,1)
         except:
             return 0
+    
+    def route_length(self):
+        "Calculates sweep length of route based on property length"
+        rp = 0
+        try:
+            for property in self.job_route.all():
+                try:
+                    rp += property.route_location.length
+                except:
+                    rp += 0
+            return round(rp,2)
+        except:
+            return 0
 
     def __str__(self):
         num_day = self.weekday

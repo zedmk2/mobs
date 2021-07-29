@@ -29,7 +29,7 @@
           <td>{{property.completed}}</td>
           <td>{{property.remaining}}</td>
           <td>{{property.difference}}</td>
-          <td class={{property.difference_class}}>{{property.difference_percent}}</td>
+          <td style="background-color:{{property.difference_class}}" class={{property.difference_class}}><strong>{{property.difference_percent}}</strong></td>
         </tr>
           {%endfor%}
       </table>
