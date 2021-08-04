@@ -6,6 +6,7 @@
 
 {% block work_content %}
 
+
 <div class="container">
       <div style="float:left;" class="" >
         <a href="{% url 'work:property_checklist_date' date=lmonth %}" class="btn btn-primary" role="button" aria-disabled="true">Last month</a>
@@ -20,7 +21,7 @@
           <th data-sortable="true" data-field="Completed" width=10%>Completed</th>
           <th data-sortable="true" data-field="Scheduled" width=10%>Scheduled</th>
           <th data-sortable="true" data-field="Difference" width=10%>Difference</th>
-          <th data-sortable="true" data-field="Difference_percent" width=10%>Diff %</th>
+          <th data-sortable="true" data-field="percent" width=10%>Diff %</th>
         </thead>
         {% for property in prop_list %}
         <tr>
@@ -29,7 +30,7 @@
           <td>{{property.completed}}</td>
           <td>{{property.remaining}}</td>
           <td>{{property.difference}}</td>
-          <td style="background-color:{{property.difference_class}}" class={{property.difference_class}}><strong>{{property.difference_percent}}</strong></td>
+          <td>{{property.difference_percent}}</td>
         </tr>
           {%endfor%}
       </table>
