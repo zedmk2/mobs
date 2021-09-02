@@ -1016,7 +1016,7 @@ class PropertySchedule(generic.ListView):
 
 class AnnualSchedule(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        queryset = Property.objects.filter(times_per_year__gte=0).filter(check_priority__lt=2).prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+        queryset = Property.objects.filter(times_per_year__gte=0).filter(check_priority__lt=3).prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
         for prop in queryset:
             prop.recent_jobs = []
             for loc in prop.location.all():
