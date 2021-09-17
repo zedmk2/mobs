@@ -17,6 +17,9 @@
         <th scope="col">Client</th>
         <th scope="col">Times Per Week</th>
         <th scope="col">Days of Week</th>
+        <th scope="col">Time</th>
+        <th scope="col">Sweep Price</th>
+        <th scope="col">Sweep Month Price</th>
       </tr>
     </thead>
     <tbody>
@@ -28,7 +31,10 @@
         <td>{{property.display_name}}</td>
         <td>{{property.client_name}}</td>
         <td>{{property.times_per_week}}</td>
-        <td>{%if property.times_per_week == 7%}All{%else%}{{property.days_of_week}}{%endif%}</td>
+        <td>{%if property.times_per_week == 7%}MTWRFSU{%else%}{{property.days_of_week}}{%endif%}</td>
+        <td>{{property.length}}</td>
+        <td>{{property.sw_price}}</td>
+        <td>{{property.sw_mo_price}}</td>
       </tr>
       {%endif%}
       {%endif%}
@@ -45,6 +51,9 @@
         <th scope="col">Property</th>
         <th scope="col">Client</th>
         <th scope="col">Times Per Month</th>
+        <th scope="col">Time</th>
+        <th scope="col">Sweep Price</th>
+        <th scope="col">Sweep Month Price</th>
       </tr>
     </thead>
     <tbody>
@@ -56,6 +65,9 @@
         <td>{{property.display_name}}</td>
         <td>{{property.client_name}}</td>
         <td>{{property.times_per_month}}</td>
+        <td>{{property.length}}</td>
+        <td>{{property.sw_price}}</td>
+        <td>{{property.sw_mo_price}}</td>
       </tr>
       {%endif%}
       {%endif%}
@@ -72,6 +84,8 @@
           <th scope="col">Property</th>
           <th scope="col">Client</th>
           <th scope="col">Times Per Year</th>
+          <th scope="col">Price</th>
+          <th scope="col">Time</th>
         </tr>
       </thead>
       <tbody>
@@ -82,6 +96,8 @@
           <td>{{property.display_name}}</td>
           <td>{{property.client_name}}</td>
           <td>{{property.times_per_yaer}}</td>
+          <td>{{property.sw_price}}</td>
+          <td>{{property.length}}</td>
         </tr>
         {%endif%}
         {%endfor%}

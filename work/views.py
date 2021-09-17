@@ -311,10 +311,10 @@ class DateListJobs(LoginRequiredMixin,generic.ListView):
         context['end'] = self.kwargs['end']
         return context
 
-class ListProperties(LoginRequiredMixin,generic.ListView):
-    template_name = 'work/property_list.html'
-    context_object_name = 'property_list'
-    model = Property
+# class ListProperties(LoginRequiredMixin,generic.ListView):
+#     template_name = 'work/property_list.html'
+#     context_object_name = 'property_list'
+#     model = Property
 
 class RouteList(generic.ListView):
     model = Route
@@ -1126,12 +1126,13 @@ class ServiceHistory(LoginRequiredMixin,generic.ListView):
 
 class PropertyList(LoginRequiredMixin,generic.ListView):
     def get_queryset(self):
-        queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
-        for prop in queryset:
-            prop.recent_jobs = []
-            for loc in prop.location.all():
-                prop.recent_jobs.append(loc)
-            prop.recent_jobs = prop.recent_jobs[-3:]
+        queryset = Property.objects.all()
+    #     queryset = Property.objects.prefetch_related('location').prefetch_related('location__job_shift').prefetch_related('location__job_shift__driver')
+    #     # for prop in queryset:
+    #     #     prop.recent_jobs = []
+    #     #     for loc in prop.location.all():
+    #     #         prop.recent_jobs.append(loc)
+    #     #     prop.recent_jobs = prop.recent_jobs[-3:]
         return queryset
 
     def get_context_data(self, **kwargs):
