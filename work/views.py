@@ -1293,10 +1293,15 @@ def pdf_build(shift):
         style = ParagraphStyle('jobs',fontName='Helvetica',fontSize=8,borderPadding=(3,5,3,5))
         if job.job_location.color:
             style.backColor = str(job.job_location.color)
+        text_t = ''
+        if job.job_location.memo:
+            if 'n' in str(job.job_location.memo).lower():
+                text_t = str("N/A")   
         text = str(job.job_location.display_name)
         # +'<br/>'+str(job.job_location.address)
         P = Paragraph(text,style)
-        data.append([P, '', '', '', '', '', '', '', '', '', '', '', '', ''])
+        P2 = Paragraph(text_t)
+        data.append([P, '', '', '', '', '', '', '', '', '', '', '', P2, P2])
         if job.job_location.instructions:
             data.append([str(job.job_location.instructions), ])
     #Table settings
