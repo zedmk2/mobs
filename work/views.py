@@ -1295,8 +1295,8 @@ def pdf_build(shift):
         if job.job_location.color:
             style.backColor = str(job.job_location.color)
         text_t = ''
-        if job.job_location.memo:
-            if 'n' in str(job.job_location.memo).lower():
+        if job.job_location.county:
+            if 'n' in str(job.job_location.county).lower():
                 text_t = str("N/A")   
         text = str(job.job_location.display_name)
         # +'<br/>'+str(job.job_location.address)
