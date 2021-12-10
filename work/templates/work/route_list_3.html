@@ -1,4 +1,4 @@
-{% extends "work/work_base.html" %}
+  {% extends "work/work_base.html" %}
 
 {% load widget_tweaks %}
 {% load static %}
@@ -24,17 +24,19 @@
             {% for prop in route.job_route.all %}
               <tr>
                 <td width=7.5% class="{% if prop.freq == "even" %} yellow {% elif prop.freq == "odd" %}green{%endif%}" > {{prop.order}} </td>
-                <td>{{prop.route_location.name}}</td>
+                <td>{{prop.freq}}</td>
+                <td>{{prop.route_location.client_name}}</td>
+                <td>{{prop.route_location.display_name}}</td>
                 <td width=2.5%>{{prop.job_length}}</td>
                 <td width=10%>{{prop.route_location.sweep_price}}</td>
               </tr>
             {% endfor %}
-            <tr class='route-table-pricing-total'>
+            <!-- <tr class='route-table-pricing-total'>
               <td>Total:</td>
               <td></td>
               <td></td>
               <td>{{route.route_price}}</td>
-            </tr>
+            </tr> -->
           </table>
 
       {% endfor %}
